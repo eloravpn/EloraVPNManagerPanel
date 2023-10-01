@@ -1,0 +1,122 @@
+@font-face {
+  font-family: roboto;
+  src: url('./assets/fonts/Roboto-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: roboto-bold;
+  font-weight: 100;
+  src: url('./assets/fonts/Roboto-Regular.ttf') format('truetype');
+}
+
+html {
+  /* fontsize 10px =62.5 */
+  font-size: 62.5%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none !important;
+}
+
+.login {
+  background-image: url('./assets/images/login-bg.jpg');
+
+  /* Full height */
+  height: 100%;
+  width: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-radius: 10px !important;
+}
+
+/* Animation */
+.fade-in {
+  -webkit-animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-out {
+  -webkit-animation: fade-out 1s ease-out both;
+  animation: fade-out 1s ease-out both;
+}
+
+@-webkit-keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Badge Style */
+.badge--secondary {
+  color: black;
+  border-radius: 8px;
+  text-align: center;
+  padding: 10px 5px;
+  font-size: 1.2rem;
+  width: 99%;
+  border: none;
+  margin: 5px 1px;
+  background-color: #f6f6f6;
+  font-family: iransans;
+  cursor: pointer;
+}
+
+.badge--secondary-active-disabled {
+  color: white;
+  background-color: rgb(118, 53, 220);
+  border: none;
+}
+
+.badge--secondary-active {
+  color: white;
+  background-color: rgb(118, 53, 220);
+  border: none;
+  -webkit-transition: background 300ms;
+  -moz-transition: background 300ms;
+  -o-transition: background 300ms;
+  transition: background 300ms;
+}
