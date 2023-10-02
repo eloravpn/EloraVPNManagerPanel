@@ -28,7 +28,7 @@ const state = {
 };
 const pageName = 'Hosts';
 
-const Patients = () => {
+const Hosts = () => {
   const createRef = useRef();
   const gridRef = useRef();
   const filterRef = useRef();
@@ -166,4 +166,4 @@ const Patients = () => {
   );
 };
 
-export default Patients;
+export default Hosts;

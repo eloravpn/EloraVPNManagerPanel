@@ -10,6 +10,7 @@ import TextFieldWrapper from '../../components/formik/textfield';
 import { dataForm } from '../../utils';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import Button from 'components/button';
+import config from 'config';
 
 const validationSchema = yup.object({
   username: yup.string().required(),
@@ -30,8 +31,8 @@ const Login = () => {
       })
       .then((res) => {
         setAppData({ token: res.data.access_token, user: { name: 'No Name' } });
-
-        navigate('/');
+        console.log(config.pathToLogin);
+        navigate(config.pathToLogin);
       })
       .catch((err) => {
         Http.error(err);
