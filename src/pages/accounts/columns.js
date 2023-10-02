@@ -1,12 +1,8 @@
 const columns = [
   {
     headerName: 'Full Name',
-    field: 'full_name'
-  },
-  {
-    headerName: 'Status',
-    field: 'enable',
-    renderCell: 'status'
+    field: 'full_name',
+    width: 200
   },
   {
     headerName: 'Usage',
@@ -17,6 +13,12 @@ const columns = [
     headerName: 'Usage',
     field: 'expired_at',
     renderCell: 'progressDay'
+  },
+  {
+    headerName: 'Status',
+    field: 'enable',
+    renderCell: 'status',
+    width: 20
   }
 ];
 

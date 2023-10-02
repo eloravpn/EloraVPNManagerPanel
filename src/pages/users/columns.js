@@ -1,8 +1,13 @@
 const columns = [
   {
-    headerName: 'Name',
-    field: 'username'
+    headerName: 'First Name',
+    field: 'first_name'
   },
+  {
+    headerName: 'Last Name',
+    field: 'last_name'
+  },
+
   {
     headerName: 'Enable',
     field: 'enable',

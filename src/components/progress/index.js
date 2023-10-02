@@ -13,7 +13,7 @@ const BorderLinearProgress = styled(LinearProgress)(() => ({
   }
 }));
 
-const Progress = ({ value, firstLabel, secondaryLabel }) => {
+const Progress = ({ value, secondaryLabel }) => {
   const color =
     (value < 50 && 'success') ||
     (value > 50 && value < 70 && 'danger') ||
@@ -22,13 +22,10 @@ const Progress = ({ value, firstLabel, secondaryLabel }) => {
   return (
     <>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Box sx={{ width: 50, mr: 0.5 }}>
-          <Typography variant="body2">{firstLabel}</Typography>
-        </Box>
-        <Box sx={{ width: 'auto', mr: 0.5, ml: 0.5 }}>
+        <Box sx={{ width: 'auto', mx: 0.5 }}>
           <BorderLinearProgress variant="determinate" value={value} color={color} />
         </Box>
-        <Box sx={{ width: 50 }}>
+        <Box sx={{ width: 80 }}>
           <Typography variant="body2">{secondaryLabel}</Typography>
         </Box>
       </Box>

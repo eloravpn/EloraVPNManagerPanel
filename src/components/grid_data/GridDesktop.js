@@ -43,8 +43,21 @@ const style = {
 };
 const rowPerPage = [10, 20, 30];
 const CustomGrid = forwardRef(
-  ({ columns, rowActions, paginateServ, showFilter, url, name, moreActions, sortItem }, ref) => {
-    const [filters, setFilters] = useState({});
+  (
+    {
+      columns,
+      rowActions,
+      paginateServ,
+      showFilter,
+      url,
+      name,
+      moreActions,
+      sortItem,
+      propsFilter
+    },
+    ref
+  ) => {
+    const [filters, setFilters] = useState(propsFilter);
 
     useImperativeHandle(ref, () => ({
       editRow(row) {
@@ -122,8 +135,9 @@ const CustomGrid = forwardRef(
 
       return (
         <Progress
-          firstLabel={`${convertByteToInt(row[value[0]]).toFixed(2)} GB`}
-          secondaryLabel={`${convertByteToInt(row[value[2]]).toFixed(0)} GB`}
+          secondaryLabel={`${convertByteToInt(row[value[2]]).toFixed(0)}/${convertByteToInt(
+            row[value[0]]
+          ).toFixed(2)} GB (${row[value[1]].toFixed(0)}%)`}
           value={row[value[1]]}
         />
       );
@@ -140,8 +154,8 @@ const CustomGrid = forwardRef(
 
       return (
         <Progress
-          firstLabel={`${getDayPersian(row.expired_at)}`}
-          secondaryLabel={`${dayRemaining || 'Infinity'} Day`}
+          firstLabel={``}
+          secondaryLabel={`${dayRemaining || 'Infinity'} / ${getDayPersian(row.expired_at)}`}
           value={dayRemaining > 0 ? calcPercentUsage : 100}
         />
       );
@@ -294,7 +308,7 @@ const CustomGrid = forwardRef(
               },
               ...columns.map((item) => ({
                 ...item,
-                flex: 1,
+                ...(item?.width ? { width: item?.width } : { flex: 1 }),
                 headerClassName: 'super-app-theme--header',
                 valueGetter: item?.valueGetter
                   ? (param) => handleFunc(param, item.valueGetter, item.field)

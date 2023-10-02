@@ -7,7 +7,7 @@ const UsageAccount = ({ refrence, ...props }) => {
     <Modal
       ref={refrence}
       onBackClose={false}
-      maxWidth="lg"
+      maxWidth="md"
       icon="signal_cellular_alt"
       title={`Usage`}
       dialogActions={

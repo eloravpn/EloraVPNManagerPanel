@@ -1,4 +1,5 @@
 import Chart from 'react-apexcharts';
+import { largestElement } from 'utils';
 
 const ChartJs = ({ data, height }) => {
   var dataLabels = {
@@ -71,13 +72,14 @@ const ChartJs = ({ data, height }) => {
       toolbar: {
         show: false
       },
-      type: 'bar',
-      fontFamily: 'iransans'
+      type: 'bar'
     },
     dataLabels: data.type ? dataLabelsPie : dataLabels,
     plotOptions: {
       bar: {
-        borderRadius: 10,
+        columnWidth: '30%',
+        distributed: true,
+        borderRadius: 5,
         dataLabels: {
           position: 'top' // top, center, bottom
         }
@@ -121,7 +123,7 @@ const ChartJs = ({ data, height }) => {
     },
     yaxis: {
       min: 0,
-      max: 50,
+      max: largestElement(data?.data).toFixed(0) + 100,
       tickAmount: 5,
       axisBorder: {
         show: true

@@ -2,6 +2,7 @@ import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Box,
   FormControl,
+  Grid,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -10,9 +11,14 @@ import {
   Select,
   Stack
 } from '@mui/material';
-import { FilterList, Refresh, SearchRounded } from '@mui/icons-material';
+import {
+  ArrowDownward,
+  ArrowUpward,
+  FilterList,
+  Refresh,
+  SearchRounded
+} from '@mui/icons-material';
 import debouce from 'lodash.debounce';
-import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 
 const sorts = [
   { id: 'expire', name: 'Expire' },
@@ -25,7 +31,7 @@ const sorts = [
 
 const Search = (props) => {
   const { setSearch, refresh, showFilter, search, sortItem } = props;
-  const [sort, setSort] = useState(true);
+  const [sort, setSort] = useState(false);
 
   const handleChange = useCallback(
     (name, e) => {
@@ -50,58 +56,62 @@ const Search = (props) => {
   }, [debouncedResults]);
 
   return (
-    <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-      <Box display={'flex'} alignItems="center">
-        <FormControl variant="outlined" sx={{ m: 0.5 }}>
-          <OutlinedInput
-            type="text"
-            name="q"
-            size="small"
-            fullWidth
-            color="primary"
-            placeholder="Search..."
-            onChange={(e) => debouncedResults('q', e)}
-            id="search"
-            startAdornment={
-              <InputAdornment position="start">
-                <SearchRounded />
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-        <FormControl>
-          <InputLabel id="sort">Sort</InputLabel>
-          <Select
-            fullWidth
-            labelId="sort"
-            id="sort"
-            label="Sort"
-            size="small"
-            value={search.sort}
-            onChange={(e) => debouncedResults('sort', e)}
-          >
-            {sortItem.map(({ id, name }, idx) => (
-              <MenuItem key={idx} value={id}>
-                {name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <IconButton onClick={handleSort}>
-          <SortByAlphaIcon color={sort ? 'primary' : 'inherit'} />
-        </IconButton>
-      </Box>
-      <Box display={'flex'}>
-        <IconButton onClick={refresh}>
-          <Refresh />
-        </IconButton>
-        {showFilter && (
-          <IconButton onClick={showFilter}>
-            <FilterList />
+    <Grid container spacing={2}>
+      <Grid item xs={12} md={9}>
+        <Box display={'flex'} alignItems="center">
+          <FormControl variant="outlined" sx={{ m: 0.5 }}>
+            <OutlinedInput
+              type="text"
+              name="q"
+              size="small"
+              fullWidth
+              color="primary"
+              placeholder="Search..."
+              onChange={(e) => debouncedResults('q', e)}
+              id="search"
+              startAdornment={
+                <InputAdornment position="start">
+                  <SearchRounded />
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+          <FormControl>
+            <InputLabel id="sort">Sort</InputLabel>
+            <Select
+              fullWidth
+              labelId="sort"
+              id="sort"
+              label="Sort"
+              size="small"
+              value={search.sort}
+              onChange={(e) => debouncedResults('sort', e)}
+            >
+              {sortItem.map(({ id, name }, idx) => (
+                <MenuItem key={idx} value={id}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <IconButton onClick={handleSort}>
+            {sort ? <ArrowUpward color="primary" /> : <ArrowDownward color="primary" />}
           </IconButton>
-        )}
-      </Box>
-    </Stack>
+        </Box>
+      </Grid>
+      <Grid item xs={12} md={3}>
+        <Box display={'flex'} justifyContent={'flex-end'} alignItems={'center'}>
+          <IconButton onClick={refresh}>
+            <Refresh />
+          </IconButton>
+          {showFilter && (
+            <IconButton onClick={showFilter}>
+              <FilterList />
+            </IconButton>
+          )}
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 

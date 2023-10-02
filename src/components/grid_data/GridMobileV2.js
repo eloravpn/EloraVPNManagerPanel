@@ -40,7 +40,7 @@ const GridMobile = forwardRef((props, ref) => {
   }));
   const [pageNum, setPageNum] = useState(1);
 
-  const { isLoading, data, total, editRow, deleteRow, createRow, refresh } = useFetch(
+  const { isLoading, data, total, editRow, deleteRow, createRow, refresh, setData } = useFetch(
     url,
     search,
     pageNum,
@@ -115,8 +115,9 @@ const GridMobile = forwardRef((props, ref) => {
 
     return (
       <Progress
-        firstLabel={`${convertByteToInt(row[value[0]]).toFixed(2)} GB`}
-        secondaryLabel={`${convertByteToInt(row[value[2]]).toFixed(0)} GB`}
+        secondaryLabel={`${convertByteToInt(row[value[2]]).toFixed(0)}/${convertByteToInt(
+          row[value[0]]
+        ).toFixed(2)} GB (${row[value[1]].toFixed(0)}%)`}
         value={row[value[1]]}
       />
     );
@@ -133,13 +134,12 @@ const GridMobile = forwardRef((props, ref) => {
 
     return (
       <Progress
-        firstLabel={`${getDayPersian(row.expired_at)}`}
-        secondaryLabel={`${dayRemaining} Day`}
+        firstLabel={``}
+        secondaryLabel={`${dayRemaining || 'Infinity'} / ${getDayPersian(row.expired_at)}`}
         value={dayRemaining > 0 ? calcPercentUsage : 100}
       />
     );
   }, []);
-
   const handleFunc = useCallback(
     ({ row, ...t }, name, filed) => {
       switch (name) {
@@ -196,6 +196,7 @@ const GridMobile = forwardRef((props, ref) => {
         sortItem={sortItem}
         refresh={refresh}
         setSearch={(v) => {
+          setData([]);
           setSearch(v);
           setPageNum(0);
         }}
@@ -227,7 +228,8 @@ const GridMobile = forwardRef((props, ref) => {
           </Typography>
         </Stack>
       )}
-      <ListLoading isLoading={isLoading} rows={data?.length > 0 ? 1 : 15} />
+      <ListLoading isLoading={isLoading} rows={data?.length > 0 && pageNum > 1 ? 1 : 15} />
+      {console.log('asdasdsa', data?.length > 0 && pageNum > 1)}
     </>
   );
 });

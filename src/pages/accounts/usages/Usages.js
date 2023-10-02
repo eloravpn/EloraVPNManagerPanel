@@ -39,7 +39,7 @@ const Usages = (props) => {
                 ],
                 type: ''
               }}
-              height={150}
+              height={200}
             />
           </Card>
         </Grid>

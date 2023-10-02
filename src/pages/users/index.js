@@ -174,7 +174,7 @@ const Users = () => {
               name: 'Mange Accounts'
             }
           ]}
-          paginateServ={false}
+          paginateServ={true}
           showFilter={() => filterRef.current.onChange()}
           sortItem={[
             { id: 'created', name: 'Created' },

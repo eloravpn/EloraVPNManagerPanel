@@ -57,13 +57,6 @@ const Accounts = () => {
     };
   }, [getReport, searchParams]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (searchParams.get('userId'))
-        gridRef.current.filters({ user_id: searchParams.get('userId') });
-    }, 300);
-  }, []);
-
   const handleAlert = ({ row }, nameRef) => {
     setItem(row);
     nameRef.current.open();
@@ -194,6 +187,9 @@ const Accounts = () => {
           refrence={gridRef}
           data={data}
           columns={columns}
+          propsFilter={{
+            user_id: searchParams.get('userId')
+          }}
           rowActions={[
             {
               onClick: (data) => handleAlert(data, deleteRef),

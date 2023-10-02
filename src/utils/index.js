@@ -97,6 +97,10 @@ const emailGenerator = () => {
   return Math.random().toString(36).slice(2, 8);
 };
 
+function largestElement(arr) {
+  return arr.reduce((largest, current) => (+current > +largest ? +current : +largest), arr[0]);
+}
+
 export {
   uuidGenerator,
   getDayPersian,
@@ -107,5 +111,6 @@ export {
   convertByteToInt,
   getToday,
   removeCharacter,
-  emailGenerator
+  emailGenerator,
+  largestElement
 };
