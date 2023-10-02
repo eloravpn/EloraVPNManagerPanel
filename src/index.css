@@ -20,7 +20,7 @@ a {
 }
 
 .login {
-  background-image: url('./assets/images/login-bg.jpg');
+  background-color: rgb(99, 115, 129);
 
   /* Full height */
   height: 100%;
