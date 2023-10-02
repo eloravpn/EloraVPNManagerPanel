@@ -8,7 +8,7 @@ const useUsers = () => {
   const getUsers = useCallback(async (q) => {
     setIsLoading(true);
     try {
-      const users = await getAllUsers({ q });
+      const users = await getAllUsers({ q, limit: 1000 });
       setUsers(users);
       setIsLoading(false);
     } catch (err) {
