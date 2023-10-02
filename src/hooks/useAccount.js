@@ -3,7 +3,7 @@ import { getUsages } from 'services/accountsSerives';
 
 const useAccount = () => {
   const [useages, setUsages] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getUsageAccount = useCallback(async (userId) => {
     setIsLoading(true);
@@ -18,6 +18,7 @@ const useAccount = () => {
         { name: '1 week', ...results[2] }
       ]);
     });
+    setIsLoading(false);
   }, []);
 
   return { isLoading, getUsageAccount, useages };

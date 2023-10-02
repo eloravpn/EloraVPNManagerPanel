@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from 'react';
-import { Box, DialogActions, Grid, Typography } from '@mui/material';
+import { Box, DialogActions, Grid, Skeleton, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
 import TextField from 'components/formik/textfield';
 import * as yup from 'yup';
@@ -63,7 +63,7 @@ function calculateValue(value) {
 const AddEdit = (props) => {
   const { refrence, initial, createRow, editRow } = props;
   const [postDataLoading, setPostDataLoading] = useState(false);
-  const { getUser, user } = useUsers();
+  const { getUser, user, isLoading } = useUsers();
   useEffect(() => {
     if (initial.user_id) getUser(initial.user_id);
 
@@ -152,10 +152,14 @@ const AddEdit = (props) => {
               }}
             >
               <Grid container alignItems="flex-start">
-                <Grid item sx={{ display: 'flex', width: 50 }}>
-                  <Avatar {...stringAvatar(username || 'No Name')} />
-                </Grid>
+                {values.user_id && (
+                  <Grid item sx={{ display: 'flex', width: 50 }}>
+                    <Avatar {...stringAvatar(username || 'No Name')} />
+                  </Grid>
+                )}
                 <Grid item sx={{ width: 'calc(100% - 50px)', wordWrap: 'break-word' }}>
+                  {isLoading && <Skeleton animation="wave" width={150} />}
+                  {isLoading && <Skeleton animation="wave" width={250} />}
                   {first_name && (
                     <Typography variant="h6" component={'div'}>
                       {first_name}
@@ -176,7 +180,7 @@ const AddEdit = (props) => {
                   )}
                   <Box display={'flex'} alignItems={'center'}>
                     <Typography variant="h6" component={'div'}>
-                      Expire Date:{' '}
+                      Expire Date:
                       {getDayPersian(dayjs(values.expired_at).format('YYYY-MM-D')) || null}
                     </Typography>
                     {!getDayPersian(dayjs(values.expired_at).format('YYYY-MM-D')) && (
