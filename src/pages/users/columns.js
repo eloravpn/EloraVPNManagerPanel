@@ -1,17 +1,13 @@
 const columns = [
   {
     headerName: 'First Name',
-    field: 'first_name'
+    field: 'first_name',
+    width: 200
   },
   {
     headerName: 'Last Name',
-    field: 'last_name'
-  },
-
-  {
-    headerName: 'Enable',
-    field: 'enable',
-    renderCell: 'status'
+    field: 'last_name',
+    width: 200
   },
   {
     headerName: 'Type',
@@ -21,6 +17,12 @@ const columns = [
       { name: 'telegram_username', color: 'primary' }
     ]),
     renderCell: 'multiBadge'
+  },
+  {
+    headerName: 'Enable',
+    field: 'enable',
+    renderCell: 'status',
+    width: 100
   }
 ];
 
