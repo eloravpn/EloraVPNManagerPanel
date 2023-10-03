@@ -32,6 +32,11 @@ const columns = [
     field: 'develop',
     renderCell: 'status',
     width: 100
+  },
+  {
+    headerName: 'Modified',
+    field: 'modified_at',
+    renderCell: 'date'
   }
 ];
 

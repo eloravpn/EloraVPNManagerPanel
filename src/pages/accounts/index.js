@@ -218,6 +218,7 @@ const Accounts = () => {
           ]}
           paginateServ={true}
           showFilter={() => filterRef.current.onChange()}
+          defaultSort={{ value: 'expire', ASC: true }}
         />
       </Box>
     </>

@@ -18,7 +18,12 @@ const columns = [
     headerName: 'Status',
     field: 'enable',
     renderCell: 'status',
-    width: 20
+    width: 80
+  },
+  {
+    headerName: 'Modified',
+    field: 'modified_at',
+    renderCell: 'date'
   }
 ];
 

@@ -53,7 +53,8 @@ const CustomGrid = forwardRef(
       name,
       moreActions,
       sortItem,
-      propsFilter
+      propsFilter,
+      defaultSort
     },
     ref
   ) => {
@@ -84,7 +85,8 @@ const CustomGrid = forwardRef(
 
     const [search, setSearch] = useState({
       q: null,
-      sort: sortItem ? sortItem[0].id : 'expire'
+      sort: defaultSort ? defaultSort.value : 'expire',
+      ASC: defaultSort.ASC
     });
     const [rows, setRows] = useState([]);
     const [row, setRow] = useState(null);

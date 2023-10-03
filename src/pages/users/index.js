@@ -183,6 +183,7 @@ const Users = () => {
             { id: 'last_name', name: 'Last Name' },
             { id: 'telegram_username', name: 'Telegram Username' }
           ]}
+          defaultSort={{ value: 'created', ASC: false }}
         />
       </Box>
     </>

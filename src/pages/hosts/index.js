@@ -15,17 +15,6 @@ import Button from 'components/button';
 import SelectBadge from 'components/formik/badge';
 import GLOBAL from 'components/variables';
 
-const state = {
-  genders: [
-    { id: 1, name: 'مرد' },
-    { id: 2, name: 'زن' }
-  ],
-  maritaStatus: [
-    { id: 1, name: 'مجرد' },
-    { id: 2, name: 'متاهل' },
-    { id: 3, name: 'همسر فوت شده' }
-  ]
-};
 const pageName = 'Hosts';
 
 const Hosts = () => {
@@ -160,6 +149,7 @@ const Hosts = () => {
             { id: 'name', name: 'Name' },
             { id: 'ip', name: 'IP' }
           ]}
+          defaultSort={{ value: 'created', ASC: false }}
         />
       </>
     </>

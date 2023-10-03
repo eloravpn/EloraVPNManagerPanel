@@ -95,7 +95,7 @@ const Search = (props) => {
             </Select>
           </FormControl>
           <IconButton onClick={handleSort}>
-            {sort ? <ArrowUpward color="primary" /> : <ArrowDownward color="primary" />}
+            {search.ASC ? <ArrowUpward color="primary" /> : <ArrowDownward color="primary" />}
           </IconButton>
         </Box>
       </Grid>
