@@ -167,7 +167,12 @@ const AddEdit = (props) => {
                     </Typography>
                   )}
                   {telegram_username && (
-                    <Typography variant="h6">Telegram: @{telegram_username} </Typography>
+                    <Typography variant="h6">
+                      {' '}
+                      <a href={`https://t.me/${telegram_username}`} target="_blank">
+                        Telegram: @{telegram_username}
+                      </a>
+                    </Typography>
                   )}
                   {telegram_chat_id && (
                     <Typography variant="h6">ChatID: {telegram_chat_id} </Typography>
