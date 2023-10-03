@@ -16,12 +16,23 @@ import Progress from 'components/progress';
 import dayjs from 'dayjs';
 
 const GridMobile = forwardRef((props, ref) => {
-  const { url, paginateServ, name, columns, rowActions, moreActions, showFilter, sortItem } = props;
+  const {
+    url,
+    paginateServ,
+    name,
+    columns,
+    rowActions,
+    moreActions,
+    showFilter,
+    sortItem,
+    defaultSort
+  } = props;
 
   const [filters, setFilters] = useState({});
   const [search, setSearch] = useState({
     q: null,
-    sort: sortItem ? sortItem[0].id : 'expire'
+    sort: defaultSort ? defaultSort.value : 'expire',
+    ASC: defaultSort.ASC
   });
 
   useImperativeHandle(ref, () => ({
@@ -123,7 +134,7 @@ const GridMobile = forwardRef((props, ref) => {
     );
   }, []);
 
-  const handleProgressDay = useCallback(({ row }, field) => {
+  const handleProgressDay = useCallback(({ row }) => {
     var now = dayjs();
     var start = dayjs(row.modified_at);
     var end = dayjs(row.expired_at);
@@ -141,7 +152,7 @@ const GridMobile = forwardRef((props, ref) => {
     );
   }, []);
   const handleFunc = useCallback(
-    ({ row, ...t }, name, filed) => {
+    ({ row }, name, filed) => {
       switch (name) {
         case 'date':
           return handleDate({ row }, filed);
