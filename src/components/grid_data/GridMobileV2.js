@@ -14,6 +14,7 @@ import SearchT from './Search';
 import Chip from 'components/chip';
 import Progress from 'components/progress';
 import dayjs from 'dayjs';
+import Grid from 'components/grid';
 
 const GridMobile = forwardRef((props, ref) => {
   const {
@@ -186,16 +187,20 @@ const GridMobile = forwardRef((props, ref) => {
   const list = (item) => (
     <Card sx={{ p: 1, my: 1 }} onClick={(e) => handleClick(e, item)}>
       {columns.map((col, idx) => (
-        <Box key={idx} display={'flex'} alignItems={'center'} mb={1}>
-          <Typography variant="body1" component={'div'}>
-            {col.headerName} :{' '}
-          </Typography>
-          <Typography variant="body1" component={'div'}>
-            {col.renderCell
-              ? handleFunc({ row: item }, col.renderCell, col.field)
-              : item[col.field]}{' '}
-          </Typography>
-        </Box>
+        <Grid container key={idx} spacing={2} sx={{ mb: 0.5 }} alignItems="center">
+          <Grid item xs={4} nowrap>
+            <Typography variant="body1" component={'div'}>
+              {col.headerName}:{'  '}
+            </Typography>
+          </Grid>
+          <Grid item xs={8}>
+            <Typography variant="body1" component={'div'}>
+              {col.renderCell
+                ? handleFunc({ row: item }, col.renderCell, col.field)
+                : item[col.field]}{' '}
+            </Typography>
+          </Grid>
+        </Grid>
       ))}
     </Card>
   );
