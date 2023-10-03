@@ -14,14 +14,26 @@ import SearchT from './Search';
 import Chip from 'components/chip';
 import Progress from 'components/progress';
 import dayjs from 'dayjs';
+import Grid from 'components/grid';
 
 const GridMobile = forwardRef((props, ref) => {
-  const { url, paginateServ, name, columns, rowActions, moreActions, showFilter, sortItem } = props;
+  const {
+    url,
+    paginateServ,
+    name,
+    columns,
+    rowActions,
+    moreActions,
+    showFilter,
+    sortItem,
+    defaultSort
+  } = props;
 
   const [filters, setFilters] = useState({});
   const [search, setSearch] = useState({
     q: null,
-    sort: sortItem ? sortItem[0].id : 'expire'
+    sort: defaultSort ? defaultSort.value : 'expire',
+    ASC: defaultSort.ASC
   });
 
   useImperativeHandle(ref, () => ({
@@ -40,7 +52,7 @@ const GridMobile = forwardRef((props, ref) => {
   }));
   const [pageNum, setPageNum] = useState(1);
 
-  const { isLoading, data, total, editRow, deleteRow, createRow, refresh } = useFetch(
+  const { isLoading, data, total, editRow, deleteRow, createRow, refresh, setData } = useFetch(
     url,
     search,
     pageNum,
@@ -115,14 +127,15 @@ const GridMobile = forwardRef((props, ref) => {
 
     return (
       <Progress
-        firstLabel={`${convertByteToInt(row[value[0]]).toFixed(2)} GB`}
-        secondaryLabel={`${convertByteToInt(row[value[2]]).toFixed(0)} GB`}
+        secondaryLabel={`${convertByteToInt(row[value[2]]).toFixed(0)}/${convertByteToInt(
+          row[value[0]]
+        ).toFixed(2)} GB (${row[value[1]].toFixed(0)}%)`}
         value={row[value[1]]}
       />
     );
   }, []);
 
-  const handleProgressDay = useCallback(({ row }, field) => {
+  const handleProgressDay = useCallback(({ row }) => {
     var now = dayjs();
     var start = dayjs(row.modified_at);
     var end = dayjs(row.expired_at);
@@ -133,15 +146,14 @@ const GridMobile = forwardRef((props, ref) => {
 
     return (
       <Progress
-        firstLabel={`${getDayPersian(row.expired_at)}`}
-        secondaryLabel={`${dayRemaining} Day`}
+        firstLabel={``}
+        secondaryLabel={`${dayRemaining || 'Infinity'} / ${getDayPersian(row.expired_at)}`}
         value={dayRemaining > 0 ? calcPercentUsage : 100}
       />
     );
   }, []);
-
   const handleFunc = useCallback(
-    ({ row, ...t }, name, filed) => {
+    ({ row }, name, filed) => {
       switch (name) {
         case 'date':
           return handleDate({ row }, filed);
@@ -175,16 +187,20 @@ const GridMobile = forwardRef((props, ref) => {
   const list = (item) => (
     <Card sx={{ p: 1, my: 1 }} onClick={(e) => handleClick(e, item)}>
       {columns.map((col, idx) => (
-        <Box key={idx} display={'flex'} alignItems={'center'} mb={1}>
-          <Typography variant="body1" component={'div'}>
-            {col.headerName} :{' '}
-          </Typography>
-          <Typography variant="body1" component={'div'}>
-            {col.renderCell
-              ? handleFunc({ row: item }, col.renderCell, col.field)
-              : item[col.field]}{' '}
-          </Typography>
-        </Box>
+        <Grid container key={idx} spacing={2} sx={{ mb: 0.5 }} alignItems="center">
+          <Grid item xs={4} nowrap>
+            <Typography variant="body1" component={'div'}>
+              {col.headerName}:{'  '}
+            </Typography>
+          </Grid>
+          <Grid item xs={8}>
+            <Typography variant="body1" component={'div'}>
+              {col.renderCell
+                ? handleFunc({ row: item }, col.renderCell, col.field)
+                : item[col.field]}{' '}
+            </Typography>
+          </Grid>
+        </Grid>
       ))}
     </Card>
   );
@@ -196,6 +212,7 @@ const GridMobile = forwardRef((props, ref) => {
         sortItem={sortItem}
         refresh={refresh}
         setSearch={(v) => {
+          setData([]);
           setSearch(v);
           setPageNum(0);
         }}
@@ -227,7 +244,8 @@ const GridMobile = forwardRef((props, ref) => {
           </Typography>
         </Stack>
       )}
-      <ListLoading isLoading={isLoading} rows={data?.length > 0 ? 1 : 15} />
+      <ListLoading isLoading={isLoading} rows={data?.length > 0 && pageNum > 1 ? 1 : 15} />
+      {console.log('asdasdsa', data?.length > 0 && pageNum > 1)}
     </>
   );
 });

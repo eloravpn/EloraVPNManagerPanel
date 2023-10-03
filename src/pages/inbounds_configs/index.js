@@ -199,6 +199,7 @@ const InboundConfigs = () => {
             { id: 'sni', name: 'SNI' },
             { id: 'host', name: 'Host' }
           ]}
+          defaultSort={{ value: 'created', ASC: false }}
         />
       </Box>
     </>

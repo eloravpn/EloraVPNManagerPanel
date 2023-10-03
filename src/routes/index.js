@@ -26,7 +26,7 @@ const Routerr = () => {
   const CheckRoute = useCallback(({ children }) => {
     var user = localStorage.getItem(`${config.appPrefix}_appData`);
     user = JSON.parse(user);
-    return user?.value?.token ? <Navigate to="/patients" replace /> : <>{children}</>;
+    return user?.value?.token ? <Navigate to={config.pathToLogin} replace /> : <>{children}</>;
   }, []);
   return (
     <Routes>

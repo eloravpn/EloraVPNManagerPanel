@@ -69,7 +69,8 @@ function useFetch(url, search, pageNum, paginateServ, name, filters) {
     editRow,
     createRow,
     total,
-    refresh
+    refresh,
+    setData
   };
 }
 
