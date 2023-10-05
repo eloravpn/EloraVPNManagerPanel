@@ -19,19 +19,34 @@ import 'dayjs/locale/en-gb';
 
 const theme = createTheme({
   typography: {
-    fontFamily: ['roboto', '"Segoe UI"', 'Roboto'].join(','),
-    fontSize: 19,
+    fontFamily: [
+      ' -apple-system',
+      'BlinkMacSystemFont',
+      'Segoe UI',
+      'Helvetica',
+      'Arial',
+      'sans-serif',
+      'Apple Color Emoji',
+      'Segoe UI Emoji',
+      'Segoe UI Symbol'
+    ].join(','),
+    fontSize: 20,
+    fontWeight: 500,
+    h4: {
+      fontWeight: 700
+    },
     body1: {
+      fontWeight: 500,
       color: 'rgb(99, 115, 129)'
     }
   },
   palette: {
     mode: 'light',
-    primary: { main: 'rgb(118, 53, 220)' },
-    secondary: { main: 'rgb(99, 115, 129)' },
-    success: { main: '#00956f' },
-    error: { main: '#f7474a' },
-    danger: { main: '#f5ae16' }
+    primary: { main: 'rgb(118, 53, 220,0.9)' },
+    secondary: { main: 'rgb(99, 115, 129,0.9)' },
+    success: { main: '#00956fE6' },
+    error: { main: '#f7474aE6' },
+    danger: { main: '#f5ae16E6' }
   }
 });
 

@@ -8,8 +8,7 @@ import {
   InputLabel,
   MenuItem,
   OutlinedInput,
-  Select,
-  Stack
+  Select
 } from '@mui/material';
 import {
   ArrowDownward,
@@ -31,7 +30,6 @@ const sorts = [
 
 const Search = (props) => {
   const { setSearch, refresh, showFilter, search, sortItem } = props;
-  const [sort, setSort] = useState(false);
 
   const handleChange = useCallback(
     (name, e) => {
@@ -41,10 +39,7 @@ const Search = (props) => {
   );
 
   const handleSort = () => {
-    setSort((res) => {
-      setSearch((prev) => ({ ...prev, ASC: !res }));
-      return !res;
-    });
+    setSearch((prev) => ({ ...prev, ASC: !prev?.ASC }));
   };
 
   const debouncedResults = useMemo(() => debouce(handleChange, 300), [handleChange]);

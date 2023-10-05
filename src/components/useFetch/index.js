@@ -20,7 +20,7 @@ function useFetch(url, search, pageNum, paginateServ, name, filters) {
           offset: pageNum === 0 ? 0 : pageNum,
           limit: 30,
           sort: `${search.ASC ? '' : '-'}${search?.sort}`,
-          ...search,
+          q: search?.q,
           ...filters
         }
       })

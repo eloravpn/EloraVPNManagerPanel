@@ -1,20 +1,15 @@
 const columns = [
   {
-    headerName: 'First Name',
-    field: 'first_name',
-    width: 200
-  },
-  {
-    headerName: 'Last Name',
-    field: 'last_name',
+    headerName: 'Full Name',
+    field: 'full_name',
     width: 200
   },
   {
     headerName: 'Type',
     field: JSON.stringify([
-      { name: 'username', color: 'success' },
-      { name: 'telegram_chat_id', color: 'secondary' },
-      { name: 'telegram_username', color: 'primary' }
+      { name: 'username', headerName: 'Username', color: 'success' },
+      { name: 'telegram_chat_id', headerName: 'Telegram Chat ID', color: 'secondary' },
+      { name: 'telegram_username', headerName: 'Telegram Username', color: 'primary' }
     ]),
     renderCell: 'multiBadge'
   },
@@ -27,7 +22,8 @@ const columns = [
   {
     headerName: 'Modified',
     field: 'modified_at',
-    renderCell: 'date'
+    renderCell: 'date',
+    width: 100
   }
 ];
 

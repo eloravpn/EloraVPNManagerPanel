@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import TooltipMD from '@mui/material/Tooltip';
 import { Component, forwardRef } from 'react';
 
@@ -20,7 +21,7 @@ const WrappedMyComponent = forwardRef(function WrappedMyComponent(props, ref) {
 
 const Tooltip = ({ title, children }) => {
   return (
-    <TooltipMD title={title}>
+    <TooltipMD title={<Typography color="inherit">{title}</Typography>}>
       <WrappedMyComponent>{children}</WrappedMyComponent>
     </TooltipMD>
   );
