@@ -31,7 +31,6 @@ const Login = () => {
       })
       .then((res) => {
         setAppData({ token: res.data.access_token, user: { name: 'No Name' } });
-        console.log(config.pathToLogin);
         navigate(config.pathToLogin);
       })
       .catch((err) => {

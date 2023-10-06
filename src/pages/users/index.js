@@ -171,7 +171,7 @@ const Users = () => {
               onClick: handleAccAccount,
               icon: 'person_add',
               color: 'primary',
-              name: 'Mange Accounts'
+              name: 'Add Account'
             }
           ]}
           paginateServ={true}

@@ -6,9 +6,9 @@ import ChartJs from 'components/chart';
 import { convertByteToInt } from 'utils';
 
 const Usages = (props) => {
-  const { initial, fullChart } = props;
+  const { initial } = props;
   const { getUsageAccount, useages, isLoading } = useAccount();
-  console.log('🚀 ~ Usages ~ useages.length:', useages.length);
+
   useEffect(() => {
     getUsageAccount(initial.id);
     return () => {};

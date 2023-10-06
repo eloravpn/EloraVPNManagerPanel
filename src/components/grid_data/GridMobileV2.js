@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '../menu';
 import useFetch from '../useFetch';
 import ListLoading from '../list_loading';
-import { Box, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import { NotInterested, TaskAlt } from '@mui/icons-material';
 import { convertByteToInt, getDayPersian } from 'utils';
@@ -50,7 +50,7 @@ const GridMobile = forwardRef((props, ref) => {
       setFilters(filters);
     }
   }));
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(0);
 
   const { isLoading, data, total, editRow, deleteRow, createRow, refresh, setData } = useFetch(
     url,
@@ -116,7 +116,7 @@ const GridMobile = forwardRef((props, ref) => {
           label={row[item.name] || row[item]}
           size="small"
           color={item.color}
-          variant={'outlined'}
+          variant={'filled'}
         />
       ) : null
     );
@@ -245,7 +245,6 @@ const GridMobile = forwardRef((props, ref) => {
         </Stack>
       )}
       <ListLoading isLoading={isLoading} rows={data?.length > 0 && pageNum > 1 ? 1 : 15} />
-      {console.log('asdasdsa', data?.length > 0 && pageNum > 1)}
     </>
   );
 });

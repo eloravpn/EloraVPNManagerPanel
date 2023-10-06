@@ -7,7 +7,8 @@ const columns = [
   {
     headerName: 'Usage',
     field: JSON.stringify(['used_traffic', 'used_traffic_percent', 'data_limit']),
-    renderCell: 'progress'
+    renderCell: 'progress',
+    width: 300
   },
   {
     headerName: 'Usage',
@@ -23,7 +24,8 @@ const columns = [
   {
     headerName: 'Modified',
     field: 'modified_at',
-    renderCell: 'date'
+    renderCell: 'date',
+    width: 80
   }
 ];
 

@@ -120,12 +120,12 @@ const CustomGrid = forwardRef(
     const handleMultiBadge = useCallback(({ row }, field) => {
       return JSON.parse(field).map((item, idx) =>
         row[item.name] ? (
-          <Tooltip key={idx} title={item.name}>
+          <Tooltip key={idx} title={item.headerName || item.name}>
             <Chip
               label={row[item.name] || row[item]}
               size="small"
               color={item.color}
-              variant={'outlined'}
+              variant={'filled'}
             />
           </Tooltip>
         ) : null
@@ -155,11 +155,13 @@ const CustomGrid = forwardRef(
       const calcPercentUsage = (100 * t) / totalDays;
 
       return (
-        <Progress
-          firstLabel={``}
-          secondaryLabel={`${dayRemaining || 'Infinity'} / ${getDayPersian(row.expired_at)}`}
-          value={dayRemaining > 0 ? calcPercentUsage : 100}
-        />
+        <Tooltip title={`${getDayPersian(row.expired_at)}`}>
+          <Progress
+            firstLabel={``}
+            secondaryLabel={`${dayRemaining || 'Infinity'} Day`}
+            value={dayRemaining > 0 ? calcPercentUsage : 100}
+          />
+        </Tooltip>
       );
     }, []);
 
@@ -334,7 +336,7 @@ const CustomGrid = forwardRef(
                       <GridActionsCellItem
                         disableRipple
                         icon={
-                          <Icon color={item.color} size={'20px'}>
+                          <Icon color={item.color} size={'23px'}>
                             {item.icon}
                           </Icon>
                         }
@@ -353,7 +355,7 @@ const CustomGrid = forwardRef(
                       display: moreActions ? '' : 'none'
                     }}
                     icon={
-                      <Icon color={'primary'} size={'20px'}>
+                      <Icon color={'primary'} size={'23px'}>
                         more_vert
                       </Icon>
                     }
