@@ -1,70 +1,35 @@
-# Getting Started with Create React App
+# Elora VPN Manager Pannel
+A pannel based on MUI for [Elora VPN Manager](https://github.com/eloravpn/EloraVPNManager/ "Elora VPN Manager")
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Screen Shots
+![2023-10-06_15-49](https://github.com/eloravpn/EloraVPNManagerPanel/assets/125687916/f28fa7d9-d4d6-43d3-8f25-5a0c8a72153d)
 
-## Available Scripts
+![2023-10-06_15-50_1](https://github.com/eloravpn/EloraVPNManagerPanel/assets/125687916/2272cbaf-0793-40c8-9c29-44f4bea55065)
 
-In the project directory, you can run:
+![2023-10-06_15-50](https://github.com/eloravpn/EloraVPNManagerPanel/assets/125687916/98caa4b5-f42c-46bf-b470-075eb2298f00)
 
-### `npm start`
+# How to install
+#### Requirements
+Install `Nodejs v18.8+` and `yarn v1.22+` on your system.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Also you need to install and run successfully `Elora VPN Manager` as an API.
+To install an run `Elora VPN Manager` please follow The Readme on [Elora VPN Manager](https://github.com/eloravpn/EloraVPNManager/ "Elora VPN Manager")
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### Clone the repository
+`git clone https://github.com/eloravpn/EloraVPNManagerPanel.git && cd EloraVPNManagerPanel`
 
-### `npm test`
+### Configuration
+Copy `.env.example` to `.env` and changes the configuration based on you Instalation.
+You must change bellow property to your  [Elora VPN Manager](https://github.com/eloravpn/EloraVPNManager/ "Elora VPN Manager") IP and Port.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+REACT_APP_BASE_URL="http://YOUR_API_SERVER_IP_OR_DOMAIN:8000/api/"
+```
+> Please consider, to avoid CROSS errors you must run API Server and Panel in single machine or use equal Domain
 
-### `npm run build`
+ #### Install packages and Run
+`yarn install && yarn start`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Go to `http://YOUR_SERVER_IP_OR_DOMAIN:3000` to see panel.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+> The default user name and password is `admin`
