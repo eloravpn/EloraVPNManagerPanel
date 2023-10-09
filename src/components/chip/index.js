@@ -1,19 +1,15 @@
 import MuiChip from '@mui/material/Chip';
 
 const Chip = ({ label, onClick, variant, color }) => {
+  const config = {
+    ...(onClick && onClick)
+  };
   return (
-    <MuiChip
-      sx={{ mx: 0.5, my: 0.75 }}
-      label={label}
-      onClick={() => onClick && onClick()}
-      color={color}
-      variant={variant}
-    />
+    <MuiChip {...config} sx={{ mx: 0.5, my: 0.75 }} label={label} color={color} variant={'chip'} />
   );
 };
 
 Chip.defaultProps = {
-  variant: 'outlined',
   color: 'primary'
 };
 

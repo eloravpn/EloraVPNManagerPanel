@@ -44,9 +44,58 @@ const theme = createTheme({
     mode: 'light',
     primary: { main: 'rgb(118, 53, 220,0.9)' },
     secondary: { main: 'rgb(99, 115, 129,0.9)' },
-    success: { main: '#00956fE6' },
+    success: { main: 'rgb(17, 141, 87)' },
     error: { main: '#f7474aE6' },
     danger: { main: '#f5ae16E6' }
+  },
+  components: {
+    MuiChip: {
+      variants: [
+        {
+          props: { variant: 'chip' },
+          style: {
+            borderRadius: 6,
+            padding: '0px 6px',
+            height: '24px'
+          }
+        },
+        {
+          props: { variant: 'chip', color: 'info' },
+          style: {
+            background: 'rgba(0, 184, 217, 0.16)',
+            color: 'rgb(0, 108, 156)'
+          }
+        },
+        {
+          props: { variant: 'chip', color: 'success' },
+          style: {
+            background: 'rgba(34, 197, 94, 0.16)',
+            color: 'rgb(17, 141, 87)'
+          }
+        },
+        {
+          props: { variant: 'chip', color: 'secondary' },
+          style: {
+            background: 'rgba(145, 158, 171, 0.16)',
+            color: 'rgb(99, 115, 129)'
+          }
+        },
+        {
+          props: { variant: 'chip', color: 'danger' },
+          style: {
+            background: 'rgba(255, 171, 0, 0.16)',
+            color: 'rgb(183, 110, 0)'
+          }
+        },
+        {
+          props: { variant: 'chip', color: 'error' },
+          style: {
+            background: 'rgba(255, 86, 48, 0.16)',
+            color: 'rgb(183, 29, 24)'
+          }
+        }
+      ]
+    }
   }
 });
 
