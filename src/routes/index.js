@@ -10,6 +10,7 @@ import Accounts from 'pages/accounts';
 import config from 'config';
 import Users from '../pages/users';
 import PropTypes from 'prop-types';
+import Orders from 'pages/orders';
 
 const Routerr = () => {
   const PrivateRoute = ({ children }) => {
@@ -92,6 +93,14 @@ const Routerr = () => {
           element={
             <PrivateRoute>
               <Users />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="orders"
+          element={
+            <PrivateRoute>
+              <Orders />
             </PrivateRoute>
           }
         />

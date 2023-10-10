@@ -1,4 +1,5 @@
 const api = {
+  orders: 'orders',
   usedTraffic: 'used_traffic',
   users: 'users',
   resetTraffic: 'reset_traffic',

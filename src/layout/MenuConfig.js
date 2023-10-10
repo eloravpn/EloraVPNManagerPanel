@@ -30,6 +30,12 @@ const menu = {
         root: true,
         icon: 'move_to_inbox',
         page: 'inbounds/configs'
+      },
+      {
+        title: 'Orders',
+        root: true,
+        icon: 'shopping_cart',
+        page: 'orders'
       }
     ]
   }

@@ -1,0 +1,32 @@
+const columns = [
+  {
+    headerName: 'Full Name',
+    field: 'full_name',
+    width: 200
+  },
+  {
+    headerName: 'Usage',
+    field: JSON.stringify(['used_traffic', 'used_traffic_percent', 'data_limit']),
+    renderCell: 'progress',
+    width: 300
+  },
+  {
+    headerName: 'Usage',
+    field: 'expired_at',
+    renderCell: 'progressDay'
+  },
+  {
+    headerName: 'Status',
+    field: 'enable',
+    renderCell: 'status',
+    width: 80
+  },
+  {
+    headerName: 'Modified',
+    field: 'modified_at',
+    renderCell: 'date',
+    width: 80
+  }
+];
+
+export default columns;
