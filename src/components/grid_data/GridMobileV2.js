@@ -26,10 +26,11 @@ const GridMobile = forwardRef((props, ref) => {
     moreActions,
     showFilter,
     sortItem,
-    defaultSort
+    defaultSort,
+    propsFilter
   } = props;
 
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState(propsFilter);
   const [search, setSearch] = useState({
     q: null,
     sort: defaultSort ? defaultSort.value : 'expire',

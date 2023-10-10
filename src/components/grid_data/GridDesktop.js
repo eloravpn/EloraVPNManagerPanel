@@ -125,7 +125,7 @@ const CustomGrid = forwardRef(
               label={row[item.name] || row[item]}
               size="small"
               color={item.color}
-              variant={'filled'}
+              variant={'chip'}
             />
           </Tooltip>
         ) : null

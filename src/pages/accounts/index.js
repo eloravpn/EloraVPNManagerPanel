@@ -176,9 +176,9 @@ const Accounts = () => {
           Create
         </Button>
         <Box>
-          <Chip variant="filled" color="success" label={`Active: ${report.active}`} />
-          <Chip variant="filled" color="error" label={`Disable: ${report.total - report.active}`} />
-          <Chip variant="filled" color="info" label={`Total: ${report.total}`} />
+          <Chip variant="chip" color="success" label={`Active: ${report.active}`} />
+          <Chip variant="chip" color="error" label={`Disable: ${report.total - report.active}`} />
+          <Chip variant="chip" color="info" label={`Total: ${report.total}`} />
         </Box>
 
         <CustomGrid

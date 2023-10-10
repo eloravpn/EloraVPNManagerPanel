@@ -42,7 +42,7 @@ export default function Autocomplete({
         {...field}
         {...configInput}
         id={name}
-        disableClearable
+        filterOptions={(x) => x}
         noOptionsText={`${isLoading ? 'Loading...' : 'Oops!No Options. Please search....'}`}
         renderOption={renderOption}
         renderInput={(params) => (
