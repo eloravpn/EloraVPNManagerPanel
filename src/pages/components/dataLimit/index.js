@@ -1,6 +1,5 @@
-import { Grid } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 import Slider from 'components/formik/slider';
-import TextField from 'components/formik/textfield';
 import { styled } from '@mui/material/styles';
 
 const Input = styled(TextField)`

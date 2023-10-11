@@ -7,7 +7,6 @@ import { stringAvatar } from 'utils';
 import { debounce } from 'lodash';
 
 const UserSelect = ({ label, name, ...props }) => {
-  console.log('🚀 ~ UserSelect ~ props:', props);
   const { getUsers, users, isLoading, setUsers } = useUsers();
 
   const handleChange = useCallback((e) => {

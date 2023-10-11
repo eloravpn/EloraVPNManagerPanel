@@ -9,6 +9,7 @@ export default function Autocomplete({
   renderOption,
   onInputChange,
   isLoading,
+  lableName,
   ...props
 }) {
   const [field, mata] = useField(name);
@@ -24,7 +25,7 @@ export default function Autocomplete({
 
   const configInput = {
     options,
-    getOptionLabel: (option) => option.username,
+    getOptionLabel: (option) => option[lableName],
     onChange: (e, newValue) => {
       setFieldValue(name, newValue?.id);
     },
@@ -72,5 +73,6 @@ export default function Autocomplete({
 
 Autocomplete.defaultProps = {
   options: [],
-  label: 'Users'
+  label: 'Users',
+  lableName: ''
 };

@@ -44,8 +44,8 @@ const validationSchema = yup.object({
 });
 
 const initialForm = {
-  account_id: 0,
-  service_id: 0,
+  account_id: '',
+  service_id: '',
   user_id: 0,
   duration: 1,
   total: 0,
