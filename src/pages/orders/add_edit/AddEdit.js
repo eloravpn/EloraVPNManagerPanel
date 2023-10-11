@@ -26,54 +26,50 @@ import config from 'config';
 import useUsers from 'hooks/useUsers';
 import SelectBadge from 'components/formik/badge';
 import Avatar from 'components/avatar';
-import { AllInclusiveOutlined } from '@mui/icons-material';
 import Usages from '../usages/Usages';
+import Select from 'components/formik/select';
+import useServices from 'hooks/useServices';
 
-const Input = styled(TextField)`
-  width: 75px;
-`;
+const statuses = [
+  { name: 'OPEN', id: 'OPEN' },
+  { name: 'PENDING', id: 'PENDING' },
+  { name: 'CANCELED', id: 'CANCELED' },
+  { name: 'PAID', id: 'PAID' },
+  { name: 'COMPLETED', id: 'COMPLETED' }
+];
 
 const validationSchema = yup.object({
-  user_id: yup.number().required(),
-  uuid: yup.string().required(),
-  email: yup.string().required(),
-  expired_at: yup.string().required()
+  user_id: yup.number().required()
 });
 
 const initialForm = {
-  email: emailGenerator(),
-  uuid: uuidGenerator(),
+  account_id: 0,
+  service_id: 0,
+  duration: 1,
+  total: 0,
+  total_discount_amount: 0,
+  status: 'OPEN',
   user_id: '',
-  enable: true,
-  data_limit: 0,
-  expired_at: getExpireTime(config.defaultExpireAt)
+  data_limit: 0
 };
-
-function valueLabelFormat(value) {
-  const unit = 'GB';
-  let scaledValue = value;
-
-  return `${scaledValue} ${unit}`;
-}
-
-function calculateValue(value) {
-  return value;
-}
 
 const AddEdit = (props) => {
   const { refrence, initial, createRow, editRow } = props;
   const [postDataLoading, setPostDataLoading] = useState(false);
-  const { getUser, user, isLoading } = useUsers();
-  useEffect(() => {
-    if (initial.user_id) getUser(initial.user_id);
+  const [accounts, setAccounts] = useState([]);
+  // const { getUser, user, isLoading } = useUsers();
 
+  const { services, isLoading, getServices } = useServices();
+
+  useEffect(() => {
+    getServices();
     return () => {};
-  }, [getUser, initial.user_id]);
+  }, []);
 
   const handleCreate = (values) => {
     setPostDataLoading(true);
     HttpService()
-      .post(api.accounts, {
+      .post(api.orders, {
         ...values,
         data_limit: convertToByte(values.data_limit)
       })
@@ -91,7 +87,7 @@ const AddEdit = (props) => {
   const handleEdit = (values) => {
     setPostDataLoading(true);
     HttpService()
-      .put(`${api.accounts}/${initial?.id}`, {
+      .put(`${api.orders}/${initial?.id}`, {
         ...values,
         data_limit: convertToByte(values.data_limit)
       })
@@ -106,28 +102,10 @@ const AddEdit = (props) => {
       });
   };
 
-  const [dates, setDates] = useState({
-    days: [
-      { day: 1, name: '1 Day', active: false },
-      { day: 3, name: '3 Day', active: false },
-      { day: 7, name: '7 Week', active: false }
-    ],
-    month: [
-      { day: 30, name: '1 Month', active: false },
-      { day: 60, name: '2 Month', active: false },
-      { day: 90, name: '3 Month', active: false },
-      { day: 180, name: '6 Month', active: false }
-    ]
-  });
-  const {
-    username,
-    phone_number,
-    telegram_username,
-    last_name,
-    first_name,
-    telegram_chat_id,
-    accounts
-  } = user;
+  const handleBlurUserId = async (user) => {
+    setAccounts(user?.accounts);
+  };
+
   return (
     <>
       <Formik
@@ -140,169 +118,36 @@ const AddEdit = (props) => {
       >
         {({ values, setFieldValue }) => (
           <Form>
-            <Grid
-              sx={(theme) => {
-                return {
-                  background: theme.palette.primary.main,
-                  p: 3,
-                  borderRadius: 5,
-                  color: 'white',
-                  mb: 2
-                };
-              }}
-            >
-              <Grid container alignItems="flex-start">
-                {values.user_id && (
-                  <Grid item sx={{ display: 'flex', width: 50 }}>
-                    <Avatar {...stringAvatar(username || 'No Name')} />
-                  </Grid>
-                )}
-                <Grid item sx={{ width: 'calc(100% - 50px)', wordWrap: 'break-word' }}>
-                  {isLoading && <Skeleton animation="wave" width={150} />}
-                  {isLoading && <Skeleton animation="wave" width={250} />}
-                  {first_name && (
-                    <Typography variant="h6" component={'div'}>
-                      {first_name}
-                      {last_name && last_name}
-                    </Typography>
-                  )}
-                  {telegram_username && (
-                    <Typography variant="h6">
-                      {' '}
-                      <a href={`https://t.me/${telegram_username}`} target="_blank">
-                        Telegram: @{telegram_username}
-                      </a>
-                    </Typography>
-                  )}
-                  {telegram_chat_id && (
-                    <Typography variant="h6">ChatID: {telegram_chat_id} </Typography>
-                  )}
-                  {phone_number && (
-                    <Typography variant="h6">Phone Number: {phone_number} </Typography>
-                  )}
-                  {accounts && (
-                    <Typography variant="h6">Count Account: {accounts?.length} </Typography>
-                  )}
-                  <Box display={'flex'} alignItems={'center'}>
-                    <Typography variant="h6" component={'div'}>
-                      Expire Date:
-                      {getDayPersian(dayjs(values.expired_at).format('YYYY-MM-D')) || null}
-                    </Typography>
-                    {!getDayPersian(dayjs(values.expired_at).format('YYYY-MM-D')) && (
-                      <AllInclusiveOutlined fontSize="large" />
-                    )}
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
             <Grid container spacing={12} rowSpacing={2} justifyContent={'center'}>
-              {!initial.user_id ? (
-                <Grid item xs={12}>
-                  <UserSelect name="user_id" label="Users" />
-                </Grid>
-              ) : null}
               <Grid item xs={12}>
-                <SelectBadge
-                  label={'Status'}
-                  name="enable"
-                  options={[
-                    { id: true, name: 'Enable' },
-                    { id: false, name: 'Disable' }
-                  ]}
+                <UserSelect name="user_id" label="Users" onBlur={handleBlurUserId} />
+              </Grid>
+              <Grid item xs={12}>
+                <Select
+                  label={'Account'}
+                  name="account_id"
+                  options={accounts}
+                  labelName={'full_name'}
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField name="uuid" label="UUID" />
+                <Select label={'Status'} name="status" options={statuses} />
               </Grid>
               <Grid item xs={12}>
-                <TextField name="email" label="Email" />
+                <Select
+                  label={'Services'}
+                  name="service_id"
+                  options={services}
+                  isLoading={isLoading}
+                />
               </Grid>
               <Grid item xs={12}>
-                <Grid container spacing={2} alignItems="center">
-                  <Grid item>
-                    <Input
-                      fullWidth={false}
-                      size="small"
-                      name={'data_limit'}
-                      inputProps={{
-                        step: 1,
-                        min: 0,
-                        max: 500,
-                        type: 'number',
-                        'aria-labelledby': 'input-slider'
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs>
-                    <Slider
-                      name={'data_limit'}
-                      min={0}
-                      max={500}
-                      step={1}
-                      scale={calculateValue}
-                      getAriaValueText={valueLabelFormat}
-                      valueLabelFormat={valueLabelFormat}
-                      valueLabelDisplay="auto"
-                    />
-                  </Grid>
-                </Grid>
+                <TextField label={'Total'} name="total" />
               </Grid>
-
               <Grid item xs={12}>
-                <Date name="expired_at" label="Date Picker" />
-                <Box
-                  sx={{
-                    display: 'flex'
-                  }}
-                >
-                  {dates.days.map(({ name, day, active }, idx) => (
-                    <Chip
-                      key={idx}
-                      label={name}
-                      variant={active ? 'filled' : 'outlined'}
-                      onClick={() => {
-                        getExpireTime(7);
-
-                        setFieldValue('expired_at', dayjs(getExpireTime(day)));
-                        setDates((prev) => ({
-                          ...prev,
-                          days: prev.days.map((i, ix) =>
-                            ix === idx ? { ...i, active: true } : { ...i, active: false }
-                          ),
-                          month: prev.month.map((i) => ({
-                            ...i,
-                            active: false
-                          }))
-                        }));
-                      }}
-                    />
-                  ))}
-                </Box>
-                <Box>
-                  {dates.month.map(({ name, day, active }, idx) => (
-                    <Chip
-                      key={idx}
-                      label={name}
-                      variant={active ? 'filled' : 'outlined'}
-                      onClick={() => {
-                        setFieldValue('expired_at', dayjs(getExpireTime(day)));
-                        setDates((prev) => ({
-                          ...prev,
-                          month: prev.month.map((i, ix) =>
-                            ix === idx ? { ...i, active: true } : { ...i, active: false }
-                          ),
-                          days: prev.days.map((i) => ({
-                            ...i,
-                            active: false
-                          }))
-                        }));
-                      }}
-                    />
-                  ))}
-                </Box>
+                <TextField label={'Total Discount'} name="total_discount_amount" />
               </Grid>
             </Grid>
-            {initial.user_id && initial?.id ? <Usages initial={initial} fullChart /> : null}
             <DialogActions>
               <Button
                 autoFocus

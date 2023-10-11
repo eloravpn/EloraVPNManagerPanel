@@ -10,27 +10,27 @@ import { Form, Formik } from 'formik';
 import api from 'components/httpService/api';
 import { Danger } from '../components/alert';
 import Http from 'components/httpService/Http';
-import { convertByteToInt } from 'utils';
-import { Add } from '@mui/icons-material';
+import { convertByteToInt, emailGenerator, getExpireTime, uuidGenerator } from 'utils';
 import Button from 'components/button';
-import UserSelect from 'pages/components/select/users';
-import { useSearchParams } from 'react-router-dom';
+import { Add } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import SelectBadge from 'components/formik/badge';
 import Grid from 'components/grid';
 import GLOBAL from 'components/variables';
-import useOrders from 'hooks/useOrders';
+import AddEditAccount from 'pages/accounts/add_edit';
 
-const pageName = 'Orders';
+const pageName = 'Services';
 
-const Orders = () => {
+const Services = () => {
+  const navigate = useNavigate();
+
   const createRef = useRef();
   const gridRef = useRef();
   const filterRef = useRef();
   const deleteRef = useRef();
+  const createAccountRef = useRef();
 
-  const { orders } = useOrders();
-  let [searchParams] = useSearchParams();
-
+  const [data] = useState([]);
   const [item, setItem] = useState([]);
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
 
@@ -57,7 +57,7 @@ const Orders = () => {
   const handleDelete = () => {
     setIsLoadingDelete(true);
     HttpService()
-      .delete(`${api.orders}/${item?.id}`)
+      .delete(`${api.users}/${item?.id}`)
       .then(() => {
         gridRef.current.deleteRow(item);
         deleteRef.current.close();
@@ -74,7 +74,6 @@ const Orders = () => {
     <>
       <Formik
         initialValues={{
-          user_id: null,
           enable: null
         }}
         onSubmit={(values) => {
@@ -85,7 +84,6 @@ const Orders = () => {
         <CustomDrawer ref={filterRef}>
           <Form>
             <Stack spacing={1} paddingLeft={1}>
-              <UserSelect name="user_id" label={'Users'} />
               <SelectBadge name="enable" options={GLOBAL.enableStatus} label={'Status'} />
             </Stack>
             <Grid container spacing={1}>
@@ -117,6 +115,7 @@ const Orders = () => {
         createRow={createRow}
         editRow={editRow}
       />
+      <AddEditAccount pageName={pageName} refrence={createAccountRef} initial={item} />
       <Box>
         <Typography variant="h4" gutterBottom>
           {pageName}
@@ -131,16 +130,12 @@ const Orders = () => {
         >
           Create
         </Button>
-
         <CustomGrid
-          name="orders"
-          url={api.orders}
+          name="services"
+          url={api.services}
           refrence={gridRef}
-          data={orders}
+          data={data}
           columns={columns}
-          propsFilter={{
-            user_id: searchParams.get('userId')
-          }}
           rowActions={[
             {
               onClick: (data) => handleAlert(data, deleteRef),
@@ -157,17 +152,18 @@ const Orders = () => {
           ]}
           paginateServ={true}
           showFilter={() => filterRef.current.onChange()}
-          defaultSort={{ value: 'modified', ASC: false }}
           sortItem={[
             { id: 'created', name: 'Created' },
             { id: 'modified', name: 'Modified' },
-            { id: 'total', name: 'Total' },
-            { id: 'status', name: 'Status' }
+            { id: 'price', name: 'Price' },
+            { id: 'duration', name: 'Duration' },
+            { id: 'data_limit', name: 'Data Limit' }
           ]}
+          defaultSort={{ value: 'created', ASC: false }}
         />
       </Box>
     </>
   );
 };
 
-export default memo(Orders);
+export default memo(Services);

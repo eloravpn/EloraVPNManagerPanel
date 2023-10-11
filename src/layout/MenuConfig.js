@@ -36,6 +36,12 @@ const menu = {
         root: true,
         icon: 'shopping_cart',
         page: 'orders'
+      },
+      {
+        title: 'Services',
+        root: true,
+        icon: 'move_to_inbox',
+        page: 'services'
       }
     ]
   }

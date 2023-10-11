@@ -33,15 +33,20 @@ const Select = ({ name, isLoading, options, labelName, ...otherProps }) => {
         <Loading size={35} />
       ) : (
         <Custom {...configSelect}>
-          {Object.keys(options).map((item, pos) => (
-            <MenuItem key={pos} value={options[item].id}>
-              {options[item].name || options[item][labelName]}
-            </MenuItem>
-          ))}
+          {options.length > 0 &&
+            Object?.keys(options)?.map((item, pos) => (
+              <MenuItem key={pos} value={options[item].id}>
+                {options[item].name || options[item][labelName]}
+              </MenuItem>
+            ))}
         </Custom>
       )}
     </>
   );
+};
+
+Select.defaultProps = {
+  options: []
 };
 
 export default Select;

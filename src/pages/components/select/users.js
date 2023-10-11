@@ -6,7 +6,8 @@ import Avatar from 'components/avatar';
 import { stringAvatar } from 'utils';
 import { debounce } from 'lodash';
 
-const UserSelect = ({ label, name }) => {
+const UserSelect = ({ label, name, ...props }) => {
+  console.log('🚀 ~ UserSelect ~ props:', props);
   const { getUsers, users, isLoading, setUsers } = useUsers();
 
   const handleChange = useCallback((e) => {
@@ -71,6 +72,7 @@ const UserSelect = ({ label, name }) => {
           <Divider />
         </>
       )}
+      {...props}
     />
   );
 };

@@ -8,7 +8,8 @@ export default function Autocomplete({
   label,
   renderOption,
   onInputChange,
-  isLoading
+  isLoading,
+  ...props
 }) {
   const [field, mata] = useField(name);
   const { setFieldValue } = useFormikContext();
@@ -28,7 +29,9 @@ export default function Autocomplete({
       setFieldValue(name, newValue?.id);
     },
     onInputChange: (e, v) => onInputChange && onInputChange(e, v),
-    value: options.find((i) => i.id === field.value) || null
+    value: options.find((i) => i.id === field.value) || null,
+    onBlur: props.onBlur && props.onBlur(options.find((i) => i.id === field.value)),
+    ...props
   };
 
   if (mata && mata.touched && mata.error) {
