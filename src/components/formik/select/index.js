@@ -9,13 +9,15 @@ const Select = ({ name, label, isLoading, options, onChange, labelName, ...other
   const handleChange = (evt) => {
     const { value } = evt.target;
     setFieldValue(name, value);
+    onChange && onChange(options.find((i) => i.id === value));
   };
   const configSelect = {
     ...field,
     ...otherProps,
     fullWidth: true,
     variant: 'outlined',
-    onChange: handleChange
+    onChange: handleChange,
+    value: field.value || ''
   };
   if (mata && mata.touched && mata.error) {
     configSelect.error = true;

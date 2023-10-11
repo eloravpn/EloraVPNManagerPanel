@@ -25,7 +25,6 @@ export default function Autocomplete({
 
   const configInput = {
     options,
-    getOptionLabel: (option) => option[lableName],
     onChange: (e, newValue) => {
       setFieldValue(name, newValue?.id);
     },
@@ -45,6 +44,7 @@ export default function Autocomplete({
       <AutocompleteMD
         {...field}
         {...configInput}
+        getOptionLabel={(option) => option[lableName]}
         id={name}
         filterOptions={(x) => x}
         noOptionsText={`${isLoading ? 'Loading...' : 'Oops!No Options. Please search....'}`}

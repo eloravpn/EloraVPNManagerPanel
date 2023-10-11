@@ -4,7 +4,7 @@ import { getAllUsers, getFullUser } from 'services/usersService';
 const useUsers = () => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(false);
   const getUsers = useCallback(async (q) => {
     setIsLoading(true);
     try {
@@ -28,7 +28,7 @@ const useUsers = () => {
     }
   }, []);
 
-  return { getUsers, users, setUsers, user, getUser, isLoading };
+  return { getUsers, users, setUsers, user, getUser, isLoading, setUser };
 };
 
 export default useUsers;

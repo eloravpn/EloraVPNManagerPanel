@@ -16,7 +16,8 @@ import {
   getExpireTime,
   uuidGenerator,
   emailGenerator,
-  stringAvatar
+  stringAvatar,
+  convertByteToInt
 } from 'utils';
 import dayjs from 'dayjs';
 import Button from 'components/button';
@@ -29,6 +30,7 @@ import Select from 'components/formik/select';
 import useServices from 'hooks/useServices';
 import Durations from 'pages/components/durations';
 import DataLimit from 'pages/components/dataLimit';
+import UserInfo from 'pages/components/user_info';
 
 const statuses = [
   { name: 'OPEN', id: 'OPEN' },
@@ -44,7 +46,7 @@ const validationSchema = yup.object({
 });
 
 const initialForm = {
-  account_id: '',
+  account_id: 0,
   service_id: '',
   user_id: 0,
   duration: 1,
@@ -58,12 +60,13 @@ const AddEdit = (props) => {
   const { refrence, initial, createRow, editRow } = props;
   const [postDataLoading, setPostDataLoading] = useState(false);
   const [accounts, setAccounts] = useState([]);
-  // const { getUser, user, isLoading } = useUsers();
+  const { getUser, user, isLoading: isLoadingUser } = useUsers();
 
   const { services, isLoading, getServices } = useServices();
 
   useEffect(() => {
     getServices();
+    if (initial.user_id) getUser(initial.user_id);
     return () => {};
   }, []);
 
@@ -119,19 +122,41 @@ const AddEdit = (props) => {
       >
         {({ values, setFieldValue }) => (
           <Form>
+            {user && (
+              <UserInfo user={user} isLoading={isLoadingUser}>
+                <Typography variant="h6" component={'div'}>
+                  Day:
+                  {user.accounts.find((i) => i.id === values.account_id).id}
+                </Typography>
+                <Typography variant="h6" component={'div'}>
+                  Usage:
+                  {convertByteToInt(
+                    user.accounts.find((i) => i.id === values.account_id).used_traffic
+                  )}
+                </Typography>
+                <Typography variant="h6" component={'div'}>
+                  Email:
+                  {user.accounts.find((i) => i.id === values.account_id).email}
+                </Typography>
+              </UserInfo>
+            )}
             <Grid container spacing={12} rowSpacing={2} justifyContent={'center'}>
-              <Grid item xs={12}>
-                <UserSelect name="user_id" label="Users" onBlur={handleBlurUserId} />
-              </Grid>
-              <Grid item xs={12}>
-                <Select
-                  label={'Account'}
-                  name="account_id"
-                  options={accounts}
-                  labelName={'full_name'}
-                  disabled={!values.user_id}
-                />
-              </Grid>
+              {!user && (
+                <>
+                  <Grid item xs={12}>
+                    <UserSelect name="user_id" label="Users" onBlur={handleBlurUserId} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Select
+                      label={'Account'}
+                      name="account_id"
+                      options={accounts}
+                      labelName={'full_name'}
+                      disabled={!values.user_id}
+                    />
+                  </Grid>
+                </>
+              )}
               <Grid item xs={12}>
                 <Select label={'Status'} name="status" options={statuses} />
               </Grid>
@@ -143,7 +168,7 @@ const AddEdit = (props) => {
                   isLoading={isLoading}
                   onChange={(service) => {
                     setFieldValue('duration', service.duration || 0);
-                    setFieldValue('data_limit', service.data_limit || 0);
+                    setFieldValue('data_limit', convertByteToInt(service.data_limit) || 0);
                     setFieldValue('total', service.price || 0);
                     setFieldValue('total_discount_amount', service.total_discount_amount || 0);
                   }}

@@ -105,7 +105,7 @@ const Services = () => {
         refrence={deleteRef}
         onDelete={handleDelete}
         onDeleteLoading={isLoadingDelete}
-        title={`Are you sure want Delete "${item?.full_name ?? 'No Name'}" ?`}
+        title={`Are you sure want Delete "${item?.name ?? 'No Name'}" ?`}
       />
 
       <AddEdit
