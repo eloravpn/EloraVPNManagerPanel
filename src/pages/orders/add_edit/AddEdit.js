@@ -25,7 +25,6 @@ import config from 'config';
 import useUsers from 'hooks/useUsers';
 import SelectBadge from 'components/formik/badge';
 import Avatar from 'components/avatar';
-import Usages from '../usages/Usages';
 import Select from 'components/formik/select';
 import useServices from 'hooks/useServices';
 import Durations from 'pages/components/durations';
