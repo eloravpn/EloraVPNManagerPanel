@@ -9,6 +9,7 @@ import Http from 'components/httpService/Http';
 import Switch from 'components/formik/switch';
 import Button from 'components/button';
 import DataLimit from 'pages/components/dataLimit';
+import { convertToByte } from 'utils';
 
 const validationSchema = yup.object({
   name: yup.string().required(),
