@@ -8,12 +8,13 @@ const Custom = styled(TextField)({
   color: 'currentcolor'
 });
 
-const Select = ({ name, isLoading, options, labelName, ...otherProps }) => {
+const Select = ({ name, isLoading, options, onChange, labelName, ...otherProps }) => {
   const [field, mata] = useField(name);
   const { setFieldValue } = useFormikContext();
   const handleChange = (evt) => {
     const { value } = evt.target;
     setFieldValue(name, value);
+    onChange && onChange(options.find((i) => i.id === value));
   };
   const configSelect = {
     ...field,
