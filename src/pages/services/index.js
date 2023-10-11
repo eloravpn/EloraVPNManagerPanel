@@ -57,7 +57,7 @@ const Services = () => {
   const handleDelete = () => {
     setIsLoadingDelete(true);
     HttpService()
-      .delete(`${api.users}/${item?.id}`)
+      .delete(`${api.services}/${item?.id}`)
       .then(() => {
         gridRef.current.deleteRow(item);
         deleteRef.current.close();
