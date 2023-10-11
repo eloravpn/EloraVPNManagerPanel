@@ -8,7 +8,6 @@ import api from 'components/httpService/api';
 import Http from 'components/httpService/Http';
 import Switch from 'components/formik/switch';
 import Slider from 'components/formik/slider';
-import { styled } from '@mui/material/styles';
 import Date from 'components/formik/date_picker';
 import Chip from 'components/chip';
 import {
@@ -29,6 +28,8 @@ import Avatar from 'components/avatar';
 import Usages from '../usages/Usages';
 import Select from 'components/formik/select';
 import useServices from 'hooks/useServices';
+import Durations from 'pages/components/durations';
+import DataLimit from 'pages/components/dataLimit';
 
 const statuses = [
   { name: 'OPEN', id: 'OPEN' },
@@ -39,17 +40,18 @@ const statuses = [
 ];
 
 const validationSchema = yup.object({
-  user_id: yup.number().required()
+  user_id: yup.number().required(),
+  service_id: yup.number().required()
 });
 
 const initialForm = {
   account_id: 0,
   service_id: 0,
+  user_id: 0,
   duration: 1,
   total: 0,
   total_discount_amount: 0,
-  status: 'OPEN',
-  user_id: '',
+  status: 'PENDING',
   data_limit: 0
 };
 
@@ -128,6 +130,7 @@ const AddEdit = (props) => {
                   name="account_id"
                   options={accounts}
                   labelName={'full_name'}
+                  disabled={!values.user_id}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -137,15 +140,31 @@ const AddEdit = (props) => {
                 <Select
                   label={'Services'}
                   name="service_id"
-                  options={services}
+                  options={[{ id: '', name: 'None' }, ...services]}
                   isLoading={isLoading}
+                  onChange={(service) => {
+                    setFieldValue('duration', service.duration || 0);
+                    setFieldValue('data_limit', service.data_limit || 0);
+                    setFieldValue('total', service.price || 0);
+                    setFieldValue('total_discount_amount', service.total_discount_amount || 0);
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField label={'Total'} name="total" />
+                <TextField label={'Total'} name="total" disabled={!!values.service_id} />
               </Grid>
               <Grid item xs={12}>
-                <TextField label={'Total Discount'} name="total_discount_amount" />
+                <TextField
+                  label={'Total Discount'}
+                  name="total_discount_amount"
+                  disabled={!!values.service_id}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Durations disabled={!!values.service_id} />
+              </Grid>
+              <Grid item xs={12}>
+                <DataLimit disabled={!!values.service_id} />
               </Grid>
             </Grid>
             <DialogActions>

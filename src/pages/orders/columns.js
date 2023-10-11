@@ -1,7 +1,7 @@
 const columns = [
   {
-    headerName: 'account_id',
-    field: 'account_id',
+    headerName: 'ID',
+    field: 'id',
     width: 200
   }
 ];

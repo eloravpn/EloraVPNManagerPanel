@@ -8,6 +8,7 @@ import api from 'components/httpService/api';
 import Http from 'components/httpService/Http';
 import Switch from 'components/formik/switch';
 import Button from 'components/button';
+import DataLimit from 'pages/components/dataLimit';
 
 const validationSchema = yup.object({
   name: yup.string().required(),
@@ -32,7 +33,8 @@ const AddEdit = (props) => {
     setPostDataLoading(true);
     HttpService()
       .post(api.services, {
-        ...values
+        ...values,
+        data_limit: convertToByte(values.data_limit)
       })
       .then((res) => {
         Http.success(res);
@@ -49,7 +51,8 @@ const AddEdit = (props) => {
     setPostDataLoading(true);
     HttpService()
       .put(`${api.services}/${initial?.id}`, {
-        ...values
+        ...values,
+        data_limit: convertToByte(values.data_limit)
       })
       .then((res) => {
         Http.success(res);
@@ -88,6 +91,9 @@ const AddEdit = (props) => {
               <TextField label="Discount" id={'discount'} name={'discount'} type="text" />
             </Grid>
             <Grid item xs={12} md={6}>
+              <DataLimit />
+            </Grid>
+            <Grid item xs={12}>
               <Switch name={'enable'} id="enable" label="Enable" />
             </Grid>
           </Grid>
