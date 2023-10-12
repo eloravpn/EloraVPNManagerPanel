@@ -42,6 +42,12 @@ const menu = {
         root: true,
         icon: 'move_to_inbox',
         page: 'services'
+      },
+      {
+        title: 'Payments',
+        root: true,
+        icon: 'move_to_inbox',
+        page: 'payments'
       }
     ]
   }

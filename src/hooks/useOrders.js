@@ -1,14 +1,14 @@
 import { useCallback, useState } from 'react';
-import { getUsages } from 'services/accountsSerives';
+import { getAllOrder } from 'services/ordersSerives';
 
 const useOrders = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const getOrders = useCallback(async (userId) => {
+  const getOrders = useCallback(async () => {
     setIsLoading(true);
     try {
-      const orders = await getOrders();
+      const orders = await getAllOrder();
       setOrders(orders);
     } catch (e) {
       console.log(e);
