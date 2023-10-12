@@ -164,7 +164,7 @@ const AddEdit = (props) => {
                 <Select
                   label={'Services'}
                   name="service_id"
-                  options={[{ id: '', name: 'None' }, ...services]}
+                  options={[{ id: 0, name: 'None' }, ...services]}
                   isLoading={isLoading}
                   onChange={(service) => {
                     setFieldValue('duration', service.duration || 0);
