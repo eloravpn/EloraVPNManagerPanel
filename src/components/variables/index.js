@@ -20,6 +20,11 @@ const GLOBAL = {
     { name: 'MONEY ORDER', id: 'MONEY_ORDER' },
     { name: 'ONLINE', id: 'ONLINE' },
     { name: 'CRYPTO CURRENCIES', id: 'CRYPTOCURRENCIES' }
+  ],
+  type: [
+    { name: 'PAYMENT', id: 'PAYMENT' },
+    { name: 'ORDER', id: 'ORDER' },
+    { name: 'BOUNS', id: 'BOUNS' }
   ]
 };
 
