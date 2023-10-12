@@ -40,13 +40,13 @@ const menu = {
       {
         title: 'Services',
         root: true,
-        icon: 'move_to_inbox',
+        icon: 'design_services',
         page: 'services'
       },
       {
         title: 'Payments',
         root: true,
-        icon: 'move_to_inbox',
+        icon: 'payments',
         page: 'payments'
       }
     ]
