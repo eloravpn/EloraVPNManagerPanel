@@ -94,7 +94,7 @@ const AddEdit = (props) => {
           <Form>
             {user && (
               <UserInfo user={user} isLoading={isLoadingUser}>
-                <Typography variant="h6" component={'div'}>
+                {/* <Typography variant="h6" component={'div'}>
                   Day:
                   {user.accounts.find((i) => i.id === values.account_id).id}
                 </Typography>
@@ -107,7 +107,7 @@ const AddEdit = (props) => {
                 <Typography variant="h6" component={'div'}>
                   Email:
                   {user.accounts.find((i) => i.id === values.account_id).email}
-                </Typography>
+                </Typography> */}
               </UserInfo>
             )}
             <Grid container spacing={12} rowSpacing={2} justifyContent={'center'}>

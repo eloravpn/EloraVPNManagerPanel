@@ -49,9 +49,10 @@ const initialForm = {
 
 const AddEdit = (props) => {
   const { refrence, initial, createRow, editRow } = props;
-  const [postDataLoading, setPostDataLoading] = useState(false);
-  const { getUser, user, isLoading: isLoadingUser } = useUsers();
 
+  const [postDataLoading, setPostDataLoading] = useState(false);
+
+  const { getUser, user, isLoading: isLoadingUser } = useUsers();
   const { orders, isLoading: isLoadingOrders, getOrders } = useOrders();
 
   useEffect(() => {
@@ -63,9 +64,7 @@ const AddEdit = (props) => {
   const handleCreate = (values) => {
     setPostDataLoading(true);
     HttpService()
-      .post(api.payments, {
-        ...values
-      })
+      .post(api.payments, values)
       .then((res) => {
         Http.success(res);
         refrence.current.changeStatus();
@@ -80,9 +79,7 @@ const AddEdit = (props) => {
   const handleEdit = (values) => {
     setPostDataLoading(true);
     HttpService()
-      .put(`${api.payments}/${initial?.id}`, {
-        ...values
-      })
+      .put(`${api.payments}/${initial?.id}`, values)
       .then((res) => {
         Http.success(res);
         refrence.current.changeStatus();
@@ -108,20 +105,24 @@ const AddEdit = (props) => {
           <Form>
             {user && (
               <UserInfo user={user} isLoading={isLoadingUser}>
-                <Typography variant="h6" component={'div'}>
-                  Day:
-                  {user.accounts.find((i) => i.id === values.account_id).id}
-                </Typography>
-                <Typography variant="h6" component={'div'}>
-                  Usage:
-                  {convertByteToInt(
-                    user.accounts.find((i) => i.id === values.account_id).used_traffic
-                  )}
-                </Typography>
-                <Typography variant="h6" component={'div'}>
-                  Email:
-                  {user.accounts.find((i) => i.id === values.account_id).email}
-                </Typography>
+                {/* {user.accounts && (
+                  <>
+                    <Typography variant="h6" component={'div'}>
+                      Day:
+                      {user.accounts.find((i) => i.id === values.account_id).id}
+                    </Typography>
+                    <Typography variant="h6" component={'div'}>
+                      Usage:
+                      {convertByteToInt(
+                        user.accounts.find((i) => i.id === values.account_id).used_traffic
+                      )}
+                    </Typography>
+                    <Typography variant="h6" component={'div'}>
+                      Email:
+                      {user.accounts.find((i) => i.id === values.account_id).email}
+                    </Typography>
+                  </>
+                )} */}
               </UserInfo>
             )}
             <Grid container spacing={12} rowSpacing={2} justifyContent={'center'}>

@@ -15,10 +15,8 @@ import { Add } from '@mui/icons-material';
 import Button from 'components/button';
 import UserSelect from 'pages/components/select/users';
 import { useSearchParams } from 'react-router-dom';
-import SelectBadge from 'components/formik/badge';
 import Grid from 'components/grid';
 import GLOBAL from 'components/variables';
-import useOrders from 'hooks/useOrders';
 import Select from 'components/formik/select';
 
 const pageName = 'Payments';
@@ -29,7 +27,6 @@ const Payments = () => {
   const filterRef = useRef();
   const deleteRef = useRef();
 
-  const { orders } = useOrders();
   let [searchParams] = useSearchParams();
 
   const [item, setItem] = useState([]);

@@ -132,7 +132,7 @@ const Transactions = () => {
         </Button>
 
         <CustomGrid
-          name="payments"
+          name="transactions"
           url={api.transactions}
           refrence={gridRef}
           columns={columns}
