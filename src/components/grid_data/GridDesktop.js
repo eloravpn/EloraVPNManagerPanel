@@ -165,6 +165,17 @@ const CustomGrid = forwardRef(
       );
     }, []);
 
+    const handleOrderStatus = useCallback(({ row }, field) => {
+      const handleColor = () =>
+        (row[field] === 'OPEN' && 'info') ||
+        (row[field] === 'PENDING' && 'success') ||
+        (row[field] === 'CANCELED' && 'error') ||
+        (row[field] === 'PAID' && 'primary') ||
+        (row[field] === 'COMPLETED' && 'success') ||
+        'primary';
+      return <Chip color={handleColor()} label={row[field]} />;
+    }, []);
+
     const handleFunc = useCallback(
       ({ row, ...t }, name, filed) => {
         switch (name) {
@@ -182,6 +193,8 @@ const CustomGrid = forwardRef(
             return handleProgress({ row }, filed);
           case 'progressDay':
             return handleProgressDay({ row }, filed);
+          case 'orderStatus':
+            return handleOrderStatus({ row }, filed);
           default:
             return null;
         }
