@@ -1,3 +1,4 @@
+import { round } from 'lodash';
 import Moment from 'moment-jalaali';
 
 const getDayPersian = (date) => {
@@ -101,7 +102,21 @@ function largestElement(arr) {
   return arr.reduce((largest, current) => (+current > +largest ? +current : +largest), arr[0]);
 }
 
+const separateNum = (num, sep, string) => {
+  if (num) {
+    var number = typeof num === 'number' ? num.toString() : num,
+      separator = typeof sep === 'undefined' ? ',' : sep ? sep : ',';
+    number = round(number);
+    number = String(number).replace('.', '/');
+
+    return String(number).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + separator);
+  } else {
+    return '0';
+  }
+};
+
 export {
+  separateNum,
   uuidGenerator,
   getDayPersian,
   stringAvatar,
