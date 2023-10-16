@@ -12,6 +12,12 @@ const columns = [
     renderCell: 'complexField'
   },
   {
+    headerName: 'Order Status',
+    field: 'order.status',
+    width: 200,
+    renderCell: 'complexField'
+  },
+  {
     headerName: 'Type',
     field: 'type',
     width: 200
