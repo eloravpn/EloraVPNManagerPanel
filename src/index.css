@@ -1,12 +1,12 @@
 @font-face {
-  font-family: roboto;
-  src: url('./assets/fonts/Roboto-Light.ttf') format('truetype');
+  font-family: public-sans;
+  src: url('./assets/fonts/PublicSans.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: roboto-bold;
-  font-weight: 100;
-  src: url('./assets/fonts/Roboto-Regular.ttf') format('truetype');
+  font-family: public-sans-bold;
+  font-weight: 600;
+  src: url('./assets/fonts/PublicSans.ttf') format('truetype');
 }
 
 html {
