@@ -9,7 +9,7 @@ import {
   memo
 } from 'react';
 import Icon from '../icon';
-import { convertByteToInt, getDayPersian } from '../../utils';
+import { convertByteToInt, getDayPersian, separateNum } from '../../utils';
 import HttpService from '../httpService';
 import Http from '../httpService/Http';
 import Search from './Search';
@@ -20,7 +20,6 @@ import Chip from 'components/chip';
 import Progress from 'components/progress';
 import dayjs from 'dayjs';
 import Tooltip from 'components/tooltip';
-import Tabs from 'components/tabs';
 
 const style = {
   boxShadow:
@@ -100,6 +99,10 @@ const CustomGrid = forwardRef(
       pageSize: 10,
       offset: 0
     });
+
+    const handlePrice = useCallback(({ row }, field) => {
+      return separateNum(row[field]);
+    }, []);
 
     const handleDate = useCallback(({ row }, field) => {
       return getDayPersian(row[field]);
@@ -198,6 +201,8 @@ const CustomGrid = forwardRef(
             return handleProgressDay({ row }, filed);
           case 'orderStatus':
             return handleOrderStatus({ row }, filed);
+          case 'price':
+            return handlePrice({ row }, filed);
           default:
             return null;
         }

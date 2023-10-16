@@ -91,6 +91,10 @@ const GridMobile = forwardRef((props, ref) => {
     menuRef.current?.changeStatus(event);
   };
 
+  const handlePrice = useCallback(({ row }, field) => {
+    return separateNum(row[field]);
+  }, []);
+
   const handleDate = useCallback(({ row }, field) => {
     return getDayPersian(row[field]);
   }, []);
@@ -187,6 +191,8 @@ const GridMobile = forwardRef((props, ref) => {
           return handleProgressDay({ row }, filed);
         case 'orderStatus':
           return handleOrderStatus({ row }, filed);
+        case 'price':
+          return handlePrice({ row }, filed);
         default:
           return null;
       }

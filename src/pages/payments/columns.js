@@ -7,7 +7,8 @@ const columns = [
   {
     headerName: 'Total',
     field: 'total',
-    width: 200
+    width: 200,
+    renderCell: 'price'
   },
   {
     headerName: 'Method',

@@ -5,6 +5,12 @@ const columns = [
     width: 200
   },
   {
+    headerName: 'Balance',
+    field: 'balance',
+    width: 200,
+    renderCell: 'price'
+  },
+  {
     headerName: 'Type',
     field: JSON.stringify([
       { name: 'username', headerName: 'Username', color: 'success' },
