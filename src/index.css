@@ -1,12 +1,12 @@
 @font-face {
   font-family: public-sans;
-  src: url('./assets/fonts/PublicSans.ttf') format('truetype');
+  src: url('./assets/fonts/ijwRs572Xtc6ZYQws9YVwnNGfJ4.woff2') format('woff2');
 }
 
 @font-face {
   font-family: public-sans-bold;
   font-weight: 600;
-  src: url('./assets/fonts/PublicSans.ttf') format('truetype');
+  src: url('./assets/fonts/ijwRs572Xtc6ZYQws9YVwnNGfJ4.woff2') format('woff2');
 }
 
 html {
