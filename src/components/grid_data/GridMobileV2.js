@@ -8,7 +8,7 @@ import ListLoading from '../list_loading';
 import { Stack } from '@mui/material';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import { NotInterested, TaskAlt } from '@mui/icons-material';
-import { convertByteToInt, getDayPersian } from 'utils';
+import { convertByteToInt, getDayPersian, separateNum } from 'utils';
 import Card from 'components/card';
 import SearchT from './Search';
 import Chip from 'components/chip';
@@ -172,6 +172,11 @@ const GridMobile = forwardRef((props, ref) => {
     return <Chip color={handleColor()} label={row[field]} />;
   }, []);
 
+  function getComplexField({ row }, field) {
+    const myArray = field.split('.');
+    return row[myArray[0]][myArray[1]];
+  }
+
   const handleFunc = useCallback(
     ({ row }, name, filed) => {
       switch (name) {
@@ -193,6 +198,8 @@ const GridMobile = forwardRef((props, ref) => {
           return handleOrderStatus({ row }, filed);
         case 'price':
           return handlePrice({ row }, filed);
+        case 'complexField':
+          return getComplexField({ row }, filed);
         default:
           return null;
       }

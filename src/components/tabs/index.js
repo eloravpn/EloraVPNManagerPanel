@@ -5,8 +5,8 @@ import { styled } from '@mui/material/styles';
 const StyledTabs = styled((props) => <TabsMD {...props} />)({});
 
 const StyledTab = styled((props) => <Tab disableRipple {...props} />)(({ theme }) => ({
+  textTransform: 'none',
   fontSize: theme.typography.pxToRem(16),
-  fontFamily: 'public-sans-bold',
   color: '#000',
   '&.Mui-selected': {
     color: '#000'
@@ -26,8 +26,8 @@ const Tabs = ({ name, value, tabs, onChange }) => {
       allowScrollButtonsMobile
       aria-label="scrollable force tabs example"
     >
-      {tabs.map(({ name: label, id: value }, idx) => (
-        <StyledTab name={name} wrapped label={label} key={idx} value={value} />
+      {tabs.map(({ name: label, id: value, icon }, idx) => (
+        <StyledTab name={name} label={label} key={idx} value={value} />
       ))}
     </StyledTabs>
   );

@@ -17,9 +17,9 @@ const GLOBAL = {
     { name: 'COMPLETED', id: 'COMPLETED' }
   ],
   statusPayment: [
-    { name: 'PENDING', id: 'PENDING' },
-    { name: 'CANCELED', id: 'CANCELED' },
-    { name: 'PAID', id: 'PAID' }
+    { name: 'Pending', id: 'PENDING' },
+    { name: 'Canceled', id: 'CANCELED' },
+    { name: 'Paid', id: 'PAID' }
   ],
   methods: [
     { name: 'MONEY ORDER', id: 'MONEY_ORDER' },

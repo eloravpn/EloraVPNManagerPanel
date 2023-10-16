@@ -182,6 +182,11 @@ const CustomGrid = forwardRef(
       return <Chip color={handleColor()} label={row[field]} />;
     }, []);
 
+    function getComplexField({ row }, field) {
+      const myArray = field.split('.');
+      return row[myArray[0]][myArray[1]];
+    }
+
     const handleFunc = useCallback(
       ({ row, ...t }, name, filed) => {
         switch (name) {
@@ -203,6 +208,8 @@ const CustomGrid = forwardRef(
             return handleOrderStatus({ row }, filed);
           case 'price':
             return handlePrice({ row }, filed);
+          case 'complexField':
+            return getComplexField({ row }, filed);
           default:
             return null;
         }
