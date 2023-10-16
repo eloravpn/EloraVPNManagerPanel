@@ -52,7 +52,7 @@ const AddEdit = (props) => {
 
   const [postDataLoading, setPostDataLoading] = useState(false);
 
-  const { getUser, user, isLoading: isLoadingUser } = useUsers();
+  const { getUser, user, isLoading: isLoadingUser, setUser } = useUsers();
   const { orders, isLoading: isLoadingOrders, getOrders } = useOrders();
 
   useEffect(() => {
@@ -141,6 +141,7 @@ const AddEdit = (props) => {
                   onChange={(order) => {
                     setFieldValue('status', order.status);
                     setFieldValue('total', order.total);
+                    setUser(order.user);
                   }}
                 />
               </Grid>
