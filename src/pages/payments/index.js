@@ -133,6 +133,12 @@ const Payments = () => {
         </Button>
 
         <CustomGrid
+          tabsName="status"
+          tabs={[
+            { label: 'All', value: null },
+            { label: 'PENDING', value: 'PENDING' },
+            { label: 'PAID', value: 'PAID' }
+          ]}
           name="payments"
           url={api.payments}
           refrence={gridRef}
