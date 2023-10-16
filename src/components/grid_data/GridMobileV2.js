@@ -174,7 +174,7 @@ const GridMobile = forwardRef((props, ref) => {
 
   function getComplexField({ row }, field) {
     const myArray = field.split('.');
-    return row[myArray[0]][myArray[1]];
+    return row[myArray[0]] && row[myArray[0]][myArray[1]];
   }
 
   const handleFunc = useCallback(
