@@ -60,7 +60,7 @@ const Search = (props) => {
   return (
     <Grid container spacing={0}>
       {tabs && (
-        <Grid xs={12}>
+        <Grid item xs={12}>
           <Box my={1} width={'100%'}>
             <Tabs
               name={tabsName}
