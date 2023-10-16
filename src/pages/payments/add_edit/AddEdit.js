@@ -141,7 +141,7 @@ const AddEdit = (props) => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Select label={'Status'} name="status" options={GLOBAL.statuses} />
+                <Select label={'Status'} name="status" options={GLOBAL.statusPayment} />
               </Grid>
               <Grid item xs={12}>
                 <Select label={'Methode'} name="method" options={GLOBAL.methods} />

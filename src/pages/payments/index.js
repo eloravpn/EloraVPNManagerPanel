@@ -85,7 +85,6 @@ const Payments = () => {
           <Form>
             <Stack spacing={1} paddingLeft={1} mb={2}>
               <Select name="method" label={'Methods'} options={GLOBAL.methods} />
-              <Select name="status" label={'Status'} options={GLOBAL.statuses} />
               <UserSelect name="user_id" label={'Users'} />
             </Stack>
             <Grid container spacing={1}>
@@ -134,11 +133,7 @@ const Payments = () => {
 
         <CustomGrid
           tabsName="status"
-          tabs={[
-            { label: 'All', value: null },
-            { label: 'PENDING', value: 'PENDING' },
-            { label: 'PAID', value: 'PAID' }
-          ]}
+          tabs={[{ name: 'all', id: null }, ...GLOBAL.statusPayment]}
           name="payments"
           url={api.payments}
           refrence={gridRef}
