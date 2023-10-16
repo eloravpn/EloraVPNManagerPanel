@@ -145,13 +145,13 @@ const Transactions = () => {
               icon: 'delete',
               color: 'red',
               name: 'Delete'
-            },
-            {
-              onClick: handleEdit,
-              icon: 'edit',
-              color: 'primary',
-              name: 'Edit'
             }
+            // {
+            //   onClick: handleEdit,
+            //   icon: 'edit',
+            //   color: 'primary',
+            //   name: 'Edit'
+            // }
           ]}
           paginateServ={true}
           showFilter={() => filterRef.current.onChange()}

@@ -101,7 +101,7 @@ const AddEdit = (props) => {
           initial.id ? handleEdit(values) : handleCreate(values);
         }}
       >
-        {({ values }) => (
+        {({ values, setFieldValue }) => (
           <Form>
             {user && (
               <UserInfo user={user} isLoading={isLoadingUser}>
@@ -133,21 +133,30 @@ const AddEdit = (props) => {
               )}
               <Grid item xs={12}>
                 <Select
-                  label={'Orders'}
+                  label={'Order'}
                   name="order_id"
                   labelName={'user_id'}
                   options={orders}
                   isLoading={isLoadingOrders}
+                  onChange={(order) => {
+                    setFieldValue('status', order.status);
+                    setFieldValue('total', order.total);
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
-                <Select label={'Status'} name="status" options={GLOBAL.statusPayment} />
+                <Select
+                  label={'Status'}
+                  name="status"
+                  options={GLOBAL.statusPayment}
+                  disabled={!!values.order_id}
+                />
               </Grid>
               <Grid item xs={12}>
                 <Select label={'Methode'} name="method" options={GLOBAL.methods} />
               </Grid>
               <Grid item xs={12}>
-                <TextField label={'Total'} name="total" />
+                <TextField label={'Total'} name="total" disabled={!!values.order_id} />
               </Grid>
             </Grid>
             <DialogActions>
