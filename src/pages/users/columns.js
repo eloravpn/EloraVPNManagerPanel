@@ -11,6 +11,12 @@ const columns = [
     renderCell: 'price'
   },
   {
+    headerName: 'Balance',
+    field: 'balance',
+    width: 200,
+    renderCell: 'price'
+  },
+  {
     headerName: 'Type',
     field: JSON.stringify([
       { name: 'username', headerName: 'Username', color: 'success' },
