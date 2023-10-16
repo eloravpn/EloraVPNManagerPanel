@@ -5,6 +5,12 @@ const columns = [
     width: 200
   },
   {
+    headerName: 'User',
+    field: 'user.full_name',
+    width: 200,
+    renderCell: 'complexField'
+  },
+  {
     headerName: 'Total',
     field: 'total',
     width: 200,

@@ -133,7 +133,7 @@ const Payments = () => {
 
         <CustomGrid
           tabsName="status"
-          tabs={[{ name: 'all', id: null }, ...GLOBAL.statusPayment]}
+          tabs={[{ name: 'All', id: null }, ...GLOBAL.statusPayment]}
           name="payments"
           url={api.payments}
           refrence={gridRef}
