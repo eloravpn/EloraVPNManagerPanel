@@ -20,6 +20,7 @@ import Chip from 'components/chip';
 import Progress from 'components/progress';
 import dayjs from 'dayjs';
 import Tooltip from 'components/tooltip';
+import Tabs from 'components/tabs';
 
 const style = {
   boxShadow:
@@ -54,7 +55,9 @@ const CustomGrid = forwardRef(
       moreActions,
       sortItem,
       propsFilter,
-      defaultSort
+      defaultSort,
+      tabsName,
+      tabs
     },
     ref
   ) => {
@@ -295,6 +298,7 @@ const CustomGrid = forwardRef(
             }))
           }
         />
+
         <div style={{ height: 600, width: '100%' }}>
           <DataGrid
             {...(paginateServ ? paginationServ : localPaginate)}
@@ -311,7 +315,11 @@ const CustomGrid = forwardRef(
                 refresh: getData,
                 showFilter,
                 search,
-                sortItem
+                sortItem,
+                tabsName,
+                tabs,
+                filters,
+                setFilters
               }
             }}
             sx={style}

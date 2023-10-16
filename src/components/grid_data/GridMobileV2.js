@@ -15,6 +15,7 @@ import Chip from 'components/chip';
 import Progress from 'components/progress';
 import dayjs from 'dayjs';
 import Grid from 'components/grid';
+import Tabs from 'components/tabs';
 
 const GridMobile = forwardRef((props, ref) => {
   const {
@@ -27,7 +28,9 @@ const GridMobile = forwardRef((props, ref) => {
     showFilter,
     sortItem,
     defaultSort,
-    propsFilter
+    propsFilter,
+    tabsName,
+    tabs
   } = props;
 
   const [filters, setFilters] = useState(propsFilter);
@@ -153,6 +156,18 @@ const GridMobile = forwardRef((props, ref) => {
       />
     );
   }, []);
+
+  const handleOrderStatus = useCallback(({ row }, field) => {
+    const handleColor = () =>
+      (row[field] === 'OPEN' && 'info') ||
+      (row[field] === 'PENDING' && 'success') ||
+      (row[field] === 'CANCELED' && 'error') ||
+      (row[field] === 'PAID' && 'primary') ||
+      (row[field] === 'COMPLETED' && 'success') ||
+      'primary';
+    return <Chip color={handleColor()} label={row[field]} />;
+  }, []);
+
   const handleFunc = useCallback(
     ({ row }, name, filed) => {
       switch (name) {
@@ -170,6 +185,8 @@ const GridMobile = forwardRef((props, ref) => {
           return handleProgress({ row }, filed);
         case 'progressDay':
           return handleProgressDay({ row }, filed);
+        case 'orderStatus':
+          return handleOrderStatus({ row }, filed);
         default:
           return null;
       }
@@ -205,6 +222,7 @@ const GridMobile = forwardRef((props, ref) => {
       ))}
     </Card>
   );
+
   return (
     <>
       <SearchT
@@ -212,6 +230,10 @@ const GridMobile = forwardRef((props, ref) => {
         search={search}
         sortItem={sortItem}
         refresh={refresh}
+        tabsName={tabsName}
+        tabs={tabs}
+        setFilters={setFilters}
+        filters={filters}
         setSearch={(v) => {
           setData([]);
           setSearch(v);
@@ -227,6 +249,7 @@ const GridMobile = forwardRef((props, ref) => {
           onClick: () => i?.onClick({ row })
         }))}
       />
+
       <List>
         {data?.map((item, idx) => (
           <div ref={lastElementRef} key={idx}>
