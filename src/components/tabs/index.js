@@ -26,7 +26,7 @@ const Tabs = ({ name, value, tabs, onChange }) => {
       allowScrollButtonsMobile
       aria-label="scrollable force tabs example"
     >
-      {tabs.map(({ label, value }, idx) => (
+      {tabs.map(({ name: label, id: value }, idx) => (
         <StyledTab name={name} wrapped label={label} key={idx} value={value} />
       ))}
     </StyledTabs>
