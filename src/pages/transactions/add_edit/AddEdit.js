@@ -12,6 +12,7 @@ import useUsers from 'hooks/useUsers';
 import Select from 'components/formik/select';
 import UserInfo from 'pages/components/user_info';
 import GLOBAL from 'components/variables';
+import { formValues } from 'utils';
 
 const validationSchema = yup.object({
   user_id: yup.number().required(),
@@ -64,9 +65,7 @@ const AddEdit = (props) => {
   const handleEdit = (values) => {
     setPostDataLoading(true);
     HttpService()
-      .put(`${api.transactions}/${initial?.id}`, {
-        ...values
-      })
+      .put(`${api.transactions}/${initial?.id}`, formValues(initialForm, values))
       .then((res) => {
         Http.success(res);
         refrence.current.changeStatus();

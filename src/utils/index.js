@@ -1,6 +1,14 @@
-import { round } from 'lodash';
+import { round, forEach } from 'lodash';
 import Moment from 'moment-jalaali';
 
+const formValues = (obj, values) => {
+  const newData = {};
+
+  forEach(obj, function (value, key) {
+    newData[key] = values[key];
+  });
+  return newData;
+};
 const getDayPersian = (date) => {
   if (!date) return 'No Date';
   if (date === 'Invalid Date') {
@@ -116,6 +124,7 @@ const separateNum = (num, sep, string) => {
 };
 
 export {
+  formValues,
   separateNum,
   uuidGenerator,
   getDayPersian,

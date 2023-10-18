@@ -18,7 +18,8 @@ import {
   emailGenerator,
   stringAvatar,
   convertByteToInt,
-  separateNum
+  separateNum,
+  formValues
 } from 'utils';
 import dayjs from 'dayjs';
 import Button from 'components/button';
@@ -85,10 +86,13 @@ const AddEdit = (props) => {
   const handleEdit = (values) => {
     setPostDataLoading(true);
     HttpService()
-      .put(`${api.orders}/${initial?.id}`, {
-        ...values,
-        data_limit: convertToByte(values.data_limit)
-      })
+      .put(
+        `${api.orders}/${initial?.id}`,
+        formValues(initialForm, {
+          ...values,
+          data_limit: convertToByte(values.data_limit)
+        })
+      )
       .then((res) => {
         Http.success(res);
         refrence.current.changeStatus();
