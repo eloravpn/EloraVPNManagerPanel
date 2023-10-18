@@ -189,7 +189,7 @@ const AddEdit = (props) => {
               ) : (
                 <>
                   <Grid item xs={12}>
-                    <TextField label={'Total'} name="total" disabled={!!values.service_id} />
+                    <TextField label={'Total'} price name="total" disabled={!!values.service_id} />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField

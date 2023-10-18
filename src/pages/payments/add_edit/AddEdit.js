@@ -182,7 +182,7 @@ const AddEdit = (props) => {
                 <Select label={'Methode'} name="method" options={GLOBAL.methods} />
               </Grid>
               <Grid item xs={12}>
-                <TextField label={'Total'} name="total" disabled={!!values.order_id} />
+                <TextField label={'Total'} price name="total" disabled={!!values.order_id} />
               </Grid>
             </Grid>
             <DialogActions>

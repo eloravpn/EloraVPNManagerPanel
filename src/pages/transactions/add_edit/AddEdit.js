@@ -136,7 +136,7 @@ const AddEdit = (props) => {
                 <Select label={'Type'} name="type" options={GLOBAL.typeTransaction} />
               </Grid>
               <Grid item xs={12}>
-                <TextField label={'Total'} name="total" />
+                <TextField label={'Total'} name="total" price />
               </Grid>
               <Grid item xs={12}>
                 <TextField label={'Description'} name="description" multiline rows={4} />

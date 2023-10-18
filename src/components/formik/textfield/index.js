@@ -1,7 +1,36 @@
 import MuiTextField from '@mui/material/TextField';
 import { useField } from 'formik';
+import { forwardRef } from 'react';
+import { NumericFormat } from 'react-number-format';
+import PropTypes from 'prop-types';
 
-const TextField = ({ name, ...otherProps }) => {
+const NumericFormatCustom = forwardRef(function NumericFormatCustom(props, ref) {
+  const { onChange, ...other } = props;
+
+  return (
+    <NumericFormat
+      {...other}
+      getInputRef={ref}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value
+          }
+        });
+      }}
+      thousandSeparator
+      valueIsNumericString
+    />
+  );
+});
+
+NumericFormatCustom.propTypes = {
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
+};
+
+const TextField = ({ name, price, ...otherProps }) => {
   const [field, mata] = useField(name);
   var persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
   if (typeof field.value === 'string') {
@@ -12,6 +41,13 @@ const TextField = ({ name, ...otherProps }) => {
 
   const configInput = {
     // autoComplete: "off",
+    ...(price
+      ? {
+          InputProps: {
+            inputComponent: NumericFormatCustom
+          }
+        }
+      : null)
   };
 
   if (mata && mata.touched && mata.error) {
@@ -30,7 +66,8 @@ const TextField = ({ name, ...otherProps }) => {
 };
 
 TextField.defaultProps = {
-  fullWidth: true
+  fullWidth: true,
+  price: false
 };
 
 export default TextField;

@@ -85,11 +85,11 @@ const AddEdit = (props) => {
               <TextField id={'duration'} name={'duration'} label="Duration" type="tel" />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField id={'price'} name={'price'} label="Price" type="text" />
+              <TextField id={'price'} name={'price'} label="Price" type="text" price />
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <TextField label="Discount" id={'discount'} name={'discount'} type="text" />
+              <TextField label="Discount" id={'discount'} name={'discount'} type="text" price />
             </Grid>
             <Grid item xs={12} md={6}>
               <DataLimit />
