@@ -31,14 +31,7 @@ import useServices from 'hooks/useServices';
 import Durations from 'pages/components/durations';
 import DataLimit from 'pages/components/dataLimit';
 import UserInfo from 'pages/components/user_info';
-
-const statuses = [
-  { name: 'OPEN', id: 'OPEN' },
-  { name: 'PENDING', id: 'PENDING' },
-  { name: 'CANCELED', id: 'CANCELED' },
-  { name: 'PAID', id: 'PAID' },
-  { name: 'COMPLETED', id: 'COMPLETED' }
-];
+import GLOBAL from 'components/variables';
 
 const validationSchema = yup.object({
   user_id: yup.number().required(),
@@ -126,17 +119,17 @@ const AddEdit = (props) => {
               <UserInfo user={user} isLoading={isLoadingUser}>
                 <Typography variant="h6" component={'div'}>
                   Day:
-                  {user.accounts.find((i) => i.id === values.account_id).id}
+                  {user?.accounts?.find((i) => i.id === values.account_id)?.id}
                 </Typography>
                 <Typography variant="h6" component={'div'}>
                   Usage:
                   {convertByteToInt(
-                    user.accounts.find((i) => i.id === values.account_id).used_traffic
+                    user?.accounts?.find((i) => i.id === values.account_id)?.used_traffic
                   )}
                 </Typography>
                 <Typography variant="h6" component={'div'}>
                   Email:
-                  {user.accounts.find((i) => i.id === values.account_id).email}
+                  {user?.accounts?.find((i) => i.id === values.account_id)?.email}
                 </Typography>
               </UserInfo>
             )}
@@ -144,7 +137,14 @@ const AddEdit = (props) => {
               {!user && (
                 <>
                   <Grid item xs={12}>
-                    <UserSelect name="user_id" label="Users" onBlur={handleBlurUserId} />
+                    <UserSelect
+                      name="user_id"
+                      label="Users"
+                      onBlur={handleBlurUserId}
+                      onChange={() => {
+                        setFieldValue('account_id', null);
+                      }}
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <Select
@@ -158,7 +158,7 @@ const AddEdit = (props) => {
                 </>
               )}
               <Grid item xs={12}>
-                <Select label={'Status'} name="status" options={statuses} />
+                <Select label={'Status'} name="status" options={GLOBAL.statusOrder} />
               </Grid>
               <Grid item xs={12}>
                 <Select

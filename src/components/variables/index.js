@@ -9,7 +9,7 @@ const GLOBAL = {
     { id: 1, name: 'Enable' },
     { id: 0, name: 'Disable' }
   ],
-  statuses: [
+  statusOrder: [
     { name: 'OPEN', id: 'OPEN' },
     { name: 'PENDING', id: 'PENDING' },
     { name: 'CANCELED', id: 'CANCELED' },

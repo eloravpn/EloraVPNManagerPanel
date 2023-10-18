@@ -47,10 +47,7 @@ export default function Autocomplete({
       <AutocompleteMD
         {...field}
         {...configInput}
-        getOptionLabel={(option) => {
-          console.log(getOptionLabel(option));
-          return getOptionLabel ? getOptionLabel(option) : option[lableName];
-        }}
+        getOptionLabel={(option) => (getOptionLabel ? getOptionLabel(option) : option[lableName])}
         id={name}
         filterOptions={(x) => x}
         noOptionsText={`${isLoading ? 'Loading...' : 'Oops!No Options. Please search....'}`}

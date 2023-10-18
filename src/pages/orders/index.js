@@ -133,6 +133,8 @@ const Orders = () => {
         </Button>
 
         <CustomGrid
+          tabsName="status"
+          tabs={[{ name: 'All', id: null }, ...GLOBAL.statusOrder]}
           name="orders"
           url={api.orders}
           refrence={gridRef}
