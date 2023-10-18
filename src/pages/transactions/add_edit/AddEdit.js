@@ -1,20 +1,17 @@
 import { memo, useEffect, useState } from 'react';
-import { DialogActions, Grid, Typography } from '@mui/material';
+import { DialogActions, Grid } from '@mui/material';
 import { Form, Formik } from 'formik';
 import TextField from 'components/formik/textfield';
 import * as yup from 'yup';
 import HttpService from 'components/httpService';
 import api from 'components/httpService/api';
 import Http from 'components/httpService/Http';
-import { convertByteToInt } from 'utils';
 import Button from 'components/button';
 import UserSelect from 'pages/components/select/users';
 import useUsers from 'hooks/useUsers';
 import Select from 'components/formik/select';
 import UserInfo from 'pages/components/user_info';
-import useOrders from 'hooks/useOrders';
 import GLOBAL from 'components/variables';
-import usePayments from 'hooks/usePayments';
 
 const validationSchema = yup.object({
   user_id: yup.number().required(),
@@ -27,7 +24,7 @@ const initialForm = {
   order_id: 0,
   payment_id: 0,
   amount: 0,
-  type: 'BOUNS',
+  type: 'BONUS',
   total: '',
   description: ''
 };

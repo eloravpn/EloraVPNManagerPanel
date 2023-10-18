@@ -106,7 +106,7 @@ const Transactions = () => {
         refrence={deleteRef}
         onDelete={handleDelete}
         onDeleteLoading={isLoadingDelete}
-        title={`Are you sure want Delete "${item?.id ?? 'No Name'}" ?`}
+        title={`Are you sure want Delete Transaction ?`}
       />
 
       <AddEdit
