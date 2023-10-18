@@ -27,7 +27,8 @@ const initialForm = {
   order_id: 0,
   payment_id: 0,
   amount: 0,
-  type: 'PAYMENT',
+  type: 'BOUNS',
+  total: '',
   description: ''
 };
 
@@ -36,12 +37,12 @@ const AddEdit = (props) => {
   const [postDataLoading, setPostDataLoading] = useState(false);
 
   const { getUser, user, isLoading: isLoadingUser } = useUsers();
-  const { getPayments, payments, isLoading: isLoadingPayments } = usePayments();
-  const { orders, isLoading: isLoadingOrders, getOrders } = useOrders();
+  // const { getPayments, payments, isLoading: isLoadingPayments } = usePayments();
+  // const { orders, isLoading: isLoadingOrders, getOrders } = useOrders();
 
   useEffect(() => {
-    getOrders();
-    getPayments();
+    // getOrders();
+    // getPayments();
     if (initial.user_id) getUser(initial.user_id);
     return () => {};
   }, []);
@@ -116,7 +117,7 @@ const AddEdit = (props) => {
                   <UserSelect name="user_id" label="Users" />
                 </Grid>
               )}
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Select
                   label={'Orders'}
                   name="order_id"
@@ -133,9 +134,12 @@ const AddEdit = (props) => {
                   options={payments}
                   isLoading={isLoadingPayments}
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <Select label={'Type'} name="type" options={GLOBAL.typeTransaction} />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField label={'Total'} name="total" />
               </Grid>
               <Grid item xs={12}>
                 <TextField label={'Description'} name="description" multiline rows={4} />

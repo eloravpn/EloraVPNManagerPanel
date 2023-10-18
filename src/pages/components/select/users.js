@@ -47,8 +47,6 @@ const UserSelect = ({ label, name, ...props }) => {
         isLoading={isLoading}
         lableName="username"
         onInputChange={(event, newInputValue) => {
-          console.log('🚀 ~ UserSelect ~ newInputValue:', newInputValue);
-          console.log('🚀 ~ UserSelect ~ event:', event);
           debouncedResults(newInputValue);
         }}
         renderOption={(

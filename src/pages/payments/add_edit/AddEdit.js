@@ -1,5 +1,5 @@
-import { memo, useEffect, useState } from 'react';
-import { Box, DialogActions, Grid, Skeleton, Typography } from '@mui/material';
+import { Fragment, memo, useEffect, useState } from 'react';
+import { Box, DialogActions, Divider, Grid, Skeleton, Stack, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
 import TextField from 'components/formik/textfield';
 import * as yup from 'yup';
@@ -33,6 +33,7 @@ import DataLimit from 'pages/components/dataLimit';
 import UserInfo from 'pages/components/user_info';
 import useOrders from 'hooks/useOrders';
 import GLOBAL from 'components/variables';
+import Autocomplete from 'components/formik/autocomplete';
 
 const validationSchema = yup.object({
   user_id: yup.number().required(),
@@ -132,13 +133,37 @@ const AddEdit = (props) => {
                 </Grid>
               )}
               <Grid item xs={12}>
-                <Select
+                <Autocomplete
+                  getOptionLabel={(option) =>
+                    `${convertByteToInt(option.data_limit).toFixed(1)} Gb - ${getDayPersian(
+                      getExpireTime(option.duration)
+                    )}`
+                  }
+                  renderOption={(props, { id, data_limit, duration }) => (
+                    <Fragment key={id}>
+                      <li {...props}>
+                        <Box
+                          sx={{
+                            cursor: 'pointer'
+                          }}
+                          m={1}
+                        >
+                          Usage: {convertByteToInt(data_limit).toFixed(1)} GB/{' '}
+                          {getDayPersian(getExpireTime(duration))}
+                        </Box>
+                      </li>
+                      <Divider />
+                    </Fragment>
+                  )}
                   label={'Order'}
                   name="order_id"
-                  labelName={'user_id'}
                   options={orders}
                   isLoading={isLoadingOrders}
                   onChange={(order) => {
+                    if (!order) {
+                      setUser(null);
+                      return;
+                    }
                     setFieldValue('status', order.status);
                     setFieldValue('total', order.total);
                     setUser(order.user);

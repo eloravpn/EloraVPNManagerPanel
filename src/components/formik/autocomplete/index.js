@@ -10,6 +10,8 @@ export default function Autocomplete({
   onInputChange,
   isLoading,
   lableName,
+  getOptionLabel,
+  onChange,
   ...props
 }) {
   const [field, mata] = useField(name);
@@ -27,6 +29,7 @@ export default function Autocomplete({
     options,
     onChange: (e, newValue) => {
       setFieldValue(name, newValue?.id);
+      onChange && onChange(options.find((i) => i?.id === newValue?.id));
     },
     onInputChange: (e, v) => onInputChange && onInputChange(e, v),
     value: options.find((i) => i.id === field.value) || null,
@@ -44,7 +47,10 @@ export default function Autocomplete({
       <AutocompleteMD
         {...field}
         {...configInput}
-        getOptionLabel={(option) => option[lableName]}
+        getOptionLabel={(option) => {
+          console.log(getOptionLabel(option));
+          return getOptionLabel ? getOptionLabel(option) : option[lableName];
+        }}
         id={name}
         filterOptions={(x) => x}
         noOptionsText={`${isLoading ? 'Loading...' : 'Oops!No Options. Please search....'}`}
