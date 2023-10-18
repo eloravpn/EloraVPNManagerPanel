@@ -37,11 +37,6 @@ const Transactions = () => {
     nameRef.current.open();
   };
 
-  const handleEdit = ({ row }) => {
-    createRef.current.changeStatus();
-    setItem({ ...row, data_limit: convertByteToInt(row.data_limit) });
-  };
-
   const createRow = (data) => {
     gridRef.current.createRow(data);
     setItem({});
