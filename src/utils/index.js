@@ -9,7 +9,6 @@ const formValues = (obj, values) => {
   });
   return newData;
 };
-
 const getDayPersian = (date) => {
   if (!date) return 'No Date';
   if (date === 'Invalid Date') {
