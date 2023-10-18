@@ -17,7 +17,8 @@ import {
   uuidGenerator,
   emailGenerator,
   stringAvatar,
-  convertByteToInt
+  convertByteToInt,
+  formValues
 } from 'utils';
 import dayjs from 'dayjs';
 import Button from 'components/button';
@@ -80,7 +81,7 @@ const AddEdit = (props) => {
   const handleEdit = (values) => {
     setPostDataLoading(true);
     HttpService()
-      .put(`${api.payments}/${initial?.id}`, values)
+      .put(`${api.payments}/${initial?.id}`, formValues(initialForm, values))
       .then((res) => {
         Http.success(res);
         refrence.current.changeStatus();
