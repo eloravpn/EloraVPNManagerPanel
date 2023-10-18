@@ -17,7 +17,8 @@ import {
   uuidGenerator,
   emailGenerator,
   stringAvatar,
-  convertByteToInt
+  convertByteToInt,
+  separateNum
 } from 'utils';
 import dayjs from 'dayjs';
 import Button from 'components/button';
@@ -174,22 +175,37 @@ const AddEdit = (props) => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField label={'Total'} name="total" disabled={!!values.service_id} />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label={'Total Discount'}
-                  name="total_discount_amount"
-                  disabled={!!values.service_id}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Durations disabled={!!values.service_id} />
-              </Grid>
-              <Grid item xs={12}>
-                <DataLimit disabled={!!values.service_id} />
-              </Grid>
+
+              {values.service_id ? (
+                <Grid item xs={12}>
+                  <Box textAlign={'left'} m={1}>
+                    <Typography>
+                      {convertByteToInt(values.data_limit).toFixed(1)}GB - price:{' '}
+                      {separateNum(values.total)}- Duration: {values.duration} Until:{' '}
+                      {getDayPersian(getExpireTime(values.duration))}
+                    </Typography>
+                  </Box>
+                </Grid>
+              ) : (
+                <>
+                  <Grid item xs={12}>
+                    <TextField label={'Total'} name="total" disabled={!!values.service_id} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      label={'Total Discount'}
+                      name="total_discount_amount"
+                      disabled={!!values.service_id}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Durations disabled={!!values.service_id} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <DataLimit disabled={!!values.service_id} />
+                  </Grid>
+                </>
+              )}
             </Grid>
             <DialogActions>
               <Button
