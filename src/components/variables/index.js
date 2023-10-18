@@ -29,9 +29,9 @@ const GLOBAL = {
   type: [
     { name: 'PAYMENT', id: 'PAYMENT' },
     { name: 'ORDER', id: 'ORDER' },
-    { name: 'BOUNS', id: 'BOUNS' }
+    { name: 'BONUS', id: 'BONUS' }
   ],
-  typeTransaction: [{ name: 'BOUNS', id: 'BOUNS' }]
+  typeTransaction: [{ name: 'BONUS', id: 'BONUS' }]
 };
 
 export default GLOBAL;
