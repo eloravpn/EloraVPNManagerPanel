@@ -235,6 +235,7 @@ const CustomGrid = forwardRef(
     function totalPrice({ row }, field) {
       return separateNum(row[field] - row.total_discount_amount);
     }
+
     function getTransactionStatus({ row }, field) {
       return (
         <Typography
@@ -251,6 +252,15 @@ const CustomGrid = forwardRef(
           {separateNum(row[field])}
         </Typography>
       );
+    }
+    function getTypeIcon({ row }, field) {
+      if (row[field] === 'BONUS') return <CardGiftcard fontSize="large" color="primary" />;
+      if (row[field] === 'PAYMENT') return <AddCard fontSize="large" color="primary" />;
+      if (row[field] === 'ORDER') return <ShoppingCart fontSize="large" color="primary" />;
+      if (row[field] === 'MONEY_ORDER') return <MonetizationOn fontSize="large" color="primary" />;
+      if (row[field] === 'ONLINE') return <Payment fontSize="large" color="primary" />;
+      if (row[field] === 'CRYPTOCURRENCIES')
+        return <CurrencyBitcoin fontSize="large" color="primary" />;
     }
 
     const handleFunc = useCallback(
