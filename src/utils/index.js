@@ -117,7 +117,7 @@ const separateNum = (num, sep, string) => {
     number = round(number);
     number = String(number).replace('.', '/');
 
-    return String(number).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + separator);
+    return String(number).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + separator) + ' ' + 'Toman';
   } else {
     return '0';
   }
