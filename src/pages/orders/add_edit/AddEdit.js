@@ -261,7 +261,7 @@ const AddEdit = (props) => {
                 <Grid item xs={12}>
                   <Box textAlign={'left'} m={1}>
                     <Alert severity="info">
-                      <AlertTitle>Warning</AlertTitle>
+                      <AlertTitle>Info</AlertTitle>
                       <Typography fontWeight={800} component={'span'}>
                         DataUsage:
                       </Typography>{' '}

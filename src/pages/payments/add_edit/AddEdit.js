@@ -144,7 +144,7 @@ const AddEdit = (props) => {
                     <Fragment key={id}>
                       <li {...props}>
                         <Box>
-                          Usage: {convertByteToInt(data_limit).toFixed(1)} GB/{' '}
+                          ID: {id} Usage: {convertByteToInt(data_limit).toFixed(1)} GB{' '}
                           {getDayPersian(getExpireTime(duration))}
                         </Box>
                       </li>
