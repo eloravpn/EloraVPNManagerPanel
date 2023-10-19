@@ -249,8 +249,9 @@ const AddEdit = (props) => {
                   options={[{ id: 0, name: 'None' }, ...services]}
                   isLoading={isLoading}
                   onChange={(service) => {
+                    console.log('🚀 ~ AddEdit ~ service:', service);
                     setFieldValue('duration', service.duration || 0);
-                    setFieldValue('data_limit', convertByteToInt(service.data_limit) || 0);
+                    setFieldValue('data_limit', service.data_limit || 0);
                     setFieldValue('total', service.price || 0);
                     setFieldValue('total_discount_amount', service.total_discount_amount || 0);
                   }}

@@ -21,6 +21,10 @@ const columns = [
     headerName: 'Type',
     field: 'type',
     width: 200
+  },
+  {
+    headerName: 'Description',
+    field: 'description'
   }
 ];
 

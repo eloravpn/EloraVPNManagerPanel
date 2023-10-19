@@ -24,7 +24,6 @@ const initialForm = {
   user_id: 0,
   order_id: 0,
   payment_id: 0,
-  amount: 0,
   type: 'BONUS',
   total: '',
   description: ''

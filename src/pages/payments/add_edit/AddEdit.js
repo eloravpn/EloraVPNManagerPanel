@@ -1,36 +1,16 @@
 import { Fragment, memo, useEffect, useState } from 'react';
-import { Box, DialogActions, Divider, Grid, Skeleton, Stack, Typography } from '@mui/material';
+import { Box, DialogActions, Divider, Grid } from '@mui/material';
 import { Form, Formik } from 'formik';
 import TextField from 'components/formik/textfield';
 import * as yup from 'yup';
 import HttpService from 'components/httpService';
 import api from 'components/httpService/api';
 import Http from 'components/httpService/Http';
-import Switch from 'components/formik/switch';
-import Slider from 'components/formik/slider';
-import Date from 'components/formik/date_picker';
-import Chip from 'components/chip';
-import {
-  convertToByte,
-  getDayPersian,
-  getExpireTime,
-  uuidGenerator,
-  emailGenerator,
-  stringAvatar,
-  convertByteToInt,
-  formValues
-} from 'utils';
-import dayjs from 'dayjs';
+import { getDayPersian, getExpireTime, convertByteToInt, formValues } from 'utils';
 import Button from 'components/button';
 import UserSelect from 'pages/components/select/users';
-import config from 'config';
 import useUsers from 'hooks/useUsers';
-import SelectBadge from 'components/formik/badge';
-import Avatar from 'components/avatar';
 import Select from 'components/formik/select';
-import useServices from 'hooks/useServices';
-import Durations from 'pages/components/durations';
-import DataLimit from 'pages/components/dataLimit';
 import UserInfo from 'pages/components/user_info';
 import useOrders from 'hooks/useOrders';
 import GLOBAL from 'components/variables';
