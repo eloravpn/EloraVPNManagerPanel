@@ -7,7 +7,7 @@ import useFetch from '../useFetch';
 import ListLoading from '../list_loading';
 import { Stack } from '@mui/material';
 import CampaignIcon from '@mui/icons-material/Campaign';
-import { NotInterested, TaskAlt } from '@mui/icons-material';
+import { ArrowDropDown, ArrowDropUp, NotInterested, TaskAlt } from '@mui/icons-material';
 import { convertByteToInt, getDayPersian, separateNum } from 'utils';
 import Card from 'components/card';
 import SearchT from './Search';
@@ -177,6 +177,20 @@ const GridMobile = forwardRef((props, ref) => {
     return row[myArray[0]] && row[myArray[0]][myArray[1]];
   }
 
+  function getTransactionStatus({ row }, field) {
+    return (
+      <Typography
+        display={'flex'}
+        alignItems={'center'}
+        component={'span'}
+        color={+row[field] >= 0 ? 'success' : 'error'}
+      >
+        {+row[field] >= 0 ? <ArrowDropUp color="success" /> : <ArrowDropDown color="success" />}
+        {separateNum(row[field])}
+      </Typography>
+    );
+  }
+
   const handleFunc = useCallback(
     ({ row }, name, filed) => {
       switch (name) {
@@ -200,6 +214,8 @@ const GridMobile = forwardRef((props, ref) => {
           return handlePrice({ row }, filed);
         case 'complexField':
           return getComplexField({ row }, filed);
+        case 'transactionStatus':
+          return getTransactionStatus({ row }, filed);
         default:
           return null;
       }

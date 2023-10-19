@@ -15,11 +15,12 @@ import Http from '../httpService/Http';
 import Search from './Search';
 import CustomNoRowsOverlay from './CustomNoRowsOverlay';
 import Menu from '../menu';
-import { NotInterested, TaskAlt } from '@mui/icons-material';
+import { ArrowDropDown, ArrowDropUp, NotInterested, TaskAlt } from '@mui/icons-material';
 import Chip from 'components/chip';
 import Progress from 'components/progress';
 import dayjs from 'dayjs';
 import Tooltip from 'components/tooltip';
+import { Typography } from '@mui/material';
 
 const style = {
   boxShadow:
@@ -186,6 +187,19 @@ const CustomGrid = forwardRef(
       const myArray = field.split('.');
       return row[myArray[0]] && row[myArray[0]][myArray[1]];
     }
+    function getTransactionStatus({ row }, field) {
+      return (
+        <Typography
+          display={'flex'}
+          alignItems={'center'}
+          component={'span'}
+          color={+row[field] >= 0 ? 'success' : 'error'}
+        >
+          {+row[field] >= 0 ? <ArrowDropUp color="success" /> : <ArrowDropDown color="success" />}
+          {separateNum(row[field])}
+        </Typography>
+      );
+    }
 
     const handleFunc = useCallback(
       ({ row, ...t }, name, filed) => {
@@ -210,6 +224,8 @@ const CustomGrid = forwardRef(
             return handlePrice({ row }, filed);
           case 'complexField':
             return getComplexField({ row }, filed);
+          case 'transactionStatus':
+            return getTransactionStatus({ row }, filed);
           default:
             return null;
         }
