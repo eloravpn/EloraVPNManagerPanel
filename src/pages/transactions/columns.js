@@ -8,7 +8,8 @@ const columns = [
   {
     headerName: 'Type',
     field: 'type',
-    width: 150
+    width: 150,
+    renderCell: 'typeIcon'
   },
   {
     headerName: 'Amount',

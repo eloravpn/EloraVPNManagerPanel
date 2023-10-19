@@ -15,7 +15,18 @@ import Http from '../httpService/Http';
 import Search from './Search';
 import CustomNoRowsOverlay from './CustomNoRowsOverlay';
 import Menu from '../menu';
-import { ArrowDropDown, ArrowDropUp, NotInterested, TaskAlt } from '@mui/icons-material';
+import {
+  AddCard,
+  ArrowDropDown,
+  ArrowDropUp,
+  CardGiftcard,
+  CurrencyBitcoin,
+  MonetizationOn,
+  NotInterested,
+  Payment,
+  ShoppingCart,
+  TaskAlt
+} from '@mui/icons-material';
 import Chip from 'components/chip';
 import Progress from 'components/progress';
 import dayjs from 'dayjs';
@@ -187,6 +198,7 @@ const CustomGrid = forwardRef(
       const myArray = field.split('.');
       return row[myArray[0]] && row[myArray[0]][myArray[1]];
     }
+
     function getTransactionStatus({ row }, field) {
       return (
         <Typography
@@ -203,6 +215,15 @@ const CustomGrid = forwardRef(
           {separateNum(row[field])}
         </Typography>
       );
+    }
+    function getTypeIcon({ row }, field) {
+      if (row[field] === 'BONUS') return <CardGiftcard fontSize="large" color="primary" />;
+      if (row[field] === 'PAYMENT') return <AddCard fontSize="large" color="primary" />;
+      if (row[field] === 'ORDER') return <ShoppingCart fontSize="large" color="primary" />;
+      if (row[field] === 'MONEY_ORDER') return <MonetizationOn fontSize="large" color="primary" />;
+      if (row[field] === 'ONLINE') return <Payment fontSize="large" color="primary" />;
+      if (row[field] === 'CRYPTOCURRENCIES')
+        return <CurrencyBitcoin fontSize="large" color="primary" />;
     }
 
     const handleFunc = useCallback(
@@ -230,6 +251,8 @@ const CustomGrid = forwardRef(
             return getComplexField({ row }, filed);
           case 'transactionStatus':
             return getTransactionStatus({ row }, filed);
+          case 'typeIcon':
+            return getTypeIcon({ row }, filed);
           default:
             return null;
         }

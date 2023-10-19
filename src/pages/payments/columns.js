@@ -19,7 +19,8 @@ const columns = [
   {
     headerName: 'Method',
     field: 'method',
-    width: 200
+    width: 200,
+    renderCell: 'typeIcon'
   },
   {
     headerName: 'Status',
