@@ -79,7 +79,6 @@ const Transactions = () => {
         <CustomDrawer ref={filterRef}>
           <Form>
             <Stack spacing={1} paddingLeft={1} mb={2}>
-              <Select name="type_" label={'Type'} options={GLOBAL.type} />
               <UserSelect name="user_id" label={'Users'} />
             </Stack>
             <Grid container spacing={1}>
