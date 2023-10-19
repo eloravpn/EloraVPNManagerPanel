@@ -2,30 +2,30 @@ const columns = [
   {
     headerName: 'ID',
     field: 'id',
-    width: 200
+    width: 100
   },
   {
     headerName: 'User',
     field: 'user.full_name',
-    width: 200,
+    width: 150,
     renderCell: 'complexField'
   },
   {
     headerName: 'Total',
     field: 'total',
-    width: 200,
+    width: 150,
     renderCell: 'price'
   },
   {
     headerName: 'Method',
     field: 'method',
-    width: 200,
+    width: 100,
     renderCell: 'typeIcon'
   },
   {
     headerName: 'Status',
     field: 'status',
-    width: 200,
+    width: 100,
     renderCell: 'orderStatus'
   }
 ];
