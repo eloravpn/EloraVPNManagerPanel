@@ -13,7 +13,7 @@ const columns = [
   {
     headerName: 'User',
     field: 'user.full_name',
-    width: 200,
+    width: 150,
     renderCell: 'complexField'
   },
   {
@@ -31,7 +31,7 @@ const columns = [
   {
     headerName: 'Status',
     field: 'status',
-    width: 200,
+    width: 100,
     renderCell: 'orderStatus'
   },
   {
