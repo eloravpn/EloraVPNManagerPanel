@@ -143,12 +143,7 @@ const AddEdit = (props) => {
                   renderOption={(props, { id, data_limit, duration }) => (
                     <Fragment key={id}>
                       <li {...props}>
-                        <Box
-                          sx={{
-                            cursor: 'pointer'
-                          }}
-                          m={1}
-                        >
+                        <Box>
                           Usage: {convertByteToInt(data_limit).toFixed(1)} GB/{' '}
                           {getDayPersian(getExpireTime(duration))}
                         </Box>
