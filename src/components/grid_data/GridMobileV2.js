@@ -224,6 +224,20 @@ const GridMobile = forwardRef((props, ref) => {
     return separateNum(row[field] - row.total_discount_amount);
   }
 
+  function getTransactionStatus({ row }, field) {
+    return (
+      <Typography
+        display={'flex'}
+        alignItems={'center'}
+        component={'span'}
+        color={+row[field] >= 0 ? 'success' : 'error'}
+      >
+        {+row[field] >= 0 ? <ArrowDropUp color="success" /> : <ArrowDropDown color="success" />}
+        {separateNum(row[field])}
+      </Typography>
+    );
+  }
+
   const handleFunc = useCallback(
     ({ row }, name, filed) => {
       switch (name) {
