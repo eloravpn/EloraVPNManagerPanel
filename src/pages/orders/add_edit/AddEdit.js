@@ -44,7 +44,13 @@ import DataLimit from 'pages/components/dataLimit';
 import UserInfo from 'pages/components/user_info';
 import GLOBAL from 'components/variables';
 import Autocomplete from 'components/formik/autocomplete';
-import { AvTimer, CalendarMonthOutlined, DataUsage } from '@mui/icons-material';
+import {
+  AttachEmail,
+  AvTimer,
+  CalendarMonthOutlined,
+  DataUsage,
+  Fingerprint
+} from '@mui/icons-material';
 
 const validationSchema = yup.object({
   user_id: yup.number().required(),
@@ -176,63 +182,55 @@ const AddEdit = (props) => {
                       }
                       renderOption={(
                         props,
-                        { id, data_limit, duration, used_traffic, modified_at }
+                        { id, full_name, data_limit, expired_at, used_traffic, email }
                       ) => (
                         <Fragment key={id}>
                           <li {...props}>
-                            <Grid container alignItems="center">
+                            <Grid container>
+                              <Grid item sx={{ display: 'flex', width: 50 }}>
+                                <Avatar {...stringAvatar(full_name || 'No Name')} />
+                              </Grid>
                               <Grid
                                 item
                                 sx={{ width: 'calc(100% - 50px)', wordWrap: 'break-word' }}
                               >
-                                {data_limit && (
-                                  <>
-                                    <Typography
-                                      display={'flex'}
-                                      alignItems={'center'}
-                                      variant="body1"
-                                      component={'div'}
-                                    >
-                                      <DataUsage color="primary" />$
-                                      {convertByteToInt(used_traffic).toFixed(1)}/$
-                                      {convertByteToInt(data_limit).toFixed(1)}
-                                    </Typography>
-                                  </>
-                                )}
-                                <Box
-                                  component="li"
-                                  sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-                                  {...props}
-                                >
-                                  <img
-                                    loading="lazy"
-                                    width="20"
-                                    srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                                    src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                                    alt=""
-                                  />
-                                  {option.label} ({option.code}) +{option.phone}
-                                </Box>
-                                {duration && (
+                                {full_name && (
                                   <Typography variant="body1" component={'div'}>
+                                    {full_name}
+                                  </Typography>
+                                )}
+
+                                <Grid container spacing={1} alignItems={'stretch'}>
+                                  <Grid item>
+                                    <Fingerprint color="primary" />
+                                  </Grid>
+                                  <Grid item>{id}</Grid>
+                                </Grid>
+                                <Grid container spacing={1} alignItems={'stretch'}>
+                                  <Grid item>
+                                    <DataUsage color="primary" />
+                                  </Grid>
+                                  <Grid item>
+                                    {convertByteToInt(used_traffic).toFixed(1)}/
+                                    {convertByteToInt(data_limit).toFixed(1)} GB
+                                  </Grid>
+                                </Grid>
+                                <Grid container spacing={1} alignItems={'stretch'}>
+                                  <Grid item>
                                     <AvTimer color="primary" />
-                                    {duration}
-                                  </Typography>
-                                )}
-                                {modified_at && (
-                                  <Typography
-                                    display={'flex'}
-                                    alignItems={'center'}
-                                    variant="body1"
-                                    component={'div'}
-                                  >
-                                    <CalendarMonthOutlined color="primary" />
-                                    {getDayPersian(modified_at)}
-                                  </Typography>
-                                )}
+                                  </Grid>
+                                  <Grid item>{getDayPersian(expired_at)}</Grid>
+                                </Grid>
+                                <Grid container spacing={1} alignItems={'stretch'}>
+                                  <Grid item>
+                                    <AttachEmail color="primary" />
+                                  </Grid>
+                                  <Grid item>{email}</Grid>
+                                </Grid>
                               </Grid>
                             </Grid>
                           </li>
+
                           <Divider />
                         </Fragment>
                       )}

@@ -6,13 +6,11 @@ import Avatar from 'components/avatar';
 import { stringAvatar } from 'utils';
 import { debounce } from 'lodash';
 import { useField, useFormikContext } from 'formik';
-import Chip from 'components/chip';
 
 const UserSelect = ({ label, name, ...props }) => {
-  const { getUsers, users, user, getUser, isLoading, setUsers, setUser } = useUsers();
+  const { getUsers, users, getUser, isLoading, setUsers } = useUsers();
 
   const [field] = useField(name);
-  const { setFieldValue } = useFormikContext();
   useEffect(() => {
     if (!!field.value) getUser(field.value);
 
@@ -32,12 +30,6 @@ const UserSelect = ({ label, name, ...props }) => {
     };
   }, [debouncedResults]);
 
-  const handleDelete = () => {
-    setFieldValue(name, '');
-    setUser(false);
-  };
-
-  if (user) return <Chip label={user.full_name} onDelete={handleDelete} isLoading={isLoading} />;
   return (
     <>
       <Autocomplete
@@ -51,7 +43,7 @@ const UserSelect = ({ label, name, ...props }) => {
         }}
         renderOption={(
           props,
-          { id, first_name, last_name, username, phone_number, telegram_username }
+          { id, first_name, last_name, balance, username, phone_number, telegram_username }
         ) => (
           <Fragment key={id}>
             <li {...props}>
@@ -67,6 +59,11 @@ const UserSelect = ({ label, name, ...props }) => {
                     </Typography>
                   )}
 
+                  {balance && (
+                    <Typography variant="body1" component={'div'}>
+                      {balance}
+                    </Typography>
+                  )}
                   {username && (
                     <Typography variant="body1" component={'div'}>
                       {username}
