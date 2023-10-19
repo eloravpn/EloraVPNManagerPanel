@@ -17,8 +17,7 @@ import GLOBAL from 'components/variables';
 import Autocomplete from 'components/formik/autocomplete';
 
 const validationSchema = yup.object({
-  user_id: yup.number().required(),
-  order_id: yup.number().required()
+  user_id: yup.number().required()
 });
 
 const initialForm = {

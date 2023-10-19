@@ -25,7 +25,7 @@ const initialForm = {
   order_id: 0,
   payment_id: 0,
   type: 'BONUS',
-  total: '',
+  amount: '',
   description: ''
 };
 
@@ -134,7 +134,7 @@ const AddEdit = (props) => {
                 <Select label={'Type'} name="type" options={GLOBAL.typeTransaction} />
               </Grid>
               <Grid item xs={12}>
-                <TextField label={'Total'} name="total" price />
+                <TextField label={'Amount'} name="amount" price />
               </Grid>
               <Grid item xs={12}>
                 <TextField label={'Description'} name="description" multiline rows={4} />
