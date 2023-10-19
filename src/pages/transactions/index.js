@@ -129,6 +129,8 @@ const Transactions = () => {
         <CustomGrid
           name="transactions"
           url={api.transactions}
+          tabsName="type"
+          tabs={[{ name: 'All', id: null }, ...GLOBAL.type]}
           refrence={gridRef}
           columns={columns}
           propsFilter={{
