@@ -243,7 +243,11 @@ const CustomGrid = forwardRef(
           component={'span'}
           color={+row[field] >= 0 ? 'success' : 'error'}
         >
-          {+row[field] >= 0 ? <ArrowDropUp color="success" /> : <ArrowDropDown color="success" />}
+          {+row[field] >= 0 ? (
+            <ArrowDropUp fontSize="large" color="success" />
+          ) : (
+            <ArrowDropDown fontSize="large" color="success" />
+          )}
           {separateNum(row[field])}
         </Typography>
       );
