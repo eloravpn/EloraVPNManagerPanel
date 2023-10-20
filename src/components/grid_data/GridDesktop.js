@@ -194,10 +194,10 @@ const CustomGrid = forwardRef(
       return <Chip color={handleColor()} label={row[field]} />;
     }, []);
 
-    function getComplexField({ row }, field) {
+    const getComplexField = useCallback(({ row }, field) => {
       const myArray = field.split('.');
       return row[myArray[0]] && row[myArray[0]][myArray[1]];
-    }
+    }, []);
 
     function getTransactionStatus({ row }, field) {
       return (
@@ -210,13 +210,14 @@ const CustomGrid = forwardRef(
           {+row[field] >= 0 ? (
             <ArrowDropUp fontSize="large" color="success" />
           ) : (
-            <ArrowDropDown fontSize="large" color="success" />
+            <ArrowDropDown fontSize="large" color="error" />
           )}
           {separateNum(row[field])}
         </Typography>
       );
     }
-    function getTypeIcon({ row }, field) {
+
+    const getTypeIcon = useCallback(({ row }, field) => {
       if (row[field] === 'BONUS') return <CardGiftcard fontSize="large" color="primary" />;
       if (row[field] === 'PAYMENT') return <AddCard fontSize="large" color="primary" />;
       if (row[field] === 'ORDER') return <ShoppingCart fontSize="large" color="primary" />;
@@ -224,7 +225,12 @@ const CustomGrid = forwardRef(
       if (row[field] === 'ONLINE') return <Payment fontSize="large" color="primary" />;
       if (row[field] === 'CRYPTOCURRENCIES')
         return <CurrencyBitcoin fontSize="large" color="primary" />;
-    }
+    }, []);
+
+    const renderHtml = useCallback(
+      ({ row }, field) => <div dangerouslySetInnerHTML={{ __html: row[field] }} />,
+      []
+    );
 
     const handleFunc = useCallback(
       ({ row, ...t }, name, filed) => {
@@ -253,6 +259,8 @@ const CustomGrid = forwardRef(
             return getTransactionStatus({ row }, filed);
           case 'typeIcon':
             return getTypeIcon({ row }, filed);
+          case 'render':
+            return renderHtml({ row }, filed);
           default:
             return null;
         }
