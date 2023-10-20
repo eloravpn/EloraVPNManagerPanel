@@ -139,7 +139,6 @@ const isPositive = (number) => {
   if (number > 0) return true;
   else return false;
 };
-
 export {
   formValues,
   separateNum,
