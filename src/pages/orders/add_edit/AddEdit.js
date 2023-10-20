@@ -54,7 +54,7 @@ import {
 
 const validationSchema = yup.object({
   user_id: yup.number().required(),
-  service_id: yup.number().required()
+  service_id: yup.number().nullable()
 });
 
 const initialForm = {
@@ -124,7 +124,7 @@ const AddEdit = (props) => {
   const handleBlurUserId = async (user) => {
     setAccounts(user?.accounts);
   };
-
+  const condition = ['PAID', 'CANCELED', 'COMPLETED'];
   return (
     <>
       <Formik
@@ -147,7 +147,8 @@ const AddEdit = (props) => {
                   Usage:
                   {convertByteToInt(
                     user?.accounts?.find((i) => i.id === values.account_id)?.used_traffic
-                  )}
+                  ).toFixed(1)}
+                  GB
                 </Typography>
                 <Typography variant="h6" component={'div'}>
                   Email:
@@ -240,7 +241,12 @@ const AddEdit = (props) => {
                 </>
               )}
               <Grid item xs={12}>
-                <Select label={'Status'} name="status" options={GLOBAL.statusOrder} />
+                <Select
+                  label={'Status'}
+                  name="status"
+                  options={GLOBAL.statusOrder}
+                  disabled={initial.id && condition.includes(values.status)}
+                />
               </Grid>
               <Grid item xs={12}>
                 <Select
@@ -248,6 +254,7 @@ const AddEdit = (props) => {
                   name="service_id"
                   options={[{ id: 0, name: 'None' }, ...services]}
                   isLoading={isLoading}
+                  disabled={initial.id && condition.includes(values.status)}
                   onChange={(service) => {
                     console.log('🚀 ~ AddEdit ~ service:', service);
                     setFieldValue('duration', service.duration || 0);
@@ -292,20 +299,37 @@ const AddEdit = (props) => {
               ) : (
                 <>
                   <Grid item xs={12}>
-                    <TextField label={'Total'} price name="total" disabled={!!values.service_id} />
+                    <TextField
+                      label={'Total'}
+                      price
+                      name="total"
+                      disabled={
+                        !!values.service_id || (initial.id && condition.includes(values.status))
+                      }
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
                       label={'Total Discount'}
                       name="total_discount_amount"
-                      disabled={!!values.service_id}
+                      disabled={
+                        !!values.service_id || (initial.id && condition.includes(values.status))
+                      }
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Durations disabled={!!values.service_id} />
+                    <Durations
+                      disabled={
+                        !!values.service_id || (initial.id && condition.includes(values.status))
+                      }
+                    />
                   </Grid>
                   <Grid item xs={12}>
-                    <DataLimit disabled={!!values.service_id} />
+                    <DataLimit
+                      disabled={
+                        !!values.service_id || (initial.id && condition.includes(values.status))
+                      }
+                    />
                   </Grid>
                 </>
               )}
