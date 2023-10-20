@@ -235,22 +235,26 @@ const GridMobile = forwardRef((props, ref) => {
         {+row[field] >= 0 ? (
           <ArrowDropUp fontSize="large" color="success" />
         ) : (
-          <ArrowDropDown fontSize="large" color="success" />
+          <ArrowDropDown fontSize="large" color="error" />
         )}
         {separateNum(row[field])}
       </Typography>
     );
   }
 
-  function getTypeIcon({ row }, field) {
-    if (row[field] === 'BONUS') return <CardGiftcard fontSize="large" color="primary" />;
-    if (row[field] === 'PAYMENT') return <AddCard fontSize="large" color="primary" />;
-    if (row[field] === 'ORDER') return <ShoppingCart fontSize="large" color="primary" />;
-    if (row[field] === 'MONEY_ORDER') return <MonetizationOn fontSize="large" color="primary" />;
-    if (row[field] === 'ONLINE') return <Payment fontSize="large" color="primary" />;
-    if (row[field] === 'CRYPTOCURRENCIES')
-      return <CurrencyBitcoin fontSize="large" color="primary" />;
-  }
+  const getTypeIcon = useCallback(({ row }, field) => {
+    if (row[field] === 'BONUS') return <CardGiftcard color="primary" />;
+    if (row[field] === 'PAYMENT') return <AddCard color="primary" />;
+    if (row[field] === 'ORDER') return <ShoppingCart color="primary" />;
+    if (row[field] === 'MONEY_ORDER') return <MonetizationOn color="primary" />;
+    if (row[field] === 'ONLINE') return <Payment color="primary" />;
+    if (row[field] === 'CRYPTOCURRENCIES') return <CurrencyBitcoin color="primary" />;
+  }, []);
+
+  const renderHtml = useCallback(
+    ({ row }, field) => <div dangerouslySetInnerHTML={{ __html: row[field] }} />,
+    []
+  );
 
   const handleFunc = useCallback(
     ({ row }, name, filed) => {
