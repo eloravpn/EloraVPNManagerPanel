@@ -10,14 +10,13 @@ import { Form, Formik } from 'formik';
 import api from 'components/httpService/api';
 import { Danger } from '../components/alert';
 import Http from 'components/httpService/Http';
-import { convertByteToInt } from 'utils';
 import { Add } from '@mui/icons-material';
 import Button from 'components/button';
 import UserSelect from 'pages/components/select/users';
 import { useSearchParams } from 'react-router-dom';
 import Grid from 'components/grid';
 import GLOBAL from 'components/variables';
-import Select from 'components/formik/select';
+import Info from './info';
 
 const pageName = 'Transactions';
 
@@ -26,6 +25,7 @@ const Transactions = () => {
   const gridRef = useRef();
   const filterRef = useRef();
   const deleteRef = useRef();
+  const infoRef = useRef();
 
   let [searchParams] = useSearchParams();
 
@@ -110,6 +110,7 @@ const Transactions = () => {
         createRow={createRow}
         editRow={editRow}
       />
+      <Info pageName={pageName} refrence={infoRef} initial={item} />
       <Box>
         <Typography variant="h4" gutterBottom>
           {pageName}
@@ -136,6 +137,12 @@ const Transactions = () => {
             user_id: searchParams.get('userId')
           }}
           rowActions={[
+            {
+              onClick: (data) => handleAlert(data, infoRef),
+              icon: 'info',
+              color: 'seconadry',
+              name: 'Info'
+            },
             {
               onClick: (data) => handleAlert(data, deleteRef),
               icon: 'delete',

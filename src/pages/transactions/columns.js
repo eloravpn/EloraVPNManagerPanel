@@ -18,7 +18,8 @@ const columns = [
   },
   {
     headerName: 'Description',
-    field: 'description'
+    field: 'description',
+    renderCell: 'render'
   },
   {
     headerName: 'Created',
