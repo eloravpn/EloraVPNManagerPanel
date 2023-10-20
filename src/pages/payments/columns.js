@@ -31,7 +31,7 @@ const columns = [
   {
     headerName: 'Status',
     field: 'status',
-    width: 100,
+    width: 200,
     renderCell: 'orderStatus'
   },
   {
