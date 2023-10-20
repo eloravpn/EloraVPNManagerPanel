@@ -123,6 +123,10 @@ const separateNum = (num, sep, string) => {
   }
 };
 
+const isPositive = (number) => {
+  if (number > 0) return true;
+  else return false;
+};
 export {
   formValues,
   separateNum,
@@ -136,5 +140,6 @@ export {
   getToday,
   removeCharacter,
   emailGenerator,
-  largestElement
+  largestElement,
+  isPositive
 };

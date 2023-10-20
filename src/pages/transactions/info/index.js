@@ -2,6 +2,8 @@ import Info from './Info';
 import Modal from 'components/modal_v2';
 import Button from 'components/button';
 import { Typography } from '@mui/material';
+import UserInfo from 'pages/components/user_info';
+import { isPositive, separateNum } from 'utils';
 
 const InfoTransaction = ({ refrence, pageName, initial }) => {
   return (
@@ -17,7 +19,19 @@ const InfoTransaction = ({ refrence, pageName, initial }) => {
         </Button>
       }
     >
-      <Typography>{<div dangerouslySetInnerHTML={{ __html: initial.description }} />}</Typography>
+      <UserInfo user={initial.user}>
+        <Typography variant="h6" component={'span'}>
+          Amount:
+        </Typography>
+        <Typography
+          variant="h6"
+          component={'span'}
+          color={isPositive(initial.amount) ? 'success' : 'error'}
+        >
+          {separateNum(initial.amount)}
+        </Typography>
+        <>{<div dangerouslySetInnerHTML={{ __html: initial.description }} />}</>
+      </UserInfo>
     </Modal>
   );
 };

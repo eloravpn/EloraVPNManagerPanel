@@ -1,41 +1,23 @@
 import { Fragment, memo, useEffect, useState } from 'react';
-import {
-  Alert,
-  AlertTitle,
-  Box,
-  DialogActions,
-  Divider,
-  Grid,
-  Skeleton,
-  Typography
-} from '@mui/material';
+import { Alert, AlertTitle, Box, DialogActions, Divider, Grid, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
 import TextField from 'components/formik/textfield';
 import * as yup from 'yup';
 import HttpService from 'components/httpService';
 import api from 'components/httpService/api';
 import Http from 'components/httpService/Http';
-import Switch from 'components/formik/switch';
-import Slider from 'components/formik/slider';
-import Date from 'components/formik/date_picker';
-import Chip from 'components/chip';
 import {
   convertToByte,
   getDayPersian,
   getExpireTime,
-  uuidGenerator,
-  emailGenerator,
   stringAvatar,
   convertByteToInt,
   separateNum,
   formValues
 } from 'utils';
-import dayjs from 'dayjs';
 import Button from 'components/button';
 import UserSelect from 'pages/components/select/users';
-import config from 'config';
 import useUsers from 'hooks/useUsers';
-import SelectBadge from 'components/formik/badge';
 import Avatar from 'components/avatar';
 import Select from 'components/formik/select';
 import useServices from 'hooks/useServices';
@@ -44,13 +26,7 @@ import DataLimit from 'pages/components/dataLimit';
 import UserInfo from 'pages/components/user_info';
 import GLOBAL from 'components/variables';
 import Autocomplete from 'components/formik/autocomplete';
-import {
-  AttachEmail,
-  AvTimer,
-  CalendarMonthOutlined,
-  DataUsage,
-  Fingerprint
-} from '@mui/icons-material';
+import { AttachEmail, AvTimer, DataUsage, Fingerprint } from '@mui/icons-material';
 
 const validationSchema = yup.object({
   user_id: yup.number().required(),
