@@ -23,7 +23,8 @@ Chip.defaultProps = {
   variant: 'chip',
   color: 'primary',
   isLoading: false,
-  disabled: false
+  disabled: false,
+  color: 'primary'
 };
 
 export default Chip;
