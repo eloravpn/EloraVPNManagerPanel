@@ -30,6 +30,30 @@ const menu = {
         root: true,
         icon: 'move_to_inbox',
         page: 'inbounds/configs'
+      },
+      {
+        title: 'Orders',
+        root: true,
+        icon: 'shopping_cart',
+        page: 'orders'
+      },
+      {
+        title: 'Services',
+        root: true,
+        icon: 'design_services',
+        page: 'services'
+      },
+      {
+        title: 'Payments',
+        root: true,
+        icon: 'payments',
+        page: 'payments'
+      },
+      {
+        title: 'Transactions',
+        root: true,
+        icon: 'paid',
+        page: 'transactions'
       }
     ]
   }

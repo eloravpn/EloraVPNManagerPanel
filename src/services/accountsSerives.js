@@ -11,3 +11,13 @@ export const getUsages = (userID, params) => {
       .catch((err) => rej(err));
   });
 };
+export const getUserAccount = (userID) => {
+  return new Promise((res, rej) => {
+    HttpService()
+      .get(`${api.accounts}/${userID}`)
+      .then(({ data }) => {
+        res(data);
+      })
+      .catch((err) => rej(err));
+  });
+};

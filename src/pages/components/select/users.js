@@ -1,13 +1,22 @@
 import Autocomplete from 'components/formik/autocomplete';
 import useUsers from 'hooks/useUsers';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { Divider, Grid, Typography } from '@mui/material';
 import Avatar from 'components/avatar';
-import { stringAvatar } from 'utils';
+import { separateNum, stringAvatar } from 'utils';
 import { debounce } from 'lodash';
+import { useField, useFormikContext } from 'formik';
+import { MonetizationOn, Person, PhoneAndroid, Telegram } from '@mui/icons-material';
 
-const UserSelect = ({ label, name }) => {
-  const { getUsers, users, isLoading, setUsers } = useUsers();
+const UserSelect = ({ label, name, ...props }) => {
+  const { getUsers, users, getUser, isLoading, setUsers } = useUsers();
+
+  const [field] = useField(name);
+  useEffect(() => {
+    if (!!field.value) getUser(field.value);
+
+    return () => {};
+  }, []);
 
   const handleChange = useCallback((e) => {
     if (e !== '') getUsers(e);
@@ -23,56 +32,71 @@ const UserSelect = ({ label, name }) => {
   }, [debouncedResults]);
 
   return (
-    <Autocomplete
-      label={label}
-      options={users}
-      name={name}
-      isLoading={isLoading}
-      lableName="username"
-      onInputChange={(event, newInputValue) => {
-        debouncedResults(newInputValue);
-      }}
-      renderOption={(
-        props,
-        { first_name, last_name, username, phone_number, telegram_username }
-      ) => (
-        <>
-          <li {...props}>
-            <Grid container alignItems="center">
-              <Grid item sx={{ display: 'flex', width: 50 }}>
-                <Avatar {...stringAvatar(username || 'No Name')} />
+    <>
+      <Autocomplete
+        label={label}
+        options={users}
+        name={name}
+        isLoading={isLoading}
+        lableName="username"
+        onInputChange={(event, newInputValue) => {
+          debouncedResults(newInputValue);
+        }}
+        renderOption={(
+          props,
+          { id, first_name, last_name, balance, username, phone_number, telegram_username }
+        ) => (
+          <Fragment key={id}>
+            <li {...props}>
+              <Grid container>
+                <Grid item sx={{ display: 'flex', width: 50 }}>
+                  <Avatar {...stringAvatar(username || 'No Name')} />
+                </Grid>
+                <Grid item sx={{ width: 'calc(100% - 50px)', wordWrap: 'break-word' }}>
+                  {first_name && (
+                    <Typography variant="body1" component={'div'}>
+                      {first_name}
+                      {last_name && last_name}
+                    </Typography>
+                  )}
+                  <Grid container spacing={1} alignItems={'stretch'}>
+                    <Grid item>
+                      <MonetizationOn color="primary" />
+                    </Grid>
+                    <Grid item>{balance ? separateNum(balance) : 0}</Grid>
+                  </Grid>
+                  <Grid container spacing={1} alignItems={'stretch'}>
+                    <Grid item>
+                      <Person color="primary" />
+                    </Grid>
+                    <Grid item>{username}</Grid>
+                  </Grid>
+                  {phone_number && (
+                    <Grid container spacing={1} alignItems={'stretch'}>
+                      <Grid item>
+                        <PhoneAndroid color="primary" />
+                      </Grid>
+                      <Grid item>{phone_number}</Grid>
+                    </Grid>
+                  )}
+                  {telegram_username && (
+                    <Grid container spacing={1} alignItems={'stretch'}>
+                      <Grid item>
+                        <Telegram color="primary" />
+                      </Grid>
+                      <Grid item>{telegram_username}</Grid>
+                    </Grid>
+                  )}
+                </Grid>
               </Grid>
-              <Grid item sx={{ width: 'calc(100% - 50px)', wordWrap: 'break-word' }}>
-                {first_name && (
-                  <Typography variant="body1" component={'div'}>
-                    {first_name}
-                    {last_name && last_name}
-                  </Typography>
-                )}
-
-                {username && (
-                  <Typography variant="body1" component={'div'}>
-                    {username}
-                  </Typography>
-                )}
-                {phone_number && (
-                  <Typography variant="body1" component={'div'}>
-                    {phone_number}
-                  </Typography>
-                )}
-                {telegram_username && (
-                  <Typography variant="body1" component={'div'}>
-                    {phone_number ? ',' : ''} {telegram_username}
-                  </Typography>
-                )}
-              </Grid>
-            </Grid>
-          </li>
-          <Divider />
-        </>
-      )}
-    />
+            </li>
+            <Divider />
+          </Fragment>
+        )}
+        {...props}
+      />
+    </>
   );
 };
 
-export default UserSelect;
+export default memo(UserSelect);

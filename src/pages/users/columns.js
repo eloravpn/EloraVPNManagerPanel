@@ -2,7 +2,13 @@ const columns = [
   {
     headerName: 'Full Name',
     field: 'full_name',
-    width: 200
+    width: 150
+  },
+  {
+    headerName: 'Balance',
+    field: 'balance',
+    width: 150,
+    renderCell: 'price'
   },
   {
     headerName: 'Type',
@@ -17,7 +23,7 @@ const columns = [
     headerName: 'Enable',
     field: 'enable',
     renderCell: 'status',
-    width: 100
+    width: 50
   },
   {
     headerName: 'Modified',

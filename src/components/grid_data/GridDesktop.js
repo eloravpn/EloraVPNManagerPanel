@@ -9,17 +9,29 @@ import {
   memo
 } from 'react';
 import Icon from '../icon';
-import { convertByteToInt, getDayPersian } from '../../utils';
+import { convertByteToInt, getDayPersian, separateNum } from '../../utils';
 import HttpService from '../httpService';
 import Http from '../httpService/Http';
 import Search from './Search';
 import CustomNoRowsOverlay from './CustomNoRowsOverlay';
 import Menu from '../menu';
-import { NotInterested, TaskAlt } from '@mui/icons-material';
+import {
+  AddCard,
+  ArrowDropDown,
+  ArrowDropUp,
+  CardGiftcard,
+  CurrencyBitcoin,
+  MonetizationOn,
+  NotInterested,
+  Payment,
+  ShoppingCart,
+  TaskAlt
+} from '@mui/icons-material';
 import Chip from 'components/chip';
 import Progress from 'components/progress';
 import dayjs from 'dayjs';
 import Tooltip from 'components/tooltip';
+import { Typography } from '@mui/material';
 
 const style = {
   boxShadow:
@@ -54,7 +66,9 @@ const CustomGrid = forwardRef(
       moreActions,
       sortItem,
       propsFilter,
-      defaultSort
+      defaultSort,
+      tabsName,
+      tabs
     },
     ref
   ) => {
@@ -97,6 +111,10 @@ const CustomGrid = forwardRef(
       pageSize: 10,
       offset: 0
     });
+
+    const handlePrice = useCallback(({ row }, field) => {
+      return separateNum(row[field]);
+    }, []);
 
     const handleDate = useCallback(({ row }, field) => {
       return getDayPersian(row[field]);
@@ -165,6 +183,55 @@ const CustomGrid = forwardRef(
       );
     }, []);
 
+    const handleOrderStatus = useCallback(({ row }, field) => {
+      const handleColor = () =>
+        (row[field] === 'OPEN' && 'info') ||
+        (row[field] === 'PENDING' && 'success') ||
+        (row[field] === 'CANCELED' && 'error') ||
+        (row[field] === 'PAID' && 'primary') ||
+        (row[field] === 'COMPLETED' && 'success') ||
+        'primary';
+      return <Chip color={handleColor()} label={row[field]} />;
+    }, []);
+
+    const getComplexField = useCallback(({ row }, field) => {
+      const myArray = field.split('.');
+      return row[myArray[0]] && row[myArray[0]][myArray[1]];
+    }, []);
+
+    function getTransactionStatus({ row }, field) {
+      return (
+        <Typography
+          display={'flex'}
+          alignItems={'center'}
+          component={'span'}
+          color={+row[field] >= 0 ? 'success' : 'error'}
+        >
+          {+row[field] >= 0 ? (
+            <ArrowDropUp fontSize="large" color="success" />
+          ) : (
+            <ArrowDropDown fontSize="large" color="error" />
+          )}
+          {separateNum(row[field])}
+        </Typography>
+      );
+    }
+
+    const getTypeIcon = useCallback(({ row }, field) => {
+      if (row[field] === 'BONUS') return <CardGiftcard fontSize="large" color="primary" />;
+      if (row[field] === 'PAYMENT') return <AddCard fontSize="large" color="primary" />;
+      if (row[field] === 'ORDER') return <ShoppingCart fontSize="large" color="primary" />;
+      if (row[field] === 'MONEY_ORDER') return <MonetizationOn fontSize="large" color="primary" />;
+      if (row[field] === 'ONLINE') return <Payment fontSize="large" color="primary" />;
+      if (row[field] === 'CRYPTOCURRENCIES')
+        return <CurrencyBitcoin fontSize="large" color="primary" />;
+    }, []);
+
+    const renderHtml = useCallback(
+      ({ row }, field) => <div dangerouslySetInnerHTML={{ __html: row[field] }} />,
+      []
+    );
+
     const handleFunc = useCallback(
       ({ row, ...t }, name, filed) => {
         switch (name) {
@@ -182,6 +249,18 @@ const CustomGrid = forwardRef(
             return handleProgress({ row }, filed);
           case 'progressDay':
             return handleProgressDay({ row }, filed);
+          case 'orderStatus':
+            return handleOrderStatus({ row }, filed);
+          case 'price':
+            return handlePrice({ row }, filed);
+          case 'complexField':
+            return getComplexField({ row }, filed);
+          case 'transactionStatus':
+            return getTransactionStatus({ row }, filed);
+          case 'typeIcon':
+            return getTypeIcon({ row }, filed);
+          case 'render':
+            return renderHtml({ row }, filed);
           default:
             return null;
         }
@@ -282,6 +361,7 @@ const CustomGrid = forwardRef(
             }))
           }
         />
+
         <div style={{ height: 600, width: '100%' }}>
           <DataGrid
             {...(paginateServ ? paginationServ : localPaginate)}
@@ -298,7 +378,11 @@ const CustomGrid = forwardRef(
                 refresh: getData,
                 showFilter,
                 search,
-                sortItem
+                sortItem,
+                tabsName,
+                tabs,
+                filters,
+                setFilters
               }
             }}
             sx={style}

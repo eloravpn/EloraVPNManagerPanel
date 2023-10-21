@@ -8,7 +8,30 @@ const GLOBAL = {
     { id: null, name: 'All' },
     { id: 1, name: 'Enable' },
     { id: 0, name: 'Disable' }
-  ]
+  ],
+  statusOrder: [
+    { name: 'OPEN', id: 'OPEN' },
+    { name: 'PENDING', id: 'PENDING' },
+    { name: 'CANCELED', id: 'CANCELED' },
+    { name: 'PAID', id: 'PAID' },
+    { name: 'COMPLETED', id: 'COMPLETED' }
+  ],
+  statusPayment: [
+    { name: 'Pending', id: 'PENDING' },
+    { name: 'Canceled', id: 'CANCELED' },
+    { name: 'Paid', id: 'PAID' }
+  ],
+  methods: [
+    { name: 'MONEY ORDER', id: 'MONEY_ORDER' },
+    { name: 'ONLINE', id: 'ONLINE' },
+    { name: 'CRYPTO CURRENCIES', id: 'CRYPTOCURRENCIES' }
+  ],
+  type: [
+    { name: 'PAYMENT', id: 'PAYMENT' },
+    { name: 'ORDER', id: 'ORDER' },
+    { name: 'BONUS', id: 'BONUS' }
+  ],
+  typeTransaction: [{ name: 'BONUS', id: 'BONUS' }]
 };
 
 export default GLOBAL;

@@ -11,23 +11,15 @@ import Slider from 'components/formik/slider';
 import { styled } from '@mui/material/styles';
 import Date from 'components/formik/date_picker';
 import Chip from 'components/chip';
-import {
-  convertToByte,
-  getDayPersian,
-  getExpireTime,
-  uuidGenerator,
-  emailGenerator,
-  stringAvatar
-} from 'utils';
+import { convertToByte, getExpireTime, uuidGenerator, emailGenerator, getDayPersian } from 'utils';
 import dayjs from 'dayjs';
 import Button from 'components/button';
 import UserSelect from 'pages/components/select/users';
 import config from 'config';
 import useUsers from 'hooks/useUsers';
 import SelectBadge from 'components/formik/badge';
-import Avatar from 'components/avatar';
-import { AllInclusiveOutlined } from '@mui/icons-material';
 import Usages from '../usages/Usages';
+import UserInfo from 'pages/components/user_info';
 
 const Input = styled(TextField)`
   width: 75px;
@@ -119,15 +111,7 @@ const AddEdit = (props) => {
       { day: 180, name: '6 Month', active: false }
     ]
   });
-  const {
-    username,
-    phone_number,
-    telegram_username,
-    last_name,
-    first_name,
-    telegram_chat_id,
-    accounts
-  } = user;
+
   return (
     <>
       <Formik
@@ -140,61 +124,19 @@ const AddEdit = (props) => {
       >
         {({ values, setFieldValue }) => (
           <Form>
-            <Grid
-              sx={(theme) => {
-                return {
-                  background: theme.palette.primary.main,
-                  p: 3,
-                  borderRadius: 5,
-                  color: 'white',
-                  mb: 2
-                };
-              }}
-            >
-              <Grid container alignItems="flex-start">
-                {values.user_id && (
-                  <Grid item sx={{ display: 'flex', width: 50 }}>
-                    <Avatar {...stringAvatar(username || 'No Name')} />
-                  </Grid>
-                )}
-                <Grid item sx={{ width: 'calc(100% - 50px)', wordWrap: 'break-word' }}>
-                  {isLoading && <Skeleton animation="wave" width={150} />}
-                  {isLoading && <Skeleton animation="wave" width={250} />}
-                  {first_name && (
-                    <Typography variant="h6" component={'div'}>
-                      {first_name}
-                      {last_name && last_name}
-                    </Typography>
+            {!!values.user_id && (
+              <UserInfo user={user} isLoading={isLoading}>
+                <Box display={'flex'} alignItems={'center'}>
+                  <Typography variant="h6" component={'div'}>
+                    Expire Date:
+                    {getDayPersian(dayjs(values.expired_at).format('YYYY-MM-D')) || null}
+                  </Typography>
+                  {!getDayPersian(dayjs(values.expired_at).format('YYYY-MM-D')) && (
+                    <AllInclusiveOutlined fontSize="large" />
                   )}
-                  {telegram_username && (
-                    <Typography variant="h6">
-                      {' '}
-                      <a href={`https://t.me/${telegram_username}`} target="_blank">
-                        Telegram: @{telegram_username}
-                      </a>
-                    </Typography>
-                  )}
-                  {telegram_chat_id && (
-                    <Typography variant="h6">ChatID: {telegram_chat_id} </Typography>
-                  )}
-                  {phone_number && (
-                    <Typography variant="h6">Phone Number: {phone_number} </Typography>
-                  )}
-                  {accounts && (
-                    <Typography variant="h6">Count Account: {accounts?.length} </Typography>
-                  )}
-                  <Box display={'flex'} alignItems={'center'}>
-                    <Typography variant="h6" component={'div'}>
-                      Expire Date:
-                      {getDayPersian(dayjs(values.expired_at).format('YYYY-MM-D')) || null}
-                    </Typography>
-                    {!getDayPersian(dayjs(values.expired_at).format('YYYY-MM-D')) && (
-                      <AllInclusiveOutlined fontSize="large" />
-                    )}
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
+                </Box>
+              </UserInfo>
+            )}
             <Grid container spacing={12} rowSpacing={2} justifyContent={'center'}>
               {!initial.user_id ? (
                 <Grid item xs={12}>

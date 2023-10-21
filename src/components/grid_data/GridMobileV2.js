@@ -7,14 +7,26 @@ import useFetch from '../useFetch';
 import ListLoading from '../list_loading';
 import { Stack } from '@mui/material';
 import CampaignIcon from '@mui/icons-material/Campaign';
-import { NotInterested, TaskAlt } from '@mui/icons-material';
-import { convertByteToInt, getDayPersian } from 'utils';
+import {
+  AddCard,
+  ArrowDropDown,
+  ArrowDropUp,
+  CardGiftcard,
+  CurrencyBitcoin,
+  MonetizationOn,
+  NotInterested,
+  Payment,
+  ShoppingCart,
+  TaskAlt
+} from '@mui/icons-material';
+import { convertByteToInt, getDayPersian, separateNum } from 'utils';
 import Card from 'components/card';
 import SearchT from './Search';
 import Chip from 'components/chip';
 import Progress from 'components/progress';
 import dayjs from 'dayjs';
 import Grid from 'components/grid';
+import Tabs from 'components/tabs';
 
 const GridMobile = forwardRef((props, ref) => {
   const {
@@ -27,7 +39,9 @@ const GridMobile = forwardRef((props, ref) => {
     showFilter,
     sortItem,
     defaultSort,
-    propsFilter
+    propsFilter,
+    tabsName,
+    tabs
   } = props;
 
   const [filters, setFilters] = useState(propsFilter);
@@ -87,6 +101,10 @@ const GridMobile = forwardRef((props, ref) => {
     setRow(item);
     menuRef.current?.changeStatus(event);
   };
+
+  const handlePrice = useCallback(({ row }, field) => {
+    return separateNum(row[field]);
+  }, []);
 
   const handleDate = useCallback(({ row }, field) => {
     return getDayPersian(row[field]);
@@ -153,6 +171,55 @@ const GridMobile = forwardRef((props, ref) => {
       />
     );
   }, []);
+
+  const handleOrderStatus = useCallback(({ row }, field) => {
+    const handleColor = () =>
+      (row[field] === 'OPEN' && 'info') ||
+      (row[field] === 'PENDING' && 'success') ||
+      (row[field] === 'CANCELED' && 'error') ||
+      (row[field] === 'PAID' && 'primary') ||
+      (row[field] === 'COMPLETED' && 'success') ||
+      'primary';
+    return <Chip color={handleColor()} label={row[field]} />;
+  }, []);
+
+  const getComplexField = useCallback(({ row }, field) => {
+    const myArray = field.split('.');
+    return row[myArray[0]] && row[myArray[0]][myArray[1]];
+  }, []);
+
+  function getTransactionStatus({ row }, field) {
+    return (
+      <Typography
+        display={'flex'}
+        alignItems={'center'}
+        component={'span'}
+        color={+row[field] >= 0 ? 'success' : 'error'}
+      >
+        {+row[field] >= 0 ? (
+          <ArrowDropUp fontSize="large" color="success" />
+        ) : (
+          <ArrowDropDown fontSize="large" color="error" />
+        )}
+        {separateNum(row[field])}
+      </Typography>
+    );
+  }
+
+  const getTypeIcon = useCallback(({ row }, field) => {
+    if (row[field] === 'BONUS') return <CardGiftcard color="primary" />;
+    if (row[field] === 'PAYMENT') return <AddCard color="primary" />;
+    if (row[field] === 'ORDER') return <ShoppingCart color="primary" />;
+    if (row[field] === 'MONEY_ORDER') return <MonetizationOn color="primary" />;
+    if (row[field] === 'ONLINE') return <Payment color="primary" />;
+    if (row[field] === 'CRYPTOCURRENCIES') return <CurrencyBitcoin color="primary" />;
+  }, []);
+
+  const renderHtml = useCallback(
+    ({ row }, field) => <div dangerouslySetInnerHTML={{ __html: row[field] }} />,
+    []
+  );
+
   const handleFunc = useCallback(
     ({ row }, name, filed) => {
       switch (name) {
@@ -170,6 +237,18 @@ const GridMobile = forwardRef((props, ref) => {
           return handleProgress({ row }, filed);
         case 'progressDay':
           return handleProgressDay({ row }, filed);
+        case 'orderStatus':
+          return handleOrderStatus({ row }, filed);
+        case 'price':
+          return handlePrice({ row }, filed);
+        case 'complexField':
+          return getComplexField({ row }, filed);
+        case 'transactionStatus':
+          return getTransactionStatus({ row }, filed);
+        case 'typeIcon':
+          return getTypeIcon({ row }, filed);
+        case 'render':
+          return renderHtml({ row }, filed);
         default:
           return null;
       }
@@ -189,13 +268,13 @@ const GridMobile = forwardRef((props, ref) => {
     <Card sx={{ p: 1, my: 1 }} onClick={(e) => handleClick(e, item)}>
       {columns.map((col, idx) => (
         <Grid container key={idx} spacing={2} sx={{ mb: 0.5 }} alignItems="center">
-          <Grid item xs={4} nowrap>
+          <Grid item xs={4}>
             <Typography variant="body1" component={'div'}>
               {col.headerName}:{'  '}
             </Typography>
           </Grid>
           <Grid item xs={8}>
-            <Typography variant="body1" component={'div'}>
+            <Typography variant="body1" component={'div'} noWrap>
               {col.renderCell
                 ? handleFunc({ row: item }, col.renderCell, col.field)
                 : item[col.field]}{' '}
@@ -205,6 +284,7 @@ const GridMobile = forwardRef((props, ref) => {
       ))}
     </Card>
   );
+
   return (
     <>
       <SearchT
@@ -212,6 +292,10 @@ const GridMobile = forwardRef((props, ref) => {
         search={search}
         sortItem={sortItem}
         refresh={refresh}
+        tabsName={tabsName}
+        tabs={tabs}
+        setFilters={setFilters}
+        filters={filters}
         setSearch={(v) => {
           setData([]);
           setSearch(v);
@@ -227,6 +311,7 @@ const GridMobile = forwardRef((props, ref) => {
           onClick: () => i?.onClick({ row })
         }))}
       />
+
       <List>
         {data?.map((item, idx) => (
           <div ref={lastElementRef} key={idx}>

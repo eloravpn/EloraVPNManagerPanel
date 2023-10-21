@@ -1,5 +1,14 @@
+import { round, forEach } from 'lodash';
 import Moment from 'moment-jalaali';
 
+const formValues = (obj, values) => {
+  const newData = {};
+
+  forEach(obj, function (value, key) {
+    newData[key] = values[key];
+  });
+  return newData;
+};
 const getDayPersian = (date) => {
   if (!date) return 'No Date';
   if (date === 'Invalid Date') {
@@ -101,7 +110,26 @@ function largestElement(arr) {
   return arr.reduce((largest, current) => (+current > +largest ? +current : +largest), arr[0]);
 }
 
+const separateNum = (num, sep, string) => {
+  if (num) {
+    var number = typeof num === 'number' ? num.toString() : num,
+      separator = typeof sep === 'undefined' ? ',' : sep ? sep : ',';
+    number = round(number);
+    number = String(number).replace('.', '/');
+
+    return String(number).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + separator) + ' ' + 'Toman';
+  } else {
+    return '0';
+  }
+};
+
+const isPositive = (number) => {
+  if (number > 0) return true;
+  else return false;
+};
 export {
+  formValues,
+  separateNum,
   uuidGenerator,
   getDayPersian,
   stringAvatar,
@@ -112,5 +140,6 @@ export {
   getToday,
   removeCharacter,
   emailGenerator,
-  largestElement
+  largestElement,
+  isPositive
 };

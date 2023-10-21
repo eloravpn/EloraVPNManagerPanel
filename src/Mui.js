@@ -20,8 +20,8 @@ import 'dayjs/locale/en-gb';
 const theme = createTheme({
   typography: {
     fontFamily: [
+      'public-sans',
       ' -apple-system',
-      'BlinkMacSystemFont',
       'Segoe UI',
       'Helvetica',
       'Arial',
@@ -120,7 +120,7 @@ const Mui = (props) => {
           pauseOnHover={true}
           transition={swirl}
           theme="light"
-          rtl={true}
+          rtl={false}
         />
         {/* RTL CODE HERE */}
         {/* <StylesProvider jss={jss}> */}

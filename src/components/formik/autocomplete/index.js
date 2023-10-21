@@ -8,7 +8,11 @@ export default function Autocomplete({
   label,
   renderOption,
   onInputChange,
-  isLoading
+  isLoading,
+  lableName,
+  getOptionLabel,
+  onChange,
+  ...props
 }) {
   const [field, mata] = useField(name);
   const { setFieldValue } = useFormikContext();
@@ -23,12 +27,14 @@ export default function Autocomplete({
 
   const configInput = {
     options,
-    getOptionLabel: (option) => option.username,
     onChange: (e, newValue) => {
       setFieldValue(name, newValue?.id);
+      onChange && onChange(options.find((i) => i?.id === newValue?.id));
     },
     onInputChange: (e, v) => onInputChange && onInputChange(e, v),
-    value: options.find((i) => i.id === field.value) || null
+    value: options.find((i) => i.id === field.value) || null,
+    onBlur: props.onBlur && props.onBlur(options.find((i) => i.id === field.value)),
+    ...props
   };
 
   if (mata && mata.touched && mata.error) {
@@ -41,6 +47,7 @@ export default function Autocomplete({
       <AutocompleteMD
         {...field}
         {...configInput}
+        getOptionLabel={(option) => (getOptionLabel ? getOptionLabel(option) : option[lableName])}
         id={name}
         filterOptions={(x) => x}
         noOptionsText={`${isLoading ? 'Loading...' : 'Oops!No Options. Please search....'}`}
@@ -69,5 +76,6 @@ export default function Autocomplete({
 
 Autocomplete.defaultProps = {
   options: [],
-  label: 'Users'
+  label: 'Users',
+  lableName: ''
 };

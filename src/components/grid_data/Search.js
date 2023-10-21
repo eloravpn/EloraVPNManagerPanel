@@ -1,6 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Box,
+  Divider,
   FormControl,
   Grid,
   IconButton,
@@ -18,6 +19,7 @@ import {
   SearchRounded
 } from '@mui/icons-material';
 import debouce from 'lodash.debounce';
+import Tabs from 'components/tabs';
 
 const sorts = [
   { id: 'expire', name: 'Expire' },
@@ -29,7 +31,8 @@ const sorts = [
 ];
 
 const Search = (props) => {
-  const { setSearch, refresh, showFilter, search, sortItem } = props;
+  const { setSearch, refresh, showFilter, search, sortItem, tabs, tabsName, filters, setFilters } =
+    props;
 
   const handleChange = useCallback(
     (name, e) => {
@@ -50,8 +53,25 @@ const Search = (props) => {
     };
   }, [debouncedResults]);
 
+  const handleChangeTabs = (e, value) => {
+    setFilters((res) => ({ ...res, [e.target.name]: value }));
+  };
+
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={0}>
+      {tabs && (
+        <Grid item xs={12}>
+          <Box my={1} width={'100%'}>
+            <Tabs
+              name={tabsName}
+              tabs={tabs}
+              onChange={handleChangeTabs}
+              value={filters[tabsName]}
+            />
+            <Divider />
+          </Box>
+        </Grid>
+      )}
       <Grid item xs={12} md={9}>
         <Box display={'flex'} alignItems="center">
           <FormControl variant="outlined" sx={{ m: 0.5 }}>

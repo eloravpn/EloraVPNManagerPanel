@@ -1,4 +1,8 @@
 const api = {
+  transactions: 'transactions',
+  payments: 'payments',
+  services: 'services',
+  orders: 'orders',
   usedTraffic: 'used_traffic',
   users: 'users',
   resetTraffic: 'reset_traffic',
