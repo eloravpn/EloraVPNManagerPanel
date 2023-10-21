@@ -221,7 +221,7 @@ const AddEdit = (props) => {
                   label={'Status'}
                   name="status"
                   options={GLOBAL.statusOrder}
-                  disabled={initial.id && condition.includes(values.status)}
+                  // disabled={initial.id && condition.includes(values.status)}
                 />
               </Grid>
               <Grid item xs={12}>

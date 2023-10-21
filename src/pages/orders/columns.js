@@ -11,8 +11,8 @@ const columns = [
     width: 150
   },
   {
-    headerName: 'Account',
-    field: 'account.full_name',
+    headerName: 'Account Email',
+    field: 'account.email',
     renderCell: 'complexField',
     width: 150
   },

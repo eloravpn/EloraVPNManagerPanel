@@ -17,11 +17,6 @@ const columns = [
     renderCell: 'transactionStatus'
   },
   {
-    headerName: 'Description',
-    field: 'description',
-    renderCell: 'render'
-  },
-  {
     headerName: 'Created',
     field: 'created_at',
     width: 200,
