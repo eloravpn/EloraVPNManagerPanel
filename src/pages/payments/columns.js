@@ -27,6 +27,12 @@ const columns = [
     field: 'status',
     width: 200,
     renderCell: 'orderStatus'
+  },
+  {
+    headerName: 'Modified',
+    field: 'modified_at',
+    renderCell: 'date',
+    width: 150
   }
 ];
 
