@@ -37,7 +37,7 @@ const AddEdit = (props) => {
   const { orders, isLoading: isLoadingOrders, getOrders } = useOrders();
 
   useEffect(() => {
-    getOrders();
+    getOrders({ user_id: initial.user_id || null });
     if (initial.user_id) getUser(initial.user_id);
     return () => {};
   }, []);
@@ -71,6 +71,7 @@ const AddEdit = (props) => {
         setPostDataLoading(false);
       });
   };
+  const condition = ['CANCELED', 'COMPLETED'];
 
   return (
     <>
@@ -109,7 +110,13 @@ const AddEdit = (props) => {
             <Grid container spacing={12} rowSpacing={2} justifyContent={'center'}>
               {!user && (
                 <Grid item xs={12}>
-                  <UserSelect name="user_id" label="Users" />
+                  <UserSelect
+                    name="user_id"
+                    label="Users"
+                    onChange={(user) => {
+                      if (user) getOrders({ user_id: user.id });
+                    }}
+                  />
                 </Grid>
               )}
               <Grid item xs={12}>
@@ -135,12 +142,13 @@ const AddEdit = (props) => {
                   options={orders}
                   isLoading={isLoadingOrders}
                   onChange={(order) => {
-                    if (!order) {
+                    if (!order && initial.id) {
                       setUser(null);
                       return;
                     }
                     setFieldValue('status', order.status);
                     setFieldValue('total', order.total);
+                    setFieldValue('user_id', order.user_id);
                     setUser(order.user);
                   }}
                 />
@@ -150,14 +158,24 @@ const AddEdit = (props) => {
                   label={'Status'}
                   name="status"
                   options={GLOBAL.statusPayment}
-                  disabled={!!values.order_id}
+                  disabled={!!values.order_id || (initial.id && condition.includes(values.status))}
                 />
               </Grid>
               <Grid item xs={12}>
-                <Select label={'Methode'} name="method" options={GLOBAL.methods} />
+                <Select
+                  label={'Methode'}
+                  name="method"
+                  options={GLOBAL.methods}
+                  disabled={initial.id && condition.includes(values.status)}
+                />
               </Grid>
               <Grid item xs={12}>
-                <TextField label={'Total'} price name="total" disabled={!!values.order_id} />
+                <TextField
+                  label={'Total'}
+                  price
+                  name="total"
+                  disabled={!!values.order_id || (initial.id && condition.includes(values.status))}
+                />
               </Grid>
             </Grid>
             <DialogActions>

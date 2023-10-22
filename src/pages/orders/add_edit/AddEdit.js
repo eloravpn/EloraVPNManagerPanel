@@ -26,7 +26,14 @@ import DataLimit from 'pages/components/dataLimit';
 import UserInfo from 'pages/components/user_info';
 import GLOBAL from 'components/variables';
 import Autocomplete from 'components/formik/autocomplete';
-import { AttachEmail, AvTimer, DataUsage, Fingerprint } from '@mui/icons-material';
+import {
+  AttachEmail,
+  AvTimer,
+  DataUsage,
+  Fingerprint,
+  NotInterested,
+  TaskAlt
+} from '@mui/icons-material';
 
 const validationSchema = yup.object({
   user_id: yup.number().required(),
@@ -100,7 +107,7 @@ const AddEdit = (props) => {
   const handleBlurUserId = async (user) => {
     setAccounts(user?.accounts);
   };
-  const condition = ['PAID', 'CANCELED', 'COMPLETED'];
+  const condition = ['CANCELED', 'COMPLETED'];
   return (
     <>
       <Formik
@@ -159,7 +166,7 @@ const AddEdit = (props) => {
                       }
                       renderOption={(
                         props,
-                        { id, full_name, data_limit, expired_at, used_traffic, email }
+                        { id, full_name, data_limit, expired_at, used_traffic, email, enable }
                       ) => (
                         <Fragment key={id}>
                           <li {...props}>
@@ -204,6 +211,16 @@ const AddEdit = (props) => {
                                   </Grid>
                                   <Grid item>{email}</Grid>
                                 </Grid>
+                                <Grid container spacing={1} alignItems={'stretch'}>
+                                  <Grid item>
+                                    {enable ? (
+                                      <TaskAlt color="primary" />
+                                    ) : (
+                                      <NotInterested color="error" />
+                                    )}
+                                  </Grid>
+                                  <Grid item>{enable ? 'Active' : 'Deactive'}</Grid>
+                                </Grid>
                               </Grid>
                             </Grid>
                           </li>
@@ -221,23 +238,34 @@ const AddEdit = (props) => {
                   label={'Status'}
                   name="status"
                   options={GLOBAL.statusOrder}
-                  // disabled={initial.id && condition.includes(values.status)}
+                  disabled={initial.id && condition.includes(values.status)}
                 />
               </Grid>
               <Grid item xs={12}>
-                <Select
+                <Autocomplete
+                  getOptionLabel={(option) => option.name}
                   label={'Services'}
                   name="service_id"
                   options={[{ id: 0, name: 'None' }, ...services]}
                   isLoading={isLoading}
                   disabled={initial.id && condition.includes(values.status)}
                   onChange={(service) => {
-                    console.log('🚀 ~ AddEdit ~ service:', service);
                     setFieldValue('duration', service.duration || 0);
                     setFieldValue('data_limit', service.data_limit || 0);
                     setFieldValue('total', service.price || 0);
                     setFieldValue('total_discount_amount', service.total_discount_amount || 0);
                   }}
+                  renderOption={(props, { id, price, discount, name }) => (
+                    <Fragment key={id}>
+                      <li {...props}>
+                        {id === 0
+                          ? `${name} `
+                          : `${name} Price: ${separateNum(price)} Discount: ${separateNum(
+                              discount
+                            )}`}
+                      </li>
+                    </Fragment>
+                  )}
                 />
               </Grid>
 

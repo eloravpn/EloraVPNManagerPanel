@@ -112,7 +112,7 @@ const Accounts = () => {
     <>
       <Formik
         initialValues={{
-          user_id: null,
+          user_id: searchParams.get('userId') || null,
           enable: null
         }}
         onSubmit={(values) => {

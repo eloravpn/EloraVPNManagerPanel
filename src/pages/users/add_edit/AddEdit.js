@@ -16,15 +16,15 @@ const validationSchema = yup.object({
   banned: yup.boolean().required()
 });
 const initialForm = {
-  id: '',
-  username: '',
+  id: null,
+  username: null,
   first_name: '',
-  last_name: '',
-  description: '',
+  last_name: null,
+  description: null,
   telegram_chat_id: null,
-  telegram_username: '',
-  phone_number: '',
-  password: '',
+  telegram_username: null,
+  phone_number: null,
+  password: null,
   enable: false,
   banned: false
 };
