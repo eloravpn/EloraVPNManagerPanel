@@ -20,6 +20,7 @@ import useUsers from 'hooks/useUsers';
 import SelectBadge from 'components/formik/badge';
 import Usages from '../usages/Usages';
 import UserInfo from 'pages/components/user_info';
+import { AllInclusiveOutlined } from '@mui/icons-material';
 
 const Input = styled(TextField)`
   width: 75px;
