@@ -100,7 +100,7 @@ const AddEdit = (props) => {
   const handleBlurUserId = async (user) => {
     setAccounts(user?.accounts);
   };
-  const condition = ['PAID', 'CANCELED', 'COMPLETED'];
+  const condition = ['CANCELED', 'COMPLETED'];
   return (
     <>
       <Formik
@@ -221,7 +221,7 @@ const AddEdit = (props) => {
                   label={'Status'}
                   name="status"
                   options={GLOBAL.statusOrder}
-                  // disabled={initial.id && condition.includes(values.status)}
+                  disabled={initial.id && condition.includes(values.status)}
                 />
               </Grid>
               <Grid item xs={12}>
