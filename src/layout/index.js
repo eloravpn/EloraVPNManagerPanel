@@ -3,11 +3,11 @@ import Sidebar from './Sidebar';
 
 const Main = () => {
   return (
-    <div className="root">
+    <>
       <Sidebar>
         <Outlet />
       </Sidebar>
-    </div>
+    </>
   );
 };
 

@@ -17,13 +17,14 @@ const columns = [
       { name: 'telegram_chat_id', headerName: 'Telegram Chat ID', color: 'secondary' },
       { name: 'telegram_username', headerName: 'Telegram Username', color: 'primary' }
     ]),
-    renderCell: 'multiBadge'
+    renderCell: 'multiBadge',
+    width: 400
   },
   {
     headerName: 'Enable',
     field: 'enable',
     renderCell: 'status',
-    width: 50
+    width: 100
   },
   {
     headerName: 'Modified',

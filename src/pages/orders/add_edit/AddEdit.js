@@ -253,16 +253,37 @@ const AddEdit = (props) => {
                     setFieldValue('duration', service.duration || 0);
                     setFieldValue('data_limit', service.data_limit || 0);
                     setFieldValue('total', service.price || 0);
-                    setFieldValue('total_discount_amount', service.total_discount_amount || 0);
+                    setFieldValue('total_discount_amount', service.discount || 0);
                   }}
                   renderOption={(props, { id, price, discount, name }) => (
                     <Fragment key={id}>
                       <li {...props}>
-                        {id === 0
-                          ? `${name} `
-                          : `${name} Price: ${separateNum(price)} Discount: ${separateNum(
-                              discount
-                            )}`}
+                        {id === 0 ? (
+                          `${name} `
+                        ) : (
+                          <>
+                            <Typography component={'span'}>
+                              {name} {` ${discount ? 'Price: ' : ''}`}:
+                            </Typography>
+                            <Typography
+                              component={'span'}
+                              sx={{
+                                ...(discount
+                                  ? {
+                                      WebkitTextDecorationLine: 'line-through',
+                                      WebkitTextDecorationColor: 'red',
+                                      textDecoration: 'line-through red 2px'
+                                    }
+                                  : '')
+                              }}
+                            >
+                              {` ${discount ? separateNum(price) : ''}`}
+                            </Typography>
+                            <Typography component={'span'}>
+                              {` Total: ${separateNum(price - discount)} `}
+                            </Typography>
+                          </>
+                        )}
                       </li>
                     </Fragment>
                   )}
@@ -284,7 +305,9 @@ const AddEdit = (props) => {
                       <Typography fontWeight={800} component={'span'}>
                         Price:
                       </Typography>{' '}
-                      <Typography component={'span'}>{separateNum(values.total)}</Typography>
+                      <Typography component={'span'}>
+                        {separateNum(values.total - values.total_discount_amount)}
+                      </Typography>
                       <br />
                       <Typography fontWeight={800} component={'span'}>
                         Duration:
