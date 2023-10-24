@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { DialogActions, Grid } from '@mui/material';
 import { Form, Formik } from 'formik';
 import TextField from 'components/formik/textfield';
@@ -9,10 +9,12 @@ import api from 'components/httpService/api';
 import Http from 'components/httpService/Http';
 import Switch from 'components/formik/switch';
 import Button from 'components/button';
+import useHostZones from '../../../hooks/useHostZones';
 
 const validationSchema = yup.object({
   name: yup.string().required(),
   port: yup.number().required(),
+  host_zone_id: yup.number().required(),
   type: yup.string().required(),
   enable: yup.boolean().required(),
   master: yup.boolean().required(),
@@ -44,12 +46,19 @@ const initialForm = {
   api_path: '/panel/api',
   enable: true,
   master: false,
-  type: ''
+  type: '',
+  host_zone_id: ''
 };
 
 const AddEdit = (props) => {
   const { refrence, initial, createRow, editRow } = props;
   const [postDataLoading, setPostDataLoading] = useState(false);
+  const { getHostZones, hostZones, isLoading } = useHostZones();
+
+  useEffect(() => {
+    getHostZones();
+    return () => {};
+  }, [getHostZones]);
 
   const handleCreate = (values) => {
     setPostDataLoading(true);
@@ -119,6 +128,16 @@ const AddEdit = (props) => {
               <TextField name="api_path" label="api_path" />
             </Grid>
             <Grid item xs={12} md={4}>
+              <Select
+                name="host_zone_id"
+                label="HostZones"
+                labelName={'name'}
+                options={hostZones}
+                isLoading={isLoading}
+                displayEmpty={true}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
               <Switch name="enable" label="Enable" />
               <Switch name="master" label="Master" />
             </Grid>
@@ -147,4 +166,4 @@ const AddEdit = (props) => {
   );
 };
 
-export default AddEdit;
+export default memo(AddEdit);
