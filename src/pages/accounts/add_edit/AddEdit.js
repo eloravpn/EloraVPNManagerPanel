@@ -1,5 +1,7 @@
 import { memo, useEffect, useState } from 'react';
 import { Box, DialogActions, Grid, Skeleton, Typography } from '@mui/material';
+import Select from 'components/formik/select';
+
 import { Form, Formik } from 'formik';
 import TextField from 'components/formik/textfield';
 import * as yup from 'yup';
@@ -21,6 +23,7 @@ import SelectBadge from 'components/formik/badge';
 import Usages from '../usages/Usages';
 import UserInfo from 'pages/components/user_info';
 import { AllInclusiveOutlined } from '@mui/icons-material';
+import useHostZones from '../../../hooks/useHostZones';
 
 const Input = styled(TextField)`
   width: 75px;
@@ -30,7 +33,8 @@ const validationSchema = yup.object({
   user_id: yup.number().required(),
   uuid: yup.string().required(),
   email: yup.string().required(),
-  expired_at: yup.string().required()
+  expired_at: yup.string().required(),
+  host_zone_id: yup.number().required()
 });
 
 const initialForm = {
@@ -39,6 +43,7 @@ const initialForm = {
   user_id: '',
   enable: true,
   data_limit: 0,
+  host_zone_id: '',
   expired_at: getExpireTime(config.defaultExpireAt)
 };
 
@@ -57,6 +62,13 @@ const AddEdit = (props) => {
   const { refrence, initial, createRow, editRow } = props;
   const [postDataLoading, setPostDataLoading] = useState(false);
   const { getUser, user, isLoading } = useUsers();
+  const { getHostZones, hostZones } = useHostZones();
+
+  useEffect(() => {
+    getHostZones();
+    return () => {};
+  }, [getHostZones]);
+
   useEffect(() => {
     if (initial.user_id) getUser(initial.user_id);
 
@@ -144,6 +156,7 @@ const AddEdit = (props) => {
                   <UserSelect name="user_id" label="Users" />
                 </Grid>
               ) : null}
+
               <Grid item xs={12}>
                 <SelectBadge
                   label={'Status'}
@@ -154,6 +167,7 @@ const AddEdit = (props) => {
                   ]}
                 />
               </Grid>
+
               <Grid item xs={12}>
                 <TextField name="uuid" label="UUID" />
               </Grid>
@@ -244,6 +258,16 @@ const AddEdit = (props) => {
                   ))}
                 </Box>
               </Grid>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Select
+                name="host_zone_id"
+                label="Host Zone"
+                labelName={'name'}
+                options={hostZones}
+                // isLoading={isLoadingHostZones}
+              />
             </Grid>
             {initial.user_id && initial?.id ? <Usages initial={initial} fullChart /> : null}
             <DialogActions>
