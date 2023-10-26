@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { DialogActions, Grid } from '@mui/material';
 import { Form, Formik } from 'formik';
 import TextField from 'components/formik/textfield';
@@ -10,12 +10,15 @@ import Switch from 'components/formik/switch';
 import Button from 'components/button';
 import DataLimit from 'pages/components/dataLimit';
 import { convertToByte } from 'utils';
+import useHostZones from 'hooks/useHostZones';
+import Select from 'components/formik/select';
 
 const validationSchema = yup.object({
   name: yup.string().required(),
   price: yup.string().required(),
   data_limit: yup.string().required(),
-  enable: yup.boolean().required()
+  enable: yup.boolean().required(),
+  host_zone_id: yup.number().required()
 });
 const initialForm = {
   name: '',
@@ -23,12 +26,19 @@ const initialForm = {
   data_limit: 0,
   price: 0,
   discount: 0,
-  enable: true
+  enable: true,
+  host_zone_id: ''
 };
 
 const AddEdit = (props) => {
   const { refrence, initial, createRow, editRow } = props;
   const [postDataLoading, setPostDataLoading] = useState(false);
+  const { getHostZones, hostZones } = useHostZones();
+
+  useEffect(() => {
+    getHostZones();
+    return () => {};
+  }, [getHostZones]);
 
   const handleCreate = (values) => {
     setPostDataLoading(true);
@@ -94,8 +104,17 @@ const AddEdit = (props) => {
             <Grid item xs={12} md={6}>
               <DataLimit />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <Switch name={'enable'} id="enable" label="Enable" />
+            </Grid>
+            <Grid item xs={6}>
+              <Select
+                name="host_zone_id"
+                label="Host Zone"
+                labelName={'name'}
+                options={hostZones}
+                // isLoading={isLoadingHostZones}
+              />
             </Grid>
           </Grid>
           <DialogActions>
