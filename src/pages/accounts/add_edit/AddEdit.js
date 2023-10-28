@@ -167,7 +167,15 @@ const AddEdit = (props) => {
                   ]}
                 />
               </Grid>
-
+              <Grid item xs={12}>
+                <Select
+                  name="host_zone_id"
+                  label="Host Zone"
+                  labelName={'name'}
+                  options={hostZones}
+                  // isLoading={isLoadingHostZones}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <TextField name="uuid" label="UUID" />
               </Grid>
@@ -260,15 +268,6 @@ const AddEdit = (props) => {
               </Grid>
             </Grid>
 
-            <Grid item xs={12}>
-              <Select
-                name="host_zone_id"
-                label="Host Zone"
-                labelName={'name'}
-                options={hostZones}
-                // isLoading={isLoadingHostZones}
-              />
-            </Grid>
             {initial.user_id && initial?.id ? <Usages initial={initial} fullChart /> : null}
             <DialogActions>
               <Button
