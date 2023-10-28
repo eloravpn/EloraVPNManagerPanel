@@ -285,7 +285,7 @@ const AddEdit = (props) => {
                 color="error"
                 onClick={() => refrence.current.changeStatus()}
               >
-                Cancell
+                Cancel
               </Button>
             </DialogActions>
           </Form>

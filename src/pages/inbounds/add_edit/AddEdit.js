@@ -37,6 +37,7 @@ const types = [
 ];
 const securities = [
   { id: 'tls', name: 'TLS' },
+  { id: 'reality', name: 'REALITY' },
   { id: 'none', name: 'None' }
 ];
 
@@ -163,7 +164,7 @@ const AddEdit = (props) => {
               color="error"
               onClick={() => refrence.current.changeStatus()}
             >
-              Cancell
+              Cancel
             </Button>
           </DialogActions>
         </Form>
