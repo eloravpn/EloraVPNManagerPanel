@@ -34,11 +34,13 @@ const types = [
 ];
 const securities = [
   { id: 'tls', name: 'TLS' },
+  { id: 'reality', name: 'REALITY' },
   { id: 'none', name: 'None' }
 ];
 const networks = [
   { id: 'ws', name: 'Websocket' },
-  { id: 'tcp', name: 'TCP' }
+  { id: 'tcp', name: 'TCP' },
+  { id: 'grpc', name: 'gRPC' }
 ];
 const fingerPrints = [
   { id: 'none', name: 'None' },
@@ -56,6 +58,9 @@ const initialForm = {
   sni: '',
   address: '',
   path: '',
+  pbk: '',
+  sid: '',
+  spx: '',
   security: 'tls',
   type: 'vless',
   enable: false,
@@ -139,6 +144,15 @@ const AddEdit = (props) => {
               <TextField name="path" label="Path" />
             </Grid>
             <Grid item xs={12} md={4}>
+              <TextField name="pbk" label="PBK" />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <TextField name="sid" label="SID" />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <TextField name="spx" label="SPX" />
+            </Grid>
+            <Grid item xs={12} md={4}>
               <Select name="security" label="Security" options={securities} />
             </Grid>{' '}
             <Grid item xs={12} md={4}>
@@ -148,7 +162,7 @@ const AddEdit = (props) => {
               <Select name="type" label="Type" options={types} />
             </Grid>{' '}
             <Grid item xs={12} md={4}>
-              <Select name="netwrok" label="Netwrok" options={networks} isLoading={isLoading} />
+              <Select name="network" label="Network" options={networks} />
             </Grid>
             <Grid item xs={12} md={4}>
               <Select
@@ -180,7 +194,7 @@ const AddEdit = (props) => {
               color="error"
               onClick={() => refrence.current.changeStatus()}
             >
-              Cancell
+              Cancel
             </Button>
           </DialogActions>
         </Form>
