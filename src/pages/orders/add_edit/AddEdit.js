@@ -37,6 +37,7 @@ import {
 
 const validationSchema = yup.object({
   user_id: yup.number().required(),
+  ip_limit: yup.number(),
   service_id: yup.number().nullable()
 });
 
@@ -48,7 +49,8 @@ const initialForm = {
   total: 0,
   total_discount_amount: 0,
   status: 'PENDING',
-  data_limit: 0
+  data_limit: 0,
+  ip_limit: 0
 };
 
 const AddEdit = (props) => {
@@ -233,7 +235,11 @@ const AddEdit = (props) => {
                   </Grid>
                 </>
               )}
-              <Grid item xs={12}>
+
+              <Grid item xs={12} md={6}>
+                <TextField name="ip_limit" label="IP Limit" />
+              </Grid>
+              <Grid item xs={12} md={6}>
                 <Select
                   label={'Status'}
                   name="status"

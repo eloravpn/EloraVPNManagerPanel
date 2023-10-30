@@ -34,7 +34,8 @@ const validationSchema = yup.object({
   uuid: yup.string().required(),
   email: yup.string().required(),
   expired_at: yup.string().required(),
-  host_zone_id: yup.number().required()
+  host_zone_id: yup.number().required(),
+  ip_limit: yup.number().required()
 });
 
 const initialForm = {
@@ -43,6 +44,7 @@ const initialForm = {
   user_id: '',
   enable: true,
   data_limit: 0,
+  ip_limit: 0,
   host_zone_id: '',
   expired_at: getExpireTime(config.defaultExpireAt)
 };
@@ -179,6 +181,9 @@ const AddEdit = (props) => {
 
               <Grid item xs={12}>
                 <TextField name="uuid" label="UUID" />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField name="ip_limit" label="IP Limit" />
               </Grid>
               <Grid item xs={12}>
                 <TextField name="email" label="Email" />

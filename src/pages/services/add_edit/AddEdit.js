@@ -18,7 +18,8 @@ const validationSchema = yup.object({
   price: yup.string().required(),
   data_limit: yup.string().required(),
   enable: yup.boolean().required(),
-  host_zone_id: yup.number().required()
+  host_zone_id: yup.number().required(),
+  ip_limit: yup.number().required()
 });
 const initialForm = {
   name: '',
@@ -27,7 +28,8 @@ const initialForm = {
   price: 0,
   discount: 0,
   enable: true,
-  host_zone_id: ''
+  host_zone_id: '',
+  ip_limit: 0
 };
 
 const AddEdit = (props) => {
@@ -96,6 +98,10 @@ const AddEdit = (props) => {
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField id={'price'} name={'price'} label="Price" type="text" price />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <TextField name="ip_limit" label="IP Limit" />
             </Grid>
 
             <Grid item xs={12} md={6}>
