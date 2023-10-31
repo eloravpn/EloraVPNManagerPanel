@@ -121,23 +121,29 @@ const AddEdit = (props) => {
         {({ values, setFieldValue }) => (
           <Form>
             {user && (
-              <UserInfo user={user} isLoading={isLoadingUser}>
-                <Typography variant="h6" component={'div'}>
-                  Day:
-                  {user?.accounts?.find((i) => i.id === values.account_id)?.id}
-                </Typography>
-                <Typography variant="h6" component={'div'}>
-                  Usage:
-                  {convertByteToInt(
-                    user?.accounts?.find((i) => i.id === values.account_id)?.used_traffic
-                  ).toFixed(1)}
-                  GB
-                </Typography>
-                <Typography variant="h6" component={'div'}>
-                  Email:
-                  {user?.accounts?.find((i) => i.id === values.account_id)?.email}
-                </Typography>
-              </UserInfo>
+              <UserInfo
+                user={user}
+                isLoading={isLoadingUser}
+                secondaryCard={
+                  <>
+                    <Typography variant="h6" component={'div'}>
+                      Day:
+                      {user?.accounts?.find((i) => i.id === values.account_id)?.id}
+                    </Typography>
+                    <Typography variant="h6" component={'div'}>
+                      Usage:
+                      {convertByteToInt(
+                        user?.accounts?.find((i) => i.id === values.account_id)?.used_traffic
+                      ).toFixed(1)}
+                      GB
+                    </Typography>
+                    <Typography variant="h6" component={'div'}>
+                      Email:
+                      {user?.accounts?.find((i) => i.id === values.account_id)?.email}
+                    </Typography>
+                  </>
+                }
+              ></UserInfo>
             )}
             <Grid container spacing={12} rowSpacing={2} justifyContent={'center'}>
               {!user && (
