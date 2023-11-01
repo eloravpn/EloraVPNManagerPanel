@@ -9,7 +9,16 @@ const Custom = styled(CardMd)({
     'rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px'
 });
 
-export default function Card({ children, sx, sxContent, className, onClick, title, ...props }) {
+export default function Card({
+  children,
+  sx,
+  sxContent,
+  className,
+  onClick,
+  title,
+  subheader,
+  ...props
+}) {
   return (
     <Custom
       {...props}
@@ -17,7 +26,7 @@ export default function Card({ children, sx, sxContent, className, onClick, titl
       className={className}
       onClick={onClick && onClick}
     >
-      <CardHeader action={props.action} title={title} />
+      {!!title && <CardHeader action={props.action} title={title} subheader={subheader} />}
       <CardContent sx={{ ...sxContent }}>{children}</CardContent>
     </Custom>
   );
