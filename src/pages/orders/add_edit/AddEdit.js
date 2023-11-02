@@ -168,7 +168,7 @@ const AddEdit = (props) => {
                           1
                         )}/${convertByteToInt(option.data_limit).toFixed(
                           1
-                        )} - Until ${getDayPersian(option.modified_at)}`
+                        )} - Until ${getDayPersian(option.expired_at)}`
                       }
                       renderOption={(
                         props,
