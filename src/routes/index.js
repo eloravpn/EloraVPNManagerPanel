@@ -14,6 +14,7 @@ import Orders from 'pages/orders';
 import Services from '../pages/services';
 import Payments from 'pages/payments';
 import Transactions from 'pages/transactions';
+import Zones from 'pages/zones';
 
 const Routerr = () => {
   const PrivateRoute = ({ children }) => {
@@ -128,6 +129,14 @@ const Routerr = () => {
           element={
             <PrivateRoute>
               <Transactions />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="zones"
+          element={
+            <PrivateRoute>
+              <Zones />
             </PrivateRoute>
           }
         />
