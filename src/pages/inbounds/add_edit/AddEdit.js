@@ -35,8 +35,15 @@ const types = [
   { id: 'trojan', name: 'Trojan' },
   { id: 'shadowsocks', name: 'Shadowsocks' }
 ];
+
+const flows = [
+  { id: 'xtls-rprx-vision', name: 'xtls-rprx-vision' },
+  { id: 'xtls-rprx-vision-udp443', name: 'xtls-rprx-vision-udp443' }
+];
+
 const securities = [
   { id: 'tls', name: 'TLS' },
+  { id: 'reality', name: 'REALITY' },
   { id: 'none', name: 'None' }
 ];
 
@@ -137,6 +144,9 @@ const AddEdit = (props) => {
               <Select name="security" label="Security" options={securities} />
             </Grid>{' '}
             <Grid item xs={12} md={4}>
+              <Select name="flow" label="Flow" options={flows} />
+            </Grid>{' '}
+            <Grid item xs={12} md={4}>
               <Select name="type" label="Type" options={types} />
             </Grid>{' '}
             <Grid item xs={12} md={4}>
@@ -163,7 +173,7 @@ const AddEdit = (props) => {
               color="error"
               onClick={() => refrence.current.changeStatus()}
             >
-              Cancell
+              Cancel
             </Button>
           </DialogActions>
         </Form>
