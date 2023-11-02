@@ -6,7 +6,7 @@ const columns = [
   },
   {
     headerName: 'User',
-    field: 'user.username',
+    field: 'user.full_name',
     renderCell: 'complexField',
     width: 150
   },
