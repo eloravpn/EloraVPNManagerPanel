@@ -14,6 +14,12 @@ const menu = {
         page: 'accounts'
       },
       {
+        title: 'Zones',
+        root: true,
+        icon: 'dashboard',
+        page: 'zones'
+      },
+      {
         title: 'Hosts',
         root: true,
         icon: 'dashboard',
