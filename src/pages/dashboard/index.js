@@ -8,8 +8,7 @@ import Select from 'components/formik/select';
 import SecondarySelect from 'components/formik/select/dashboardUI';
 import { Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
-import RAM from 'assets/images/dashboard/ram.png';
-import CPU from 'assets/images/dashboard/cpu.png';
+
 const Dashboard = () => {
   const [number, setNumber] = useState(5);
   const [number2, setNumber2] = useState(5);
