@@ -37,6 +37,7 @@ const types = [
 ];
 
 const flows = [
+  { id: null, name: 'None' },
   { id: 'xtls-rprx-vision', name: 'xtls-rprx-vision' },
   { id: 'xtls-rprx-vision-udp443', name: 'xtls-rprx-vision-udp443' }
 ];

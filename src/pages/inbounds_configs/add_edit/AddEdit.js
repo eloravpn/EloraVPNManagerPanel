@@ -132,7 +132,7 @@ const AddEdit = (props) => {
               <TextField name="domain" label="Domain" />
             </Grid>
             <Grid item xs={12} md={4}>
-              <TextField name="request_host" label="Request Host" />
+              <TextField name="host" label="Request Host" />
             </Grid>
             <Grid item xs={12} md={4}>
               <TextField name="sni" label="SNI" />
