@@ -63,20 +63,6 @@ const Dashboard = () => {
                   </Grid>
                 </>
               }
-              action={
-                <Formik initialValues={{ zone_id: 1 }}>
-                  {() => (
-                    <Form>
-                      <Select
-                        fullWidth={false}
-                        name={'zone_id'}
-                        options={[{ id: 1, name: 'Zone 1' }]}
-                        input={<SecondarySelect />}
-                      />
-                    </Form>
-                  )}
-                </Formik>
-              }
             >
               <Bar
                 type={'area'}
@@ -111,6 +97,21 @@ const Dashboard = () => {
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
+            <Card sx={{ mb: 2 }} title="Host Zones">
+              <Formik initialValues={{ zone_id: 1 }}>
+                {() => (
+                  <Form>
+                    <Select
+                      fullWidth={true}
+                      name={'zone_id'}
+                      options={[{ id: 1, name: 'Zone 1' }]}
+                      input={<SecondarySelect />}
+                    />
+                  </Form>
+                )}
+              </Formik>
+            </Card>
+
             <Card title={'hosts'}>
               <Grid container alignItems={'center'}>
                 <Grid item xs={3}>

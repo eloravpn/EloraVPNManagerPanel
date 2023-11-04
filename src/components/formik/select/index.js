@@ -28,7 +28,7 @@ const Select = ({ name, label, isLoading, options, onChange, labelName, ...other
       {isLoading ? (
         <Loading size={35} />
       ) : (
-        <FormControl>
+        <FormControl fullWidth>
           <InputLabel id={name}>{label}</InputLabel>
           <SelectMD labelId={name} label={label} {...configSelect}>
             {options.length > 0 &&
