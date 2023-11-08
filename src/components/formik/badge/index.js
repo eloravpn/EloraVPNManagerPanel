@@ -40,7 +40,7 @@ const SelectBadge = ({
             {label}
           </FormLabel>
         )}
-        <Box id={name} display="flex" justifyContent="space-between" alignItems="center" mb={1}>
+        <Box id={name} display="flex" justifyContent="space-between" alignItems="stretch" mb={1}>
           {options?.map((item, i) => (
             <Box
               {...configSelect}
