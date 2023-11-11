@@ -14,6 +14,8 @@ import { convertByteToInt, getBetweenDate } from 'utils';
 const Dashboard = () => {
   const [reportHosts, setReportHosts] = useState([]);
   const [labelReportHost, setLabelReportHost] = useState([]);
+  const [totalUsage, setTotalUsage] = useState({ download: '', upload: '' });
+
   const hadleSubmitHostZone = async (values) => {
     var obj = {};
 
@@ -53,6 +55,10 @@ const Dashboard = () => {
             : dayjs(i.date).format('YYYY-MM-DD HH:mm')
         )
       );
+      setTotalUsage({
+        download: data.reduce((acc, curr) => acc + curr.download, 0),
+        upload: data.reduce((acc, curr) => acc + curr.upload, 0)
+      });
       console.log(data);
     } catch (e) {}
   };
@@ -72,11 +78,16 @@ const Dashboard = () => {
                     </Grid>
                     <Grid item xs={12} md={3}>
                       <Typography variant="h6">Totla Active User</Typography>
-                      <Typography>18,752</Typography>
+                      <Typography>0</Typography>
                     </Grid>
                     <Grid item xs={12} md={3}>
                       <Typography variant="h6">Totla Usage</Typography>
-                      <Typography>500 GB</Typography>
+                      <Typography>
+                        Download: {convertByteToInt(totalUsage.download).toFixed(2)} GB
+                      </Typography>
+                      <Typography>
+                        Upload:{convertByteToInt(totalUsage.upload).toFixed(2)} GB
+                      </Typography>
                     </Grid>
                     <Grid item></Grid>
                   </Grid>
