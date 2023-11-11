@@ -20,13 +20,13 @@ const Dashboard = () => {
     if (values.date === 24)
       obj = {
         end_date: dayjs().format(),
-        start_date: dayjs().format('YYYY-MM-DDT00:00'),
+        start_date: getBetweenDate(1),
         trunc: 'hour'
       };
     if (values.date === 1)
       obj = {
         end_date: dayjs().format(),
-        start_date: getBetweenDate(1),
+        start_date: dayjs().format('YYYY-MM-DDT00:00'),
         trunc: 'hour'
       };
     if (values.date === 7)
@@ -48,7 +48,9 @@ const Dashboard = () => {
       setReportHosts(data);
       setLabelReportHost(
         data.map((i) =>
-          obj.trunc === 'day' ? dayjs(i.date).format('YYYY-MM-DD') : dayjs(i.date).format('HH:mm')
+          obj.trunc === 'day'
+            ? dayjs(i.date).format('YYYY-MM-DD')
+            : dayjs(i.date).format('YYYY-MM-DD HH:mm')
         )
       );
       console.log(data);
