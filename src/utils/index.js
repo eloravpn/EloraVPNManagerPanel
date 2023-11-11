@@ -62,6 +62,7 @@ function stringAvatar(name) {
     }`
   };
 }
+
 const getToday = () => {
   var date = new Date();
 
@@ -88,6 +89,7 @@ const getExpireTime = (value) => {
   // setexpiredAt(newDateObj.toString());
   return newDateObj.toISOString();
 };
+
 const getBetweenDate = (value) => {
   let numberOfMlSeconds = new Date().getTime();
   let addMlSeconds = 24 * value * 60 * 60 * 1000;

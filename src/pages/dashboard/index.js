@@ -5,6 +5,7 @@ import Bar from 'components/chart/Bar';
 import SelectBadge from 'components/formik/badge';
 import Select from 'components/formik/select';
 import SecondarySelect from 'components/formik/select/dashboardUI';
+import dayjs from 'dayjs';
 import { Form, Formik } from 'formik';
 import { useState } from 'react';
 import { getReportAccount } from 'services/reportService';
@@ -12,18 +13,38 @@ import { convertByteToInt, getBetweenDate } from 'utils';
 
 const Dashboard = () => {
   const [reportHosts, setReportHosts] = useState([]);
+  const [labelReportHost, setLabelReportHost] = useState([]);
   const hadleSubmitHostZone = async (values) => {
-    try {
-      const { data } = await getReportAccount({
+    var obj = {};
+
+    if (values.date === 24)
+      obj = {
+        end_date: dayjs().format(),
+        start_date: dayjs().format('YYYY-MM-DDT00:00'),
+        trunc: 'hour'
+      };
+    if (values.date === 1)
+      obj = {
+        end_date: dayjs().format(),
+        start_date: dayjs().format('YYYY-MM-DDT00:00'),
+        trunc: 'hour'
+      };
+    if (values.date >= 30)
+      obj = {
         end_date: getBetweenDate(1),
         start_date: getBetweenDate(values.date),
-        trunc: values.date > 30 ? 'month' : 'day'
+        trunc: 'month'
+      };
+    try {
+      const { data } = await getReportAccount({
+        ...obj
       });
       setReportHosts(data);
+      setLabelReportHost(data.map((i) => dayjs(i.date).format('DD-MM')));
       console.log(data);
     } catch (e) {}
   };
-
+  console.log(labelReportHost);
   return (
     <Grid container spacing={2}>
       {/* Host and Zone Dashboard  */}
@@ -53,7 +74,7 @@ const Dashboard = () => {
               <Bar
                 type={'area'}
                 data={{
-                  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                  labels: labelReportHost,
                   data: [
                     {
                       data: reportHosts.map(({ download }) =>
@@ -84,8 +105,8 @@ const Dashboard = () => {
                     />
                     <SelectBadge
                       options={[
+                        { name: '24 H', id: 24 },
                         { name: '1 Day', id: 1 },
-                        { name: '3 Day', id: 3 },
                         { name: '1 Week', id: 7 },
                         { name: '1 Month', id: 30 }
                       ]}
