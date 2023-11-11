@@ -26,21 +26,31 @@ const Dashboard = () => {
     if (values.date === 1)
       obj = {
         end_date: dayjs().format(),
-        start_date: dayjs().format('YYYY-MM-DDT00:00'),
+        start_date: getBetweenDate(1),
         trunc: 'hour'
+      };
+    if (values.date === 7)
+      obj = {
+        end_date: getBetweenDate(1),
+        start_date: getBetweenDate(7),
+        trunc: 'day'
       };
     if (values.date >= 30)
       obj = {
         end_date: getBetweenDate(1),
         start_date: getBetweenDate(values.date),
-        trunc: 'month'
+        trunc: 'day'
       };
     try {
       const { data } = await getReportAccount({
         ...obj
       });
       setReportHosts(data);
-      setLabelReportHost(data.map((i) => dayjs(i.date).format('DD-MM')));
+      setLabelReportHost(
+        data.map((i) =>
+          obj.trunc === 'day' ? dayjs(i.date).format('YYYY-MM-DD') : dayjs(i.date).format('HH:mm')
+        )
+      );
       console.log(data);
     } catch (e) {}
   };
