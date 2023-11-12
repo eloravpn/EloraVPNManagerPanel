@@ -13,7 +13,8 @@ const columns = [
   {
     headerName: 'Usage',
     field: 'expired_at',
-    renderCell: 'progressDay'
+    renderCell: 'progressDay',
+    width: 300
   },
   {
     headerName: 'Status',

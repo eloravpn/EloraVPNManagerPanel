@@ -61,6 +61,7 @@ const Usages = (props) => {
                   type: ''
                 }}
                 height={200}
+                type={'bar'}
               />
             </>
           )}

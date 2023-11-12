@@ -24,7 +24,7 @@ import {
   MonetizationOn,
   NotInterested,
   Payment,
-  ShoppingCart,
+  ShoppingCartOutlined,
   TaskAlt
 } from '@mui/icons-material';
 import Chip from 'components/chip';
@@ -220,7 +220,7 @@ const CustomGrid = forwardRef(
     const getTypeIcon = useCallback(({ row }, field) => {
       if (row[field] === 'BONUS') return <CardGiftcard fontSize="large" color="primary" />;
       if (row[field] === 'PAYMENT') return <AddCard fontSize="large" color="primary" />;
-      if (row[field] === 'ORDER') return <ShoppingCart fontSize="large" color="primary" />;
+      if (row[field] === 'ORDER') return <ShoppingCartOutlined fontSize="large" color="primary" />;
       if (row[field] === 'MONEY_ORDER') return <MonetizationOn fontSize="large" color="primary" />;
       if (row[field] === 'ONLINE') return <Payment fontSize="large" color="primary" />;
       if (row[field] === 'CRYPTOCURRENCIES')
