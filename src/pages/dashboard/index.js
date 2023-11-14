@@ -7,7 +7,7 @@ import Select from 'components/formik/select';
 import SecondarySelect from 'components/formik/select/dashboardUI';
 import dayjs from 'dayjs';
 import { Form, Formik } from 'formik';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getReportAccount } from 'services/reportService';
 import { convertByteToInt, getBetweenDate } from 'utils';
 
@@ -15,7 +15,46 @@ const Dashboard = () => {
   const [reportHosts, setReportHosts] = useState([]);
   const [labelReportHost, setLabelReportHost] = useState([]);
   const [totalUsage, setTotalUsage] = useState({ download: '', upload: '' });
+  function convertTZ(date, tzString) {
+    return new Date(
+      (typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', {
+        timeZone: tzString
+      })
+    );
+  }
+  const getReport = useCallback(async () => {
+    try {
+      const { data } = await getReportAccount({
+        end_date: dayjs().format(),
+        start_date: getBetweenDate(1),
+        trunc: 'hour'
+      });
+      setReportHosts(data);
+      setLabelReportHost(
+        data?.map((i) =>
+          obj.trunc === 'day'
+            ? convertTZ(dayjs(i.date).format('YYYY-MM-DD'), 'Asia/Tehran')
+            : convertTZ(dayjs(i.date).format('YYYY-MM-DD HH:mm'), 'Asia/Tehran')
+        ) ?? []
+      );
+      setTotalUsage({
+        download: data.reduce((acc, curr) => acc + curr.download, 0),
+        upload: data.reduce((acc, curr) => acc + curr.upload, 0)
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
 
+  useEffect(() => {
+    getReport();
+    const timer = setInterval(() => {
+      getReport();
+    }, 600000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [getReport]);
   const hadleSubmitHostZone = async (values) => {
     var obj = {};
 
@@ -62,7 +101,7 @@ const Dashboard = () => {
       console.log(data);
     } catch (e) {}
   };
-  console.log(labelReportHost);
+
   return (
     <Grid container spacing={2}>
       {/* Host and Zone Dashboard  */}
@@ -106,7 +145,7 @@ const Dashboard = () => {
                       name: 'Download'
                     },
                     {
-                      data: reportHosts.map(({ upload }) => convertByteToInt(upload).toFixed(0)),
+                      data: reportHosts.map(({ upload }) => convertByteToInt(upload).toFixed(2)),
                       name: 'Upload'
                     }
                   ]

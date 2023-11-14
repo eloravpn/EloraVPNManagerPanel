@@ -232,6 +232,10 @@ const CustomGrid = forwardRef(
       []
     );
 
+    function totalPrice({ row }, field) {
+      return separateNum(row[field] - row.total_discount_amount);
+    }
+
     const handleFunc = useCallback(
       ({ row, ...t }, name, filed) => {
         switch (name) {
@@ -261,6 +265,8 @@ const CustomGrid = forwardRef(
             return getTypeIcon({ row }, filed);
           case 'render':
             return renderHtml({ row }, filed);
+          case 'total':
+            return totalPrice({ row }, filed);
           default:
             return null;
         }

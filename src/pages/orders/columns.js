@@ -19,7 +19,7 @@ const columns = [
   {
     headerName: 'Total',
     field: 'total',
-    renderCell: 'price',
+    renderCell: 'total',
     width: 150
   },
   {

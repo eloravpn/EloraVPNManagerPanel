@@ -48,7 +48,7 @@ const initialForm = {
   duration: 1,
   total: 0,
   total_discount_amount: 0,
-  status: 'PENDING',
+  status: 'PAID',
   data_limit: 0,
   ip_limit: 0
 };
@@ -174,7 +174,7 @@ const AddEdit = (props) => {
                       }
                       renderOption={(
                         props,
-                        { id, full_name, data_limit, expired_at, used_traffic, email, enable }
+                        { id, full_name, data_limit, expired_at, used_traffic, email, uuid, enable }
                       ) => (
                         <Fragment key={id}>
                           <li {...props}>
@@ -217,7 +217,9 @@ const AddEdit = (props) => {
                                   <Grid item>
                                     <AttachEmail color="primary" />
                                   </Grid>
-                                  <Grid item>{email}</Grid>
+                                  <Grid item>
+                                    {email} / {uuid}
+                                  </Grid>
                                 </Grid>
                                 <Grid container spacing={1} alignItems={'stretch'}>
                                   <Grid item>
@@ -242,10 +244,14 @@ const AddEdit = (props) => {
                 </>
               )}
 
-              <Grid item xs={12} md={6}>
-                <TextField name="ip_limit" label="IP Limit" />
-              </Grid>
-              <Grid item xs={12} md={6}>
+              {values.service_id ? (
+                <></>
+              ) : (
+                <Grid item xs={12} md={6}>
+                  <TextField name="ip_limit" label="IP Limit" />
+                </Grid>
+              )}
+              <Grid item xs={12} md={values.service_id ? 12 : 6}>
                 <Select
                   label={'Status'}
                   name="status"
@@ -256,16 +262,18 @@ const AddEdit = (props) => {
               <Grid item xs={12}>
                 <Autocomplete
                   getOptionLabel={(option) => option.name}
-                  label={'Services'}
+                  label={'Service'}
                   name="service_id"
                   options={[{ id: 0, name: 'None' }, ...services]}
                   isLoading={isLoading}
                   disabled={initial.id && condition.includes(values.status)}
                   onChange={(service) => {
-                    setFieldValue('duration', service.duration || 0);
-                    setFieldValue('data_limit', service.data_limit || 0);
-                    setFieldValue('total', service.price || 0);
-                    setFieldValue('total_discount_amount', service.discount || 0);
+                    if (service) {
+                      setFieldValue('duration', service.duration || 0);
+                      setFieldValue('data_limit', service.data_limit || 0);
+                      setFieldValue('total', service.price || 0);
+                      setFieldValue('total_discount_amount', service.discount || 0);
+                    }
                   }}
                   renderOption={(props, { id, price, discount, name }) => (
                     <Fragment key={id}>
