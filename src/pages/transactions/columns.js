@@ -2,13 +2,11 @@ const columns = [
   {
     headerName: 'User',
     field: 'user.full_name',
-    width: 150,
     renderCell: 'complexField'
   },
   {
     headerName: 'Type',
     field: 'type',
-    width: 150,
     renderCell: 'typeIcon'
   },
   {
@@ -19,7 +17,6 @@ const columns = [
   {
     headerName: 'Created',
     field: 'created_at',
-    width: 200,
     renderCell: 'date'
   }
 ];

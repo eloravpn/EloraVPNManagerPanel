@@ -9,6 +9,7 @@ const formValues = (obj, values) => {
   });
   return newData;
 };
+
 const getDayPersian = (date) => {
   if (!date) return 'No Date';
   if (date === 'Invalid Date') {
@@ -18,6 +19,7 @@ const getDayPersian = (date) => {
 
   return Moment(date, 'YYYY-MM-D').format('jYYYY/jM/jD');
 };
+
 const dataForm = (data) => {
   var formData = new FormData();
 
@@ -60,6 +62,7 @@ function stringAvatar(name) {
     }`
   };
 }
+
 const getToday = () => {
   var date = new Date();
 
@@ -87,9 +90,19 @@ const getExpireTime = (value) => {
   return newDateObj.toISOString();
 };
 
+const getBetweenDate = (value) => {
+  let numberOfMlSeconds = new Date().getTime();
+  let addMlSeconds = 24 * value * 60 * 60 * 1000;
+  let newDateObj = new Date(numberOfMlSeconds - addMlSeconds);
+
+  // setexpiredAt(newDateObj.toString());
+  return newDateObj.toISOString();
+};
+
 const convertToByte = (value) => {
   return value * Math.pow(1024, 3).toFixed(0);
 };
+
 const convertByteToInt = (value) => {
   return value / Math.pow(1024, 3);
 };
@@ -127,6 +140,7 @@ const isPositive = (number) => {
   if (number > 0) return true;
   else return false;
 };
+
 export {
   formValues,
   separateNum,
@@ -141,5 +155,6 @@ export {
   removeCharacter,
   emailGenerator,
   largestElement,
+  getBetweenDate,
   isPositive
 };

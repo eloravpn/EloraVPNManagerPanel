@@ -143,7 +143,7 @@ const Sidebar = (props) => {
   //   ? JSON.parse(localStorage.getItem(`${config.perfix}permissions`))
   //   : null
   const [menu, setMenu] = useState([]);
-  const [user] = useState();
+  const [user] = useState({ name: 'Elora Admin', username: 'Elora' });
   // !!localStorage.getItem(`${config.perfix}user`)
   //   ? JSON.parse(localStorage.getItem(`${config.perfix}user`))
   //   : null
@@ -173,9 +173,9 @@ const Sidebar = (props) => {
       <FireNav>
         <ListItemButton selected>
           <ListItemIcon>
-            <CustomAvatar {...stringAvatar(user?.name || 'No Name')} />
+            <CustomAvatar {...stringAvatar(user?.name)} />
           </ListItemIcon>
-          <ListItemText primary={user?.name || 'No'} secondary={user?.username || 'Name'} />
+          <ListItemText primary={user?.name} secondary={user?.username} />
         </ListItemButton>
       </FireNav>
       <FireNav
@@ -278,7 +278,7 @@ const Sidebar = (props) => {
               </IconButton>
             </Box>
             <IconButton disableRipple onClick={(e) => menuRef.current.changeStatus(e)}>
-              <CustomAvatar {...stringAvatar(user?.name || 'No Name')} />
+              <CustomAvatar {...stringAvatar(user?.name)} />
             </IconButton>
           </Toolbar>
         </AppBar>

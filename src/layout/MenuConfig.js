@@ -2,6 +2,12 @@ const menu = {
   aside: {
     items: [
       {
+        title: 'Dashboard',
+        root: true,
+        icon: 'bar_chart',
+        page: 'dashboard'
+      },
+      {
         title: 'Users',
         root: true,
         icon: 'group',

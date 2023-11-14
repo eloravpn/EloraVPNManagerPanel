@@ -30,7 +30,7 @@ const Login = () => {
         }
       })
       .then((res) => {
-        setAppData({ token: res.data.access_token, user: { name: 'No Name' } });
+        setAppData({ token: res.data.access_token, user: { name: 'Elora Admin' } });
         navigate(config.pathToLogin);
       })
       .catch((err) => {
