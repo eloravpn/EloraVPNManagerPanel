@@ -3,6 +3,7 @@ import Button from 'components/button';
 import Card from 'components/card';
 import Bar from 'components/chart/Bar';
 import SelectBadge from 'components/formik/badge';
+import Date from 'components/formik/date_picker';
 import Select from 'components/formik/select';
 import SecondarySelect from 'components/formik/select/dashboardUI';
 import dayjs from 'dayjs';
@@ -10,33 +11,29 @@ import { Form, Formik } from 'formik';
 import { useCallback, useEffect, useState } from 'react';
 import { getReportAccount } from 'services/reportService';
 import { convertByteToInt, getBetweenDate } from 'utils';
+var utc = require('dayjs/plugin/utc');
+var timezone = require('dayjs/plugin/timezone'); // dependent on utc plugin
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const Dashboard = () => {
   const [reportHosts, setReportHosts] = useState([]);
   const [labelReportHost, setLabelReportHost] = useState([]);
   const [totalUsage, setTotalUsage] = useState({ download: '', upload: '' });
-  function convertTZ(date, tzString) {
-    return new Date(
-      (typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', {
-        timeZone: tzString
-      })
-    );
-  }
+
   const getReport = useCallback(async () => {
     try {
       const { data } = await getReportAccount({
-        end_date: dayjs().format(),
+        end_date: dayjs().utc().format(),
         start_date: getBetweenDate(1),
         trunc: 'hour'
       });
       setReportHosts(data);
       setLabelReportHost(
-        data?.map((i) =>
-          obj.trunc === 'day'
-            ? convertTZ(dayjs(i.date).format('YYYY-MM-DD'), 'Asia/Tehran')
-            : convertTZ(dayjs(i.date).format('YYYY-MM-DD HH:mm'), 'Asia/Tehran')
-        ) ?? []
+        data?.map((i) => dayjs(i.date).tz('Asia/Tehran').format('YYYY-MM-DD HH:mm')) ?? []
       );
+
       setTotalUsage({
         download: data.reduce((acc, curr) => acc + curr.download, 0),
         upload: data.reduce((acc, curr) => acc + curr.upload, 0)
@@ -55,19 +52,20 @@ const Dashboard = () => {
       clearInterval(timer);
     };
   }, [getReport]);
+
   const hadleSubmitHostZone = async (values) => {
     var obj = {};
 
     if (values.date === 24)
       obj = {
-        end_date: dayjs().format(),
+        end_date: dayjs().utc().format(),
         start_date: getBetweenDate(1),
         trunc: 'hour'
       };
     if (values.date === 1)
       obj = {
-        end_date: dayjs().format(),
-        start_date: dayjs().format('YYYY-MM-DDT00:00'),
+        end_date: dayjs().utc().format(),
+        start_date: dayjs().utc().format('YYYY-MM-DDT00:00'),
         trunc: 'hour'
       };
     if (values.date === 7)
@@ -90,8 +88,8 @@ const Dashboard = () => {
       setLabelReportHost(
         data.map((i) =>
           obj.trunc === 'day'
-            ? dayjs(i.date).format('YYYY-MM-DD')
-            : dayjs(i.date).format('YYYY-MM-DD HH:mm')
+            ? dayjs(i.date).tz('Asia/Tehran').format('YYYY-MM-DD')
+            : dayjs(i.date).tz('Asia/Tehran').format('YYYY-MM-DD HH:mm')
         )
       );
       setTotalUsage({

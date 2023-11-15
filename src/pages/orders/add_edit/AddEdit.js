@@ -187,49 +187,65 @@ const AddEdit = (props) => {
                                 sx={{ width: 'calc(100% - 50px)', wordWrap: 'break-word' }}
                               >
                                 {full_name && (
-                                  <Typography variant="body1" component={'div'}>
-                                    {full_name}
-                                  </Typography>
-                                )}
-
-                                <Grid container spacing={1} alignItems={'stretch'}>
-                                  <Grid item>
-                                    <Fingerprint color="primary" />
-                                  </Grid>
-                                  <Grid item>{id}</Grid>
-                                </Grid>
-                                <Grid container spacing={1} alignItems={'stretch'}>
-                                  <Grid item>
-                                    <DataUsage color="primary" />
-                                  </Grid>
-                                  <Grid item>
-                                    {convertByteToInt(used_traffic).toFixed(1)}/
-                                    {convertByteToInt(data_limit).toFixed(1)} GB
-                                  </Grid>
-                                </Grid>
-                                <Grid container spacing={1} alignItems={'stretch'}>
-                                  <Grid item>
-                                    <AvTimer color="primary" />
-                                  </Grid>
-                                  <Grid item>{getDayPersian(expired_at)}</Grid>
-                                </Grid>
-                                <Grid container spacing={1} alignItems={'stretch'}>
-                                  <Grid item>
-                                    <AttachEmail color="primary" />
-                                  </Grid>
-                                  <Grid item>
-                                    {email} / {uuid}
-                                  </Grid>
-                                </Grid>
-                                <Grid container spacing={1} alignItems={'stretch'}>
-                                  <Grid item>
+                                  <Typography
+                                    variant="body1"
+                                    display={'flex'}
+                                    component={'div'}
+                                    alignItems={'center'}
+                                    gutterBottom
+                                  >
                                     {enable ? (
                                       <TaskAlt color="primary" />
                                     ) : (
                                       <NotInterested color="error" />
                                     )}
+                                    {full_name}{' '}
+                                  </Typography>
+                                )}
+                                <Grid container>
+                                  <Grid item xs={6} md={4}>
+                                    <Grid container spacing={1} alignItems={'stretch'}>
+                                      <Grid item>
+                                        <Fingerprint color="primary" />
+                                      </Grid>
+                                      <Grid item>{id}</Grid>
+                                    </Grid>
                                   </Grid>
-                                  <Grid item>{enable ? 'Active' : 'Deactive'}</Grid>
+                                  <Grid item xs={6} md={4}>
+                                    <Grid container spacing={1} alignItems={'stretch'}>
+                                      <Grid item>
+                                        <DataUsage color="primary" />
+                                      </Grid>
+                                      <Grid item>
+                                        {convertByteToInt(used_traffic).toFixed(1)}/
+                                        {convertByteToInt(data_limit).toFixed(1)} GB
+                                      </Grid>
+                                    </Grid>
+                                  </Grid>
+                                  <Grid xs={6} md={4}>
+                                    <Grid container spacing={1} alignItems={'stretch'}>
+                                      <Grid item>
+                                        <AvTimer color="primary" />
+                                      </Grid>
+                                      <Grid item>{getDayPersian(expired_at)}</Grid>
+                                    </Grid>
+                                  </Grid>
+                                  <Grid xs={6} md={4}>
+                                    <Grid container spacing={1} alignItems={'stretch'}>
+                                      <Grid item>
+                                        <AttachEmail color="primary" />
+                                      </Grid>
+                                      <Grid item>{email}</Grid>
+                                    </Grid>
+                                  </Grid>
+                                  <Grid xs={12}>
+                                    <Grid container spacing={1} alignItems={'stretch'}>
+                                      <Grid item>
+                                        <AttachEmail color="primary" />
+                                      </Grid>
+                                      <Grid item>{uuid}</Grid>
+                                    </Grid>
+                                  </Grid>
                                 </Grid>
                               </Grid>
                             </Grid>

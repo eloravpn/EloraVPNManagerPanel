@@ -1,11 +1,11 @@
 import Autocomplete from 'components/formik/autocomplete';
 import useUsers from 'hooks/useUsers';
-import { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { Fragment, memo, useCallback, useEffect, useMemo } from 'react';
 import { Divider, Grid, Typography } from '@mui/material';
 import Avatar from 'components/avatar';
 import { separateNum, stringAvatar } from 'utils';
 import { debounce } from 'lodash';
-import { useField, useFormikContext } from 'formik';
+import { useField } from 'formik';
 import { MonetizationOn, Person, PhoneAndroid, Telegram } from '@mui/icons-material';
 
 const UserSelect = ({ label, name, ...props }) => {
