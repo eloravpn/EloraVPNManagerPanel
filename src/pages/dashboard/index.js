@@ -29,6 +29,7 @@ const Dashboard = () => {
         start_date: getBetweenDate(1),
         trunc: 'hour'
       });
+
       setReportHosts(data);
       setLabelReportHost(
         data?.map((i) => dayjs(i.date).tz('Asia/Tehran').format('YYYY-MM-DD HH:mm')) ?? []
