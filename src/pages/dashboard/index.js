@@ -23,17 +23,17 @@ const Dashboard = () => {
   const [totalUsage, setTotalUsage] = useState({ download: '', upload: '' });
 
   const getReport = useCallback(async () => {
+    const DD = dayjs().format('DD');
+
     try {
       const { data } = await getReportAccount({
-        end_date: dayjs().utc().format(),
-        start_date: getBetweenDate(1),
+        end_date: dayjs(dayjs().utc(true).format()).format(`YYYY-MM-DDTHH:mm`),
+        start_date: dayjs(dayjs().utc(true).format()).format(`YYYY-MM-${+DD - 1}THH:mm`),
         trunc: 'hour'
       });
 
       setReportHosts(data);
-      setLabelReportHost(
-        data?.map((i) => dayjs(i.date).tz('Asia/Tehran').format('YYYY-MM-DD HH:mm')) ?? []
-      );
+      setLabelReportHost(data?.map((i) => dayjs(i.date).tz('Asia/Tehran', true)) ?? []);
 
       setTotalUsage({
         download: data.reduce((acc, curr) => acc + curr.download, 0),
@@ -86,13 +86,7 @@ const Dashboard = () => {
         ...obj
       });
       setReportHosts(data);
-      setLabelReportHost(
-        data.map((i) =>
-          obj.trunc === 'day'
-            ? dayjs(i.date).tz('Asia/Tehran').format('YYYY-MM-DD')
-            : dayjs(i.date).tz('Asia/Tehran').format('YYYY-MM-DD HH:mm')
-        )
-      );
+      setLabelReportHost(data.map((i) => dayjs(i.date).format('YYYY-MM-DD hh:mm')));
       setTotalUsage({
         download: data.reduce((acc, curr) => acc + curr.download, 0),
         upload: data.reduce((acc, curr) => acc + curr.upload, 0)
@@ -100,6 +94,8 @@ const Dashboard = () => {
       console.log(data);
     } catch (e) {}
   };
+
+  console.log(labelReportHost);
 
   return (
     <Grid container spacing={2}>
@@ -139,7 +135,7 @@ const Dashboard = () => {
                   data: [
                     {
                       data: reportHosts.map(({ download }) =>
-                        convertByteToInt(download).toFixed(0)
+                        convertByteToInt(download).toFixed(2)
                       ),
                       name: 'Download'
                     },
