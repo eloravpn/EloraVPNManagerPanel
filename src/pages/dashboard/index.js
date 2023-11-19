@@ -23,17 +23,20 @@ const Dashboard = () => {
   const [totalUsage, setTotalUsage] = useState({ download: '', upload: '' });
 
   const getReport = useCallback(async () => {
-    const DD = dayjs().format('DD');
+    const DD = dayjs().utc().format('DD');
+    const a = dayjs()
+      .utc()
+      .format(`YYYY-MM-${DD - 1} HH:mm`);
+    const b = dayjs().utc().format(`YYYY-MM-DD HH:mm`);
 
     try {
       const { data } = await getReportAccount({
-        end_date: dayjs(dayjs().utc(true).format()).format(`YYYY-MM-DDTHH:mm`),
-        start_date: dayjs(dayjs().utc(true).format()).format(`YYYY-MM-${+DD - 1}THH:mm`),
+        start_date: a,
+        end_date: b,
         trunc: 'hour'
       });
-
       setReportHosts(data);
-      setLabelReportHost(data?.map((i) => dayjs(i.date).tz('Asia/Tehran', true)) ?? []);
+      setLabelReportHost(data?.map((i) => dayjs.tz(i.date, 'Asia/Tehran')) ?? []);
 
       setTotalUsage({
         download: data.reduce((acc, curr) => acc + curr.download, 0),
