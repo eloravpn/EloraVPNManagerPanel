@@ -60,10 +60,16 @@ const Dashboard = () => {
   const hadleSubmitHostZone = async (values) => {
     var obj = {};
 
+    const DD = dayjs().utc().format('DD');
+    const a = dayjs()
+      .utc()
+      .format(`YYYY-MM-${DD - 1} HH:mm`);
+    const b = dayjs().utc().format(`YYYY-MM-DD HH:mm`);
+
     if (values.date === 24)
       obj = {
-        end_date: dayjs().utc().format(),
-        start_date: getBetweenDate(1),
+        start_date: a,
+        end_date: b,
         trunc: 'hour'
       };
     if (values.date === 1)
@@ -89,7 +95,8 @@ const Dashboard = () => {
         ...obj
       });
       setReportHosts(data);
-      setLabelReportHost(data.map((i) => dayjs(i.date).format('YYYY-MM-DD hh:mm')));
+      setLabelReportHost(data?.map((i) => dayjs.tz(i.date, 'Asia/Tehran')) ?? []);
+
       setTotalUsage({
         download: data.reduce((acc, curr) => acc + curr.download, 0),
         upload: data.reduce((acc, curr) => acc + curr.upload, 0)
@@ -97,8 +104,6 @@ const Dashboard = () => {
       console.log(data);
     } catch (e) {}
   };
-
-  console.log(labelReportHost);
 
   return (
     <Grid container spacing={2}>
