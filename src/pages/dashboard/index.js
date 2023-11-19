@@ -23,17 +23,20 @@ const Dashboard = () => {
   const [totalUsage, setTotalUsage] = useState({ download: '', upload: '' });
 
   const getReport = useCallback(async () => {
+    const DD = dayjs().utc().format('DD');
+    const a = dayjs()
+      .utc()
+      .format(`YYYY-MM-${DD - 1} HH:mm`);
+    const b = dayjs().utc().format(`YYYY-MM-DD HH:mm`);
+
     try {
       const { data } = await getReportAccount({
-        end_date: dayjs().utc().format(),
-        start_date: getBetweenDate(1),
+        start_date: a,
+        end_date: b,
         trunc: 'hour'
       });
-
       setReportHosts(data);
-      setLabelReportHost(
-        data?.map((i) => dayjs(i.date).tz('Asia/Tehran').format('YYYY-MM-DD HH:mm')) ?? []
-      );
+      setLabelReportHost(data?.map((i) => dayjs.tz(i.date, 'Asia/Tehran')) ?? []);
 
       setTotalUsage({
         download: data.reduce((acc, curr) => acc + curr.download, 0),
@@ -57,10 +60,16 @@ const Dashboard = () => {
   const hadleSubmitHostZone = async (values) => {
     var obj = {};
 
+    const DD = dayjs().utc().format('DD');
+    const a = dayjs()
+      .utc()
+      .format(`YYYY-MM-${DD - 1} HH:mm`);
+    const b = dayjs().utc().format(`YYYY-MM-DD HH:mm`);
+
     if (values.date === 24)
       obj = {
-        end_date: dayjs().utc().format(),
-        start_date: getBetweenDate(1),
+        start_date: a,
+        end_date: b,
         trunc: 'hour'
       };
     if (values.date === 1)
@@ -86,13 +95,8 @@ const Dashboard = () => {
         ...obj
       });
       setReportHosts(data);
-      setLabelReportHost(
-        data.map((i) =>
-          obj.trunc === 'day'
-            ? dayjs(i.date).tz('Asia/Tehran').format('YYYY-MM-DD')
-            : dayjs(i.date).tz('Asia/Tehran').format('YYYY-MM-DD HH:mm')
-        )
-      );
+      setLabelReportHost(data?.map((i) => dayjs.tz(i.date, 'Asia/Tehran')) ?? []);
+
       setTotalUsage({
         download: data.reduce((acc, curr) => acc + curr.download, 0),
         upload: data.reduce((acc, curr) => acc + curr.upload, 0)
@@ -139,7 +143,7 @@ const Dashboard = () => {
                   data: [
                     {
                       data: reportHosts.map(({ download }) =>
-                        convertByteToInt(download).toFixed(0)
+                        convertByteToInt(download).toFixed(2)
                       ),
                       name: 'Download'
                     },
