@@ -220,6 +220,10 @@ const GridMobile = forwardRef((props, ref) => {
     []
   );
 
+  function totalPrice({ row }, field) {
+    return separateNum(row[field] - row.total_discount_amount);
+  }
+
   const handleFunc = useCallback(
     ({ row }, name, filed) => {
       switch (name) {
@@ -249,6 +253,8 @@ const GridMobile = forwardRef((props, ref) => {
           return getTypeIcon({ row }, filed);
         case 'render':
           return renderHtml({ row }, filed);
+        case 'total':
+          return totalPrice({ row }, filed);
         default:
           return null;
       }

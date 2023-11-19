@@ -8,7 +8,7 @@ const useServices = () => {
 
   const getServices = useCallback(async (userId) => {
     setIsLoading(true);
-    const services = await getAllServices();
+    const services = await getAllServices({ sort: '-name' });
     setServices(services);
     setIsLoading(false);
   }, []);
