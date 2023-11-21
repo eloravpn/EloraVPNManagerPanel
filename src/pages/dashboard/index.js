@@ -10,7 +10,7 @@ import dayjs from 'dayjs';
 import { Form, Formik } from 'formik';
 import { useCallback, useEffect, useState } from 'react';
 import { getReportAccount } from 'services/reportService';
-import { convertByteToInt, getBetweenDate } from 'utils';
+import { convertByteToInt, getBetweenDate, getDayPersian } from 'utils';
 var utc = require('dayjs/plugin/utc');
 var timezone = require('dayjs/plugin/timezone'); // dependent on utc plugin
 
@@ -36,7 +36,9 @@ const Dashboard = () => {
         trunc: 'hour'
       });
       setReportHosts(data);
-      setLabelReportHost(data?.map((i) => dayjs.tz(i.date, 'Asia/Tehran')) ?? []);
+      setLabelReportHost(
+        data?.map((i) => dayjs.utc(i.date).tz('Asia/Tehran').format('HH:mm')) ?? []
+      );
 
       setTotalUsage({
         download: data.reduce((acc, curr) => acc + curr.download, 0),
@@ -95,7 +97,13 @@ const Dashboard = () => {
         ...obj
       });
       setReportHosts(data);
-      setLabelReportHost(data?.map((i) => dayjs.tz(i.date, 'Asia/Tehran')) ?? []);
+      setLabelReportHost(
+        data?.map((i) =>
+          obj.trunc === 'hour'
+            ? dayjs.utc(i.date).tz('Asia/Tehran').format('HH:mm')
+            : getDayPersian(dayjs.tz(i.date, 'Asia/Tehran').format('YYYY-MM-DD'))
+        ) ?? []
+      );
 
       setTotalUsage({
         download: data.reduce((acc, curr) => acc + curr.download, 0),
