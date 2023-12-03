@@ -3,7 +3,16 @@ import { useField, useFormikContext } from 'formik';
 import Loading from 'components/loading';
 import SelectMD from '@mui/material/Select';
 
-const Select = ({ name, label, isLoading, options, onChange, labelName, ...otherProps }) => {
+const Select = ({
+  name,
+  label,
+  isLoading,
+  options,
+  onChange,
+  labelName,
+  fullWidth,
+  ...otherProps
+}) => {
   const [field, mata] = useField(name);
   const { setFieldValue } = useFormikContext();
   const handleChange = (evt) => {
@@ -14,7 +23,6 @@ const Select = ({ name, label, isLoading, options, onChange, labelName, ...other
   const configSelect = {
     ...field,
     ...otherProps,
-    fullWidth: true,
     variant: 'outlined',
     onChange: handleChange,
     value: field.value || ''
@@ -28,7 +36,7 @@ const Select = ({ name, label, isLoading, options, onChange, labelName, ...other
       {isLoading ? (
         <Loading size={35} />
       ) : (
-        <FormControl fullWidth>
+        <FormControl fullWidth={fullWidth}>
           <InputLabel id={name}>{label}</InputLabel>
           <SelectMD labelId={name} label={label} {...configSelect}>
             {options.length > 0 &&
@@ -46,7 +54,8 @@ const Select = ({ name, label, isLoading, options, onChange, labelName, ...other
 
 Select.defaultProps = {
   options: [],
-  labelName: 'name'
+  labelName: 'name',
+  fullWidth: true
 };
 
 export default Select;
