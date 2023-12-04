@@ -2,8 +2,10 @@ import { Grid, Typography } from '@mui/material';
 import Button from 'components/button';
 import Card from 'components/card';
 import Bar from 'components/chart/Bar';
+import Mixed from 'components/chart/Mixed';
 import SelectBadge from 'components/formik/badge';
 import Date from 'components/formik/date_picker';
+import FormObserver from 'components/formik/observer';
 import Select from 'components/formik/select';
 import SecondarySelect from 'components/formik/select/dashboardUI';
 import dayjs from 'dayjs';
@@ -11,6 +13,7 @@ import { Form, Formik } from 'formik';
 import { useCallback, useEffect, useState } from 'react';
 import { getReportAccount } from 'services/reportService';
 import { convertByteToInt, getBetweenDate, getDayPersian } from 'utils';
+
 var utc = require('dayjs/plugin/utc');
 var timezone = require('dayjs/plugin/timezone'); // dependent on utc plugin
 
@@ -118,7 +121,39 @@ const Dashboard = () => {
       {/* Host and Zone Dashboard  */}
       <Grid item xs={12}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={9}>
+          <Grid item xs={12}>
+            <Formik initialValues={{ zone_id: 1, date: 1 }}>
+              {() => (
+                <Form>
+                  <FormObserver onChange={hadleSubmitHostZone} />
+
+                  <Card
+                    title={
+                      <>
+                        <Select
+                          fullWidth={false}
+                          name={'zone_id'}
+                          options={[{ id: 1, name: 'Zone 1' }]}
+                          input={<SecondarySelect fullWidth={false} />}
+                        />
+                      </>
+                    }
+                  >
+                    <SelectBadge
+                      options={[
+                        { name: '24 H', id: 24 },
+                        { name: '1 Day', id: 1 },
+                        { name: '1 Week', id: 7 },
+                        { name: '1 Month', id: 30 }
+                      ]}
+                      name="date"
+                    />
+                  </Card>
+                </Form>
+              )}
+            </Formik>
+          </Grid>
+          <Grid item xs={12}>
             <Card
               title={
                 <>
@@ -127,11 +162,11 @@ const Dashboard = () => {
                       <Typography variant="h6">Zone 1</Typography>
                     </Grid>
                     <Grid item xs={12} md={3}>
-                      <Typography variant="h6">Totla Active User</Typography>
+                      <Typography variant="h6">Total Active User</Typography>
                       <Typography>0</Typography>
                     </Grid>
                     <Grid item xs={12} md={3}>
-                      <Typography variant="h6">Totla Usage</Typography>
+                      <Typography variant="h6">Total Usage</Typography>
                       <Typography>
                         Download: {convertByteToInt(totalUsage.download).toFixed(2)} GB
                       </Typography>
@@ -144,62 +179,35 @@ const Dashboard = () => {
                 </>
               }
             >
-              <Bar
+              <Mixed
                 type={'area'}
                 data={{
                   labels: labelReportHost,
                   data: [
                     {
+                      type: 'column',
                       data: reportHosts.map(({ download }) =>
                         convertByteToInt(download).toFixed(2)
                       ),
                       name: 'Download'
                     },
                     {
+                      type: 'column',
                       data: reportHosts.map(({ upload }) => convertByteToInt(upload).toFixed(2)),
                       name: 'Upload'
+                    },
+                    {
+                      type: 'line',
+                      data: reportHosts.map(({ count }) => count),
+                      name: 'Count'
                     }
                   ]
                 }}
+                max={Math.max(
+                  ...reportHosts.map(({ download }) => convertByteToInt(download).toFixed(2))
+                )}
                 height={350}
               />
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card sx={{ mb: 2 }} title="Host Zones">
-              <Formik initialValues={{ zone_id: 1, date: 1 }} onSubmit={hadleSubmitHostZone}>
-                {() => (
-                  <Form onChange={() => alert()}>
-                    <Select
-                      fullWidth={true}
-                      name={'zone_id'}
-                      options={[{ id: 1, name: 'Zone 1' }]}
-                      input={<SecondarySelect />}
-                    />
-                    <SelectBadge
-                      options={[
-                        { name: '24 H', id: 24 },
-                        { name: '1 Day', id: 1 },
-                        { name: '1 Week', id: 7 },
-                        { name: '1 Month', id: 30 }
-                      ]}
-                      name="date"
-                    />
-                    <Grid container spacing={1}>
-                      <Grid item xs={9}>
-                        <Button fullWidth type={'submit'}>
-                          Search
-                        </Button>
-                      </Grid>
-                      <Grid item xs={3}>
-                        <Button color="error" type={'reset'}>
-                          reset
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </Form>
-                )}
-              </Formik>
             </Card>
           </Grid>
         </Grid>
