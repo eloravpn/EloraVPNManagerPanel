@@ -16,6 +16,7 @@ const SelectBadge = ({
 
   const configSelect = {
     ...field,
+    py: 1.7,
     ...otherProps,
     value: mata.value || '',
     id: name,
@@ -40,12 +41,11 @@ const SelectBadge = ({
             {label}
           </FormLabel>
         )}
-        <Box id={name} display="flex" justifyContent="space-between" alignItems="stretch" mb={1}>
+        <Box id={name} display="flex" justifyContent="space-between" alignItems="stretch">
           {options?.map((item, i) => (
             <Box
               {...configSelect}
               mx={0.7}
-              py={1.7}
               position={'relative'}
               key={i}
               alignItems={'center'}
