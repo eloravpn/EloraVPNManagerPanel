@@ -24,7 +24,7 @@ import {
   MonetizationOn,
   NotInterested,
   Payment,
-  ShoppingCartOutlined,
+  ShoppingCart,
   TaskAlt
 } from '@mui/icons-material';
 import Chip from 'components/chip';
@@ -216,21 +216,6 @@ const CustomGrid = forwardRef(
         </Typography>
       );
     }
-
-    const getTypeIcon = useCallback(({ row }, field) => {
-      if (row[field] === 'BONUS') return <CardGiftcard fontSize="large" color="primary" />;
-      if (row[field] === 'PAYMENT') return <AddCard fontSize="large" color="primary" />;
-      if (row[field] === 'ORDER') return <ShoppingCartOutlined fontSize="large" color="primary" />;
-      if (row[field] === 'MONEY_ORDER') return <MonetizationOn fontSize="large" color="primary" />;
-      if (row[field] === 'ONLINE') return <Payment fontSize="large" color="primary" />;
-      if (row[field] === 'CRYPTOCURRENCIES')
-        return <CurrencyBitcoin fontSize="large" color="primary" />;
-    }, []);
-
-    const renderHtml = useCallback(
-      ({ row }, field) => <div dangerouslySetInnerHTML={{ __html: row[field] }} />,
-      []
-    );
 
     function totalPrice({ row }, field) {
       return separateNum(row[field] - row.total_discount_amount);

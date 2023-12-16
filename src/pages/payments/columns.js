@@ -11,12 +11,6 @@ const columns = [
     renderCell: 'complexField'
   },
   {
-    headerName: 'User',
-    field: 'user.full_name',
-    width: 150,
-    renderCell: 'complexField'
-  },
-  {
     headerName: 'Total',
     field: 'total',
     width: 150,
