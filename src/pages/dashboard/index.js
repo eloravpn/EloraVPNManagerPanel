@@ -10,6 +10,7 @@ import Select from 'components/formik/select';
 import SecondarySelect from 'components/formik/select/dashboardUI';
 import dayjs from 'dayjs';
 import { Form, Formik } from 'formik';
+import useHostZones from 'hooks/useHostZones';
 import { useCallback, useEffect, useState } from 'react';
 import { getReportAccount } from 'services/reportService';
 import { convertByteToInt, getBetweenDate, getDayPersian } from 'utils';
@@ -24,7 +25,8 @@ const Dashboard = () => {
   const [reportHosts, setReportHosts] = useState([]);
   const [labelReportHost, setLabelReportHost] = useState([]);
   const [totalUsage, setTotalUsage] = useState({ download: '', upload: '', avg: '' });
-  console.log('🚀 ~ Dashboard ~ totalUsage:', totalUsage);
+
+  const { hostZones, isLoading, getHostZones } = useHostZones();
 
   const getReport = useCallback(async () => {
     const DD = dayjs().utc().format('DD');
@@ -56,6 +58,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getReport();
+    getHostZones();
     const timer = setInterval(() => {
       getReport();
     }, 600000);
@@ -82,7 +85,7 @@ const Dashboard = () => {
     if (values.date === 1)
       obj = {
         end_date: dayjs().utc().format(),
-        start_date: dayjs().utc().format('YYYY-MM-DDT00:00'),
+        start_date: dayjs().utc().format('YYYY-MM-DDT00:00:00+00:00'),
         trunc: 'hour'
       };
     if (values.date === 7)
@@ -142,10 +145,12 @@ const Dashboard = () => {
                 <Box mr={2}>
                   <Select
                     fullWidth={false}
+                    isLoading={isLoading}
                     name={'zone_id'}
-                    options={[{ id: 1, name: 'Zone 1' }]}
+                    options={hostZones}
                     input={<SecondarySelect fullWidth={false} />}
                   />
+                  {console.log(hostZones)}
                 </Box>
                 <Box
                   width={'fit-content'}
