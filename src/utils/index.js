@@ -9,7 +9,6 @@ const formValues = (obj, values) => {
   });
   return newData;
 };
-
 const getDayPersian = (date) => {
   if (!date) return 'No Date';
   if (date === 'Invalid Date') {
@@ -140,7 +139,6 @@ const isPositive = (number) => {
   if (number > 0) return true;
   else return false;
 };
-
 export {
   formValues,
   separateNum,

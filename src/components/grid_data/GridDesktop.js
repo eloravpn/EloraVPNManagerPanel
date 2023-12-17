@@ -24,7 +24,7 @@ import {
   MonetizationOn,
   NotInterested,
   Payment,
-  ShoppingCartOutlined,
+  ShoppingCart,
   TaskAlt
 } from '@mui/icons-material';
 import Chip from 'components/chip';
@@ -217,10 +217,32 @@ const CustomGrid = forwardRef(
       );
     }
 
+    function totalPrice({ row }, field) {
+      return separateNum(row[field] - row.total_discount_amount);
+    }
+
+    function getTransactionStatus({ row }, field) {
+      return (
+        <Typography
+          display={'flex'}
+          alignItems={'center'}
+          component={'span'}
+          color={+row[field] >= 0 ? 'success' : 'error'}
+        >
+          {+row[field] >= 0 ? (
+            <ArrowDropUp fontSize="large" color="success" />
+          ) : (
+            <ArrowDropDown fontSize="large" color="error" />
+          )}
+          {separateNum(row[field])}
+        </Typography>
+      );
+    }
+
     const getTypeIcon = useCallback(({ row }, field) => {
       if (row[field] === 'BONUS') return <CardGiftcard fontSize="large" color="primary" />;
       if (row[field] === 'PAYMENT') return <AddCard fontSize="large" color="primary" />;
-      if (row[field] === 'ORDER') return <ShoppingCartOutlined fontSize="large" color="primary" />;
+      if (row[field] === 'ORDER') return <ShoppingCart fontSize="large" color="primary" />;
       if (row[field] === 'MONEY_ORDER') return <MonetizationOn fontSize="large" color="primary" />;
       if (row[field] === 'ONLINE') return <Payment fontSize="large" color="primary" />;
       if (row[field] === 'CRYPTOCURRENCIES')
@@ -231,10 +253,6 @@ const CustomGrid = forwardRef(
       ({ row }, field) => <div dangerouslySetInnerHTML={{ __html: row[field] }} />,
       []
     );
-
-    function totalPrice({ row }, field) {
-      return separateNum(row[field] - row.total_discount_amount);
-    }
 
     const handleFunc = useCallback(
       ({ row, ...t }, name, filed) => {

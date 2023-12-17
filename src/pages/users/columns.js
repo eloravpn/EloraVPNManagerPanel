@@ -24,7 +24,7 @@ const columns = [
     headerName: 'Enable',
     field: 'enable',
     renderCell: 'status',
-    width: 100
+    width: 50
   },
   {
     headerName: 'Modified',
