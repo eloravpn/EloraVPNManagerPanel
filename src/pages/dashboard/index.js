@@ -24,7 +24,7 @@ dayjs.extend(timezone);
 const Dashboard = () => {
   const [reportHosts, setReportHosts] = useState([]);
   const [labelReportHost, setLabelReportHost] = useState([]);
-  const [totalUsage, setTotalUsage] = useState({ download: '', upload: '', avg: '' });
+  const [totalUsage, setTotalUsage] = useState({ download: '', upload: '', avg: 0 });
 
   const { hostZones, isLoading, getHostZones } = useHostZones();
 
@@ -49,7 +49,7 @@ const Dashboard = () => {
       setTotalUsage({
         download: data.reduce((acc, curr) => acc + curr.download, 0),
         upload: data.reduce((acc, curr) => acc + curr.upload, 0),
-        avg: data.reduce((acc, curr) => acc + curr.count, 0) / 4
+        avg: (data.reduce((acc, curr) => acc + curr.count, 0) / data.length).toFixed(0)
       });
     } catch (e) {
       console.log(e);
@@ -123,7 +123,10 @@ const Dashboard = () => {
       setTotalUsage({
         download: data.reduce((acc, curr) => acc + curr.download, 0),
         upload: data.reduce((acc, curr) => acc + curr.upload, 0),
-        avg: data.reduce((acc, curr) => acc + curr.count, 0)
+        avg:
+          data.length > 0
+            ? (data.reduce((acc, curr) => acc + curr.count, 0) / data.length).toFixed(0)
+            : 0
       });
     } catch (e) {}
   };
@@ -131,7 +134,7 @@ const Dashboard = () => {
   return (
     <>
       <>
-        <Formik initialValues={{ zone_id: 1, date: 1 }}>
+        <Formik initialValues={{ zone_id: 1, date: 24 }}>
           {({ values }) => (
             <Form>
               <Box
@@ -150,7 +153,6 @@ const Dashboard = () => {
                     options={hostZones}
                     input={<SecondarySelect fullWidth={false} />}
                   />
-                  {console.log(hostZones)}
                 </Box>
                 <Box
                   width={'fit-content'}
@@ -202,7 +204,7 @@ const Dashboard = () => {
                       </Grid>
                       <Grid item xs={12} md={3}>
                         <Typography variant="h6">Avg Active User</Typography>
-                        <Typography>{totalUsage.avg}</Typography>
+                        <Typography>{!!totalUsage.avg ? totalUsage.avg : 0}</Typography>
                       </Grid>
                       <Grid item xs={12} md={3}>
                         <Typography variant="h6">Total Usage</Typography>
