@@ -5,7 +5,6 @@ const Http = {
     Notification.success(res.data.message);
   },
   error(error) {
-    console.log('🚀 ~ error ~ error:', error);
     if (Array.isArray(error.response.data.detail)) {
       error.response.data.detail.map((i) => Notification.danger(`${i.loc[1]} ${i.msg}`));
     }
