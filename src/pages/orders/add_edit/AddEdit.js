@@ -268,12 +268,7 @@ const AddEdit = (props) => {
                 </Grid>
               )}
               <Grid item xs={12} md={values.service_id ? 12 : 6}>
-                <Select
-                  label={'Status'}
-                  name="status"
-                  options={GLOBAL.statusOrder}
-                  // disabled={initial.id && condition.includes(values.status)}
-                />
+                <Select label={'Status'} name="status" options={GLOBAL.statusOrder} />
               </Grid>
               <Grid item xs={12}>
                 <Autocomplete
