@@ -1,10 +1,16 @@
 import Chart from 'react-apexcharts';
 
-const Mixed = ({ data, height, type, max }) => {
+const Mixed = ({ data, height, type, max, width }) => {
   const state = {
     series: data.data,
     options: {
       chart: {
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: false
+        },
         height: 350,
         type: 'line',
         stacked: false
@@ -18,11 +24,6 @@ const Mixed = ({ data, height, type, max }) => {
       stroke: {
         width: [1, 1, 4]
       },
-      // title: {
-      //   text: 'XYZ - Stock Analysis (2009 - 2016)',
-      //   align: 'left',
-      //   offsetX: 110
-      // },
       xaxis: {
         categories: data.labels
       },
@@ -42,7 +43,7 @@ const Mixed = ({ data, height, type, max }) => {
             }
           },
           title: {
-            text: 'Donwload',
+            text: 'Donwload / Upload',
             style: {
               color: '#008FFB'
             }
@@ -56,22 +57,13 @@ const Mixed = ({ data, height, type, max }) => {
           seriesName: 'Income',
           opposite: true,
           axisTicks: {
-            show: true
+            show: false
           },
           axisBorder: {
-            show: true,
-            color: '#00E396'
+            show: false
           },
           labels: {
-            style: {
-              colors: '#00E396'
-            }
-          },
-          title: {
-            text: 'Upload',
-            style: {
-              color: '#00E396'
-            }
+            show: false
           }
         },
         {
@@ -106,15 +98,20 @@ const Mixed = ({ data, height, type, max }) => {
         }
       },
       legend: {
-        horizontalAlign: 'left',
-        offsetX: 40
+        horizontalAlign: 'left'
       }
     }
   };
 
   return (
     <div id="chart">
-      <Chart options={state.options} series={state.series} type="line" height={height} />
+      <Chart
+        options={state.options}
+        series={state.series}
+        type="line"
+        height={height}
+        width={width}
+      />
     </div>
   );
 };

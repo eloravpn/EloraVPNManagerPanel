@@ -1,4 +1,4 @@
-import { Box, Fade, Grid, Typography } from '@mui/material';
+import { Box, Fade, Grid, Skeleton, Typography } from '@mui/material';
 import Button from 'components/button';
 import Card from 'components/card';
 import Bar from 'components/chart/Bar';
@@ -25,7 +25,7 @@ const Dashboard = () => {
   const [reportHosts, setReportHosts] = useState([]);
   const [labelReportHost, setLabelReportHost] = useState([]);
   const [totalUsage, setTotalUsage] = useState({ download: '', upload: '', avg: 0 });
-
+  const [isLoadingGetReport, setIsLoadingGetReport] = useState(false);
   const { hostZones, isLoading, getHostZones } = useHostZones();
 
   const getReport = useCallback(async () => {
@@ -68,6 +68,7 @@ const Dashboard = () => {
   }, [getReport]);
 
   const hadleSubmitHostZone = async (values) => {
+    setIsLoadingGetReport(true);
     var obj = {};
 
     const DD = dayjs().utc().format('DD');
@@ -128,7 +129,10 @@ const Dashboard = () => {
             ? (data.reduce((acc, curr) => acc + curr.count, 0) / data.length).toFixed(0)
             : 0
       });
-    } catch (e) {}
+      setIsLoadingGetReport(false);
+    } catch (e) {
+      setIsLoadingGetReport(false);
+    }
   };
 
   return (
@@ -137,15 +141,9 @@ const Dashboard = () => {
         <Formik initialValues={{ zone_id: 1, date: 24 }}>
           {({ values }) => (
             <Form>
-              <Box
-                width={'100%'}
-                display={'flex'}
-                justifyContent={'center'}
-                mb={2}
-                alignItems={'center'}
-              >
+              <Grid container spacing={1}>
                 <FormObserver onChange={hadleSubmitHostZone} />
-                <Box mr={2}>
+                <Grid item xs={12} md={6}>
                   <Select
                     fullWidth={false}
                     isLoading={isLoading}
@@ -153,39 +151,41 @@ const Dashboard = () => {
                     options={hostZones}
                     input={<SecondarySelect fullWidth={false} />}
                   />
-                </Box>
-                <Box
-                  width={'fit-content'}
-                  display={'flex'}
-                  justifyContent={'center'}
-                  alignItems={'center'}
-                  bgcolor={'#f6f6f6'}
-                  borderRadius={50}
-                  py={'auto'}
-                >
-                  <SelectBadge
-                    mx={0.9}
-                    px={0.9}
-                    py={0.5}
-                    width={'auto'}
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Box
+                    width={'fit-content'}
+                    display={'flex'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    bgcolor={'#f6f6f6'}
                     borderRadius={50}
-                    options={[
-                      { name: '24 H', id: 24 },
-                      { name: '1 Day', id: 1 },
-                      { name: '1 Week', id: 7 },
-                      { name: '1 Month', id: 30 },
-                      { name: 'Custom', id: 4 }
-                    ]}
-                    name="date"
-                  />
-                </Box>
-                <Fade in={values.date === 4}>
-                  <Box>
-                    <Date name="start_date" label={'Start At'} />
-                    <Date name="end_date" label={'End At'} inp />
+                    py={'auto'}
+                  >
+                    <SelectBadge
+                      mx={0.9}
+                      px={0.9}
+                      py={0.5}
+                      width={'auto'}
+                      borderRadius={50}
+                      options={[
+                        { name: '24 H', id: 24 },
+                        { name: '1 Day', id: 1 },
+                        { name: '1 Week', id: 7 },
+                        { name: '1 Month', id: 30 },
+                        { name: 'Custom', id: 4 }
+                      ]}
+                      name="date"
+                    />
                   </Box>
-                </Fade>
-              </Box>
+                  <Fade in={values.date === 4}>
+                    <Box>
+                      <Date name="start_date" label={'Start At'} />
+                      <Date name="end_date" label={'End At'} />
+                    </Box>
+                  </Fade>
+                </Grid>
+              </Grid>
             </Form>
           )}
         </Formik>
@@ -204,15 +204,29 @@ const Dashboard = () => {
                       </Grid>
                       <Grid item xs={12} md={3}>
                         <Typography variant="h6">Avg Active User</Typography>
-                        <Typography>{!!totalUsage.avg ? totalUsage.avg : 0}</Typography>
+                        {isLoadingGetReport ? (
+                          <Skeleton width={25} height={15} />
+                        ) : (
+                          <Typography>{totalUsage.avg}</Typography>
+                        )}
                       </Grid>
                       <Grid item xs={12} md={3}>
                         <Typography variant="h6">Total Usage</Typography>
-                        <Typography>
-                          Download: {convertByteToInt(totalUsage.download).toFixed(2)} GB
+                        <Typography display={'flex'} alignItems={'center'}>
+                          Download:
+                          {isLoadingGetReport ? (
+                            <Skeleton width={35} height={15} sx={{ ml: 1 }} />
+                          ) : (
+                            convertByteToInt(totalUsage.download).toFixed(2) + 'GB'
+                          )}
                         </Typography>
-                        <Typography>
-                          Upload:{convertByteToInt(totalUsage.upload).toFixed(2)} GB
+                        <Typography display={'flex'} alignItems={'center'}>
+                          Upload:{' '}
+                          {isLoadingGetReport ? (
+                            <Skeleton width={35} height={15} sx={{ ml: 1 }} />
+                          ) : (
+                            convertByteToInt(totalUsage.upload).toFixed(2) + 'GB'
+                          )}
                         </Typography>
                       </Grid>
                       <Grid item></Grid>

@@ -120,3 +120,8 @@ a {
   -o-transition: background 300ms;
   transition: background 300ms;
 }
+
+#chart {
+  overflow-y: scroll;
+  min-width: 500px;
+}
