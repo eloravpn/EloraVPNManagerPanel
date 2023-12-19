@@ -26,7 +26,8 @@ const initialForm = {
   phone_number: null,
   password: null,
   enable: false,
-  banned: false
+  banned: false,
+  force_join_channel: true
 };
 
 const AddEdit = (props) => {
@@ -126,6 +127,11 @@ const AddEdit = (props) => {
             <Grid item xs={12} md={6}>
               <Switch name={'enable'} id="enable" label="Enable" />
               <Switch name={'banned'} id="banned" label="Banned" />
+              <Switch
+                name={'force_join_channel'}
+                id="force_join_channel"
+                label="Force Join Channel"
+              />
             </Grid>
           </Grid>
           <DialogActions>
