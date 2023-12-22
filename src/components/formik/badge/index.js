@@ -9,6 +9,7 @@ const SelectBadge = ({
   label,
   disabled,
   itemCheckShow,
+  borderRadius,
   ...otherProps
 }) => {
   const [field, mata] = useField(name);
@@ -45,6 +46,7 @@ const SelectBadge = ({
           {options?.map((item, i) => (
             <Box
               {...configSelect}
+              borderRadius={borderRadius}
               mx={0.7}
               position={'relative'}
               key={i}

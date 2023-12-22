@@ -6,10 +6,10 @@ const SecondarySelect = styled(InputBase)(({ theme }) => ({
     position: 'relative',
     border: 'none',
     padding: '4px 4px 4px 8px',
-    fontSize: '1.3rem',
+    fontSize: '1.8rem',
     fontWeight: 600, // Use the system font instead of the default Roboto font.
     borderRadius: ' 8px',
-    backgroundColor: 'rgb(244, 246, 248)',
+    backgroundColor: 'none',
     '&:focus': {
       borderColor: 'none',
       boxShadow: 'none'
