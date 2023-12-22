@@ -10,7 +10,7 @@ import FormObserver from 'components/formik/observer';
 import Select from 'components/formik/select';
 import SecondarySelect from 'components/formik/select/dashboardUI';
 import dayjs from 'dayjs';
-import { Form, Formik } from 'formik';
+import { Form, Formik, useField, useFormikContext } from 'formik';
 import useHostZones from 'hooks/useHostZones';
 import { useCallback, useEffect, useState } from 'react';
 import { getReportAccount } from 'services/reportService';
@@ -21,6 +21,21 @@ var timezone = require('dayjs/plugin/timezone'); // dependent on utc plugin
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+
+const Zone = (props) => {
+  const { setFieldValue } = useFormikContext();
+  const [field] = useField(props.name);
+
+  useEffect(() => {
+    if (!field?.value) setFieldValue(props.name, props.options[0]?.id);
+  }, [setFieldValue, props.name, props.options, field?.value]);
+
+  return (
+    <>
+      <Select {...props} {...field} />
+    </>
+  );
+};
 
 const Dashboard = () => {
   const [reportHosts, setReportHosts] = useState([]);
@@ -72,7 +87,7 @@ const Dashboard = () => {
   const hadleSubmitHostZone = async (values) => {
     setIsLoadingGetReport(true);
     var obj = {};
-
+    console.log();
     const DD = dayjs().utc().format('DD');
     const a = dayjs()
       .utc()
@@ -88,7 +103,7 @@ const Dashboard = () => {
     if (values.date === 1)
       obj = {
         end_date: dayjs().utc().format(),
-        start_date: dayjs().utc().format('YYYY-MM-DDT00:00:00+00:00'),
+        start_date: dayjs(dayjs().format('YYYY-MM-DD 00:00')).utc().format(),
         trunc: 'hour'
       };
     if (values.date === 7)
@@ -140,7 +155,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Formik initialValues={{ zone_id: 1, date: 24 }}>
+      <Formik initialValues={{ zone_id: null, date: 24 }}>
         {({ values }) => (
           <Form>
             <Box>
@@ -223,7 +238,7 @@ const Dashboard = () => {
                             <Grid item xs={12} md={3}>
                               <Typography variant="h6">
                                 {' '}
-                                <Select
+                                <Zone
                                   fullWidth={false}
                                   isLoading={isLoading}
                                   name={'zone_id'}
