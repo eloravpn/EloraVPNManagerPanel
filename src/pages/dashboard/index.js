@@ -87,7 +87,6 @@ const Dashboard = () => {
   const hadleSubmitHostZone = async (values) => {
     setIsLoadingGetReport(true);
     var obj = {};
-    console.log();
     const DD = dayjs().utc().format('DD');
     const a = dayjs()
       .utc()
