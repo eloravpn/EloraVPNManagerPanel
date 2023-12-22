@@ -1,8 +1,9 @@
-import { Box, Fade, Grid, Typography } from '@mui/material';
+import { Box, Fade, Grid, Skeleton, Typography } from '@mui/material';
 import Button from 'components/button';
 import Card from 'components/card';
 import Bar from 'components/chart/Bar';
 import Mixed from 'components/chart/Mixed';
+import Sparks from 'components/chart/Sparks';
 import SelectBadge from 'components/formik/badge';
 import Date from 'components/formik/date_picker';
 import FormObserver from 'components/formik/observer';
@@ -25,7 +26,8 @@ const Dashboard = () => {
   const [reportHosts, setReportHosts] = useState([]);
   const [labelReportHost, setLabelReportHost] = useState([]);
   const [totalUsage, setTotalUsage] = useState({ download: '', upload: '', avg: 0 });
-
+  const [zone, setZone] = useState({});
+  const [isLoadingGetReport, setIsLoadingGetReport] = useState(false);
   const { hostZones, isLoading, getHostZones } = useHostZones();
 
   const getReport = useCallback(async () => {
@@ -68,6 +70,7 @@ const Dashboard = () => {
   }, [getReport]);
 
   const hadleSubmitHostZone = async (values) => {
+    setIsLoadingGetReport(true);
     var obj = {};
 
     const DD = dayjs().utc().format('DD');
@@ -111,6 +114,7 @@ const Dashboard = () => {
       const { data } = await getReportAccount({
         ...obj
       });
+      setZone(hostZones.find((i) => i.id === values.zone_id));
       setReportHosts(data);
       setLabelReportHost(
         data?.map((i) =>
@@ -128,34 +132,28 @@ const Dashboard = () => {
             ? (data.reduce((acc, curr) => acc + curr.count, 0) / data.length).toFixed(0)
             : 0
       });
-    } catch (e) {}
+      setIsLoadingGetReport(false);
+    } catch (e) {
+      setIsLoadingGetReport(false);
+    }
   };
 
   return (
     <>
-      <>
-        <Formik initialValues={{ zone_id: 1, date: 24 }}>
-          {({ values }) => (
-            <Form>
-              <Box
-                width={'100%'}
+      <Formik initialValues={{ zone_id: 1, date: 24 }}>
+        {({ values }) => (
+          <Form>
+            <Box>
+              <Grid
+                container
                 display={'flex'}
                 justifyContent={'center'}
-                mb={2}
                 alignItems={'center'}
+                marginBottom={2}
               >
                 <FormObserver onChange={hadleSubmitHostZone} />
-                <Box mr={2}>
-                  <Select
-                    fullWidth={false}
-                    isLoading={isLoading}
-                    name={'zone_id'}
-                    options={hostZones}
-                    input={<SecondarySelect fullWidth={false} />}
-                  />
-                </Box>
                 <Box
-                  width={'fit-content'}
+                  mx={0.5}
                   display={'flex'}
                   justifyContent={'center'}
                   alignItems={'center'}
@@ -179,81 +177,195 @@ const Dashboard = () => {
                     name="date"
                   />
                 </Box>
-                <Fade in={values.date === 4}>
-                  <Box>
-                    <Date name="start_date" label={'Start At'} />
-                    <Date name="end_date" label={'End At'} inp />
-                  </Box>
-                </Fade>
-              </Box>
-            </Form>
-          )}
-        </Formik>
-      </>
-      <Grid container spacing={2}>
-        {/* Host and Zone Dashboard  */}
-        <Grid item xs={12}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Card
-                title={
-                  <>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} md={3}>
-                        <Typography variant="h6">Zone 1</Typography>
-                      </Grid>
-                      <Grid item xs={12} md={3}>
-                        <Typography variant="h6">Avg Active User</Typography>
-                        <Typography>{!!totalUsage.avg ? totalUsage.avg : 0}</Typography>
-                      </Grid>
-                      <Grid item xs={12} md={3}>
-                        <Typography variant="h6">Total Usage</Typography>
-                        <Typography>
-                          Download: {convertByteToInt(totalUsage.download).toFixed(2)} GB
-                        </Typography>
-                        <Typography>
-                          Upload:{convertByteToInt(totalUsage.upload).toFixed(2)} GB
-                        </Typography>
-                      </Grid>
-                      <Grid item></Grid>
-                    </Grid>
-                  </>
-                }
-              >
-                <Mixed
-                  type={'area'}
-                  data={{
-                    labels: labelReportHost,
-                    data: [
-                      {
-                        type: 'column',
-                        data: reportHosts.map(({ download }) =>
-                          convertByteToInt(download).toFixed(2)
-                        ),
-                        name: 'Download'
-                      },
-                      {
-                        type: 'column',
-                        data: reportHosts.map(({ upload }) => convertByteToInt(upload).toFixed(2)),
-                        name: 'Upload'
-                      },
-                      {
-                        type: 'line',
-                        data: reportHosts.map(({ count }) => count),
-                        name: 'Count'
+                {values.date === 4 && (
+                  <Fade in={values.date === 4}>
+                    <Box>
+                      <Date
+                        name="start_date"
+                        label={'Start At'}
+                        slotProps={{
+                          textField: {
+                            size: 'small',
+                            style: { margin: 2 },
+                            variant: 'filled',
+                            focused: true,
+                            color: 'secondary'
+                          }
+                        }}
+                      />
+                      <Date
+                        name="end_date"
+                        label={'End At'}
+                        slotProps={{
+                          textField: {
+                            size: 'small',
+                            style: { margin: 2 },
+                            variant: 'filled',
+                            focused: true,
+                            color: 'secondary'
+                          }
+                        }}
+                      />
+                    </Box>
+                  </Fade>
+                )}
+              </Grid>
+            </Box>
+            <Grid container spacing={2}>
+              {/* Host and Zone Dashboard  */}
+              <Grid item xs={12}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Card
+                      title={
+                        <>
+                          <Grid container spacing={2}>
+                            <Grid item xs={12} md={3}>
+                              <Typography variant="h6">
+                                {' '}
+                                <Select
+                                  fullWidth={false}
+                                  isLoading={isLoading}
+                                  name={'zone_id'}
+                                  options={hostZones}
+                                  input={<SecondarySelect fullWidth={false} />}
+                                />
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={12} md={3}>
+                              <Typography variant="h6">Avg Active User</Typography>
+                              {isLoadingGetReport ? (
+                                <Skeleton width={25} height={15} />
+                              ) : (
+                                <Typography>{totalUsage.avg}</Typography>
+                              )}
+                            </Grid>
+                            <Grid item xs={12} md={3}>
+                              <Typography variant="h6">Total Usage</Typography>
+                              <Typography display={'flex'} alignItems={'center'}>
+                                Download:
+                                {isLoadingGetReport ? (
+                                  <Skeleton width={35} height={15} sx={{ ml: 1 }} />
+                                ) : (
+                                  convertByteToInt(totalUsage.download).toFixed(2) + 'GB'
+                                )}
+                              </Typography>
+                              <Typography display={'flex'} alignItems={'center'}>
+                                Upload:{' '}
+                                {isLoadingGetReport ? (
+                                  <Skeleton width={35} height={15} sx={{ ml: 1 }} />
+                                ) : (
+                                  convertByteToInt(totalUsage.upload).toFixed(2) + 'GB'
+                                )}
+                              </Typography>
+                            </Grid>
+                            <Grid item></Grid>
+                          </Grid>
+                        </>
                       }
-                    ]
-                  }}
-                  max={Math.max(
-                    ...reportHosts.map(({ download }) => convertByteToInt(download).toFixed(2))
-                  )}
-                  height={350}
-                />
-              </Card>
+                      sxContent={{
+                        overflowY: 'scroll'
+                      }}
+                    >
+                      <Mixed
+                        type={'area'}
+                        data={{
+                          labels: labelReportHost,
+                          data: [
+                            {
+                              type: 'column',
+                              data: reportHosts.map(({ download }) =>
+                                convertByteToInt(download).toFixed(2)
+                              ),
+                              name: 'Download'
+                            },
+                            {
+                              type: 'column',
+                              data: reportHosts.map(({ upload }) =>
+                                convertByteToInt(upload).toFixed(2)
+                              ),
+                              name: 'Upload'
+                            },
+                            {
+                              type: 'line',
+                              data: reportHosts.map(({ count }) => count),
+                              name: 'Count'
+                            }
+                          ]
+                        }}
+                        max={Math.max(
+                          ...reportHosts.map(({ download }) =>
+                            convertByteToInt(download).toFixed(2)
+                          )
+                        )}
+                        height={350}
+                      />
+                    </Card>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} md={6} lg={4}>
+                    <Card title="Total Bouns">
+                      <Box display={'flex'}>
+                        <Box width={'90%'}>
+                          <Typography variant="body2" fontWeight={800} fontSize={25}>
+                            25,000,000 Toman
+                          </Typography>
+                          <Typography>25,000,000 Toman</Typography>
+                        </Box>
+                        <Sparks
+                          height={80}
+                          data={{
+                            data: [20, 250, 156, 654, 88]
+                          }}
+                        />
+                      </Box>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} md={6} lg={4}>
+                    <Card title="Total Bouns">
+                      <Box display={'flex'}>
+                        <Box width={'90%'}>
+                          <Typography variant="body2" fontWeight={800} fontSize={25}>
+                            25,000,000 Toman
+                          </Typography>
+                          <Typography>25,000,000 Toman</Typography>
+                        </Box>
+                        <Sparks
+                          height={80}
+                          data={{
+                            data: [20, 250, 156, 654, 88]
+                          }}
+                        />
+                      </Box>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} md={6} lg={4}>
+                    <Card title="Total Bouns">
+                      <Box display={'flex'}>
+                        <Box width={'90%'}>
+                          <Typography variant="body2" fontWeight={800} fontSize={25}>
+                            25,000,000 Toman
+                          </Typography>
+                          <Typography>25,000,000 Toman</Typography>
+                        </Box>
+                        <Sparks
+                          height={80}
+                          data={{
+                            data: [20, 250, 156, 654, 88]
+                          }}
+                        />
+                      </Box>
+                    </Card>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
+          </Form>
+        )}
+      </Formik>
     </>
   );
 };
