@@ -67,7 +67,7 @@ const UserSelect = ({ name }) => {
           flexDirection={'column'}
           flexShrink={1}
           overflow={'hidden'}
-          height={'50vh'}
+          height={'60vh'}
         >
           <Box width={'100%'} justifyContent={'space-between'} alignItems={'center'} marginY={1}>
             <Box
