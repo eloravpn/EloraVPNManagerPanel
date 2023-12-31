@@ -15,7 +15,6 @@ import { Add } from '@mui/icons-material';
 import Button from 'components/button';
 import UserSelect from 'pages/components/select/users';
 import { useSearchParams } from 'react-router-dom';
-import SelectBadge from 'components/formik/badge';
 import Grid from 'components/grid';
 import GLOBAL from 'components/variables';
 import useOrders from 'hooks/useOrders';
@@ -84,9 +83,8 @@ const Orders = () => {
       >
         <CustomDrawer ref={filterRef}>
           <Form>
-            <Stack spacing={1} paddingLeft={1}>
+            <Stack spacing={1} paddingLeft={1} mb={2}>
               <UserSelect name="user_id" label={'Users'} />
-              <SelectBadge name="enable" options={GLOBAL.enableStatus} label={'Status'} />
             </Stack>
             <Grid container spacing={1}>
               <Grid item xs={9}>

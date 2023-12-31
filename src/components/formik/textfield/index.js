@@ -3,6 +3,7 @@ import { useField } from 'formik';
 import { forwardRef } from 'react';
 import { NumericFormat } from 'react-number-format';
 import PropTypes from 'prop-types';
+import { InputAdornment } from '@mui/material';
 
 const NumericFormatCustom = forwardRef(function NumericFormatCustom(props, ref) {
   const { onChange, ...other } = props;
@@ -43,8 +44,10 @@ const TextField = ({ name, price, ...otherProps }) => {
     // autoComplete: "off",
     ...(price
       ? {
+          onFocus: (e) => e.target.select(),
           InputProps: {
-            inputComponent: NumericFormatCustom
+            inputComponent: NumericFormatCustom,
+            endAdornment: <InputAdornment position="end">Toman</InputAdornment>
           }
         }
       : null)

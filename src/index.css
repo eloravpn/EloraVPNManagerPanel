@@ -91,6 +91,19 @@ a {
 }
 
 /* Badge Style */
+.badge {
+  color: black;
+  border-radius: 8px;
+  padding: 10px 5px;
+  font-size: 1.2rem;
+  width: 99%;
+  border: none;
+  margin: 5px 1px;
+  background-color: #f6f6f6;
+  font-family: public-sans-bold;
+  cursor: pointer;
+}
+
 .badge--secondary {
   color: black;
   border-radius: 8px;
