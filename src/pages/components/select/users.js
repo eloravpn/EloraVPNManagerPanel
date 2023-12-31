@@ -18,7 +18,7 @@ import { debounce } from 'lodash';
 import { Fragment, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { separateNum, stringAvatar } from 'utils';
 
-const UserSelect = ({ name }) => {
+const UserSelect = ({ name, onBlur, onChange }) => {
   const { getUsers, users, isLoading, setUsers } = useUsers();
 
   const drawerRef = useRef();
@@ -37,6 +37,15 @@ const UserSelect = ({ name }) => {
       debouncedResults.cancel();
     };
   }, [debouncedResults]);
+
+  const handleSelect = (USER) => {
+    const { username, first_name } = USER;
+    setFieldValue(name, USER.id);
+    drawerRef.current.onChange();
+    setUser({ username, first_name });
+    onBlur && onBlur(USER);
+    onChange && onChange(USER);
+  };
 
   return (
     <>
@@ -113,73 +122,54 @@ const UserSelect = ({ name }) => {
                 ))
               ) : (
                 <>
-                  {users.map(
-                    (
-                      {
-                        id,
-                        first_name,
-                        last_name,
-                        balance,
-                        username,
-                        phone_number,
-                        telegram_username
-                      },
-                      idx
-                    ) => (
-                      <Fragment key={idx}>
-                        <ListItem
-                          onClick={() => {
-                            setFieldValue(name, id);
-                            drawerRef.current.onChange();
-                            setUser({ username, first_name });
-                          }}
-                        >
-                          <Grid container>
-                            <Grid item sx={{ display: 'flex', width: 50 }}>
-                              <Avatar {...stringAvatar(username || 'No Name')} />
-                            </Grid>
-                            <Grid item sx={{ width: 'calc(100% - 50px)', wordWrap: 'break-word' }}>
-                              {first_name && (
-                                <Typography variant="body1" component={'div'}>
-                                  {first_name}
-                                  {last_name && last_name}
-                                </Typography>
-                              )}
-                              <Grid container spacing={1} alignItems={'stretch'}>
-                                <Grid item>
-                                  <MonetizationOn color="primary" />
-                                </Grid>
-                                <Grid item>{balance ? separateNum(balance) : 0}</Grid>
-                              </Grid>
-                              <Grid container spacing={1} alignItems={'stretch'}>
-                                <Grid item>
-                                  <Person color="primary" />
-                                </Grid>
-                                <Grid item>{username}</Grid>
-                              </Grid>
-                              {phone_number && (
-                                <Grid container spacing={1} alignItems={'stretch'}>
-                                  <Grid item>
-                                    <PhoneAndroid color="primary" />
-                                  </Grid>
-                                  <Grid item>{phone_number}</Grid>
-                                </Grid>
-                              )}
-                              {telegram_username && (
-                                <Grid container spacing={1} alignItems={'stretch'}>
-                                  <Grid item>
-                                    <Telegram color="primary" />
-                                  </Grid>
-                                  <Grid item>{telegram_username}</Grid>
-                                </Grid>
-                              )}
-                            </Grid>
+                  {users.map((user, idx) => (
+                    <Fragment key={idx}>
+                      <ListItem onClick={() => handleSelect(user)}>
+                        <Grid container>
+                          <Grid item sx={{ display: 'flex', width: 50 }}>
+                            <Avatar {...stringAvatar(user?.username || 'No Name')} />
                           </Grid>
-                        </ListItem>
-                        <Divider />
-                      </Fragment>
-                    )
-                  )}
+                          <Grid item sx={{ width: 'calc(100% - 50px)', wordWrap: 'break-word' }}>
+                            {user?.first_name && (
+                              <Typography variant="body1" component={'div'}>
+                                {user?.first_name}
+                                {user?.last_name && user?.last_name}
+                              </Typography>
+                            )}
+                            <Grid container spacing={1} alignItems={'stretch'}>
+                              <Grid item>
+                                <MonetizationOn color="primary" />
+                              </Grid>
+                              <Grid item>{user?.balance ? separateNum(user?.balance) : 0}</Grid>
+                            </Grid>
+                            <Grid container spacing={1} alignItems={'stretch'}>
+                              <Grid item>
+                                <Person color="primary" />
+                              </Grid>
+                              <Grid item>{user?.username}</Grid>
+                            </Grid>
+                            {user?.phone_number && (
+                              <Grid container spacing={1} alignItems={'stretch'}>
+                                <Grid item>
+                                  <PhoneAndroid color="primary" />
+                                </Grid>
+                                <Grid item>{user?.phone_number}</Grid>
+                              </Grid>
+                            )}
+                            {user?.telegram_username && (
+                              <Grid container spacing={1} alignItems={'stretch'}>
+                                <Grid item>
+                                  <Telegram color="primary" />
+                                </Grid>
+                                <Grid item>{user?.telegram_username}</Grid>
+                              </Grid>
+                            )}
+                          </Grid>
+                        </Grid>
+                      </ListItem>
+                      <Divider />
+                    </Fragment>
+                  ))}
                 </>
               )}
             </List>
