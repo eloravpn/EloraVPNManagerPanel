@@ -12,16 +12,16 @@ import {
   Typography
 } from '@mui/material';
 import Drawer from 'components/drawer_v2';
-import { useFormikContext } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import useServices from 'hooks/useServices';
-import { Fragment, memo, useEffect, useRef, useState } from 'react';
+import { Fragment, memo, useEffect, useRef } from 'react';
 import { separateNum } from 'utils';
 
-const ServicesSelect = ({ name, onBlur, onChange }) => {
+const ServicesSelect = ({ name, onChange, disabled, onClear }) => {
   const { getServices, services, isLoading } = useServices();
 
   const drawerRef = useRef();
-  const [service, setService] = useState(null);
+  const [field] = useField(name);
   const { setFieldValue } = useFormikContext();
   useEffect(() => {
     getServices();
@@ -29,11 +29,8 @@ const ServicesSelect = ({ name, onBlur, onChange }) => {
   }, []);
 
   const handleSelect = (SERVICE) => {
-    const { name } = SERVICE;
     setFieldValue(name, SERVICE.id);
     drawerRef.current.onChange();
-    setService({ name });
-    onBlur && onBlur(SERVICE);
     onChange && onChange(SERVICE);
   };
 
@@ -44,17 +41,22 @@ const ServicesSelect = ({ name, onBlur, onChange }) => {
         display={'flex'}
         alignItems={'center'}
         justifyContent={'space-between'}
-        onClick={() => drawerRef.current.onChange()}
       >
-        <Box display={'flex'} alignItems={'center'}>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          width={'100%'}
+          onClick={() => (disabled ? null : drawerRef.current.onChange())}
+        >
           <MiscellaneousServices sx={{ marginRight: 1, fontSize: 25 }} color="primary" />
-          {service ? service.name : 'Select User'}
+          {field.value ? services.find((i) => +i.id === field.value)?.name : 'Select Service'}
         </Box>
         <IconButton
           size="sm"
+          disabled={disabled}
           onClick={() => {
             setFieldValue(name, null);
-            setService(null);
+            onClear();
           }}
         >
           <Close color="secondary" fontSize="sm" />

@@ -280,6 +280,12 @@ const AddEdit = (props) => {
                       setFieldValue('total_discount_amount', service.discount || 0);
                     }
                   }}
+                  onClear={() => {
+                    setFieldValue('duration', 0);
+                    setFieldValue('data_limit', 0);
+                    setFieldValue('total', 0);
+                    setFieldValue('total_discount_amount', 0);
+                  }}
                 />
               </Grid>
 
