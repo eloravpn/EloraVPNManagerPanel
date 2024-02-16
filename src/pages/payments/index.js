@@ -18,11 +18,12 @@ import { useSearchParams } from 'react-router-dom';
 import Grid from 'components/grid';
 import GLOBAL from 'components/variables';
 import Select from 'components/formik/select';
-
+import AddEditOrder from 'pages/orders/add_edit';
 const pageName = 'Payments';
 
 const Payments = () => {
   const createRef = useRef();
+  const createOrderRef = useRef();
   const gridRef = useRef();
   const filterRef = useRef();
   const deleteRef = useRef();
@@ -116,6 +117,12 @@ const Payments = () => {
         createRow={createRow}
         editRow={editRow}
       />
+      <AddEditOrder
+        pageName={'Order'}
+        refrence={createOrderRef}
+        initial={item}
+        createRow={() => {}}
+      />
       <Box>
         <Typography variant="h4" gutterBottom>
           {pageName}
@@ -130,7 +137,16 @@ const Payments = () => {
         >
           Create
         </Button>
-
+        <Button
+          sx={{ mb: 1, ml: 1 }}
+          onClick={() => {
+            createOrderRef.current.changeStatus();
+            setItem('');
+          }}
+          icon={<Add />}
+        >
+          Create Order
+        </Button>
         <CustomGrid
           tabsName="status"
           tabs={[{ name: 'All', id: null }, ...GLOBAL.statusPayment]}

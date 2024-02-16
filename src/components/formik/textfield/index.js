@@ -44,6 +44,7 @@ const TextField = ({ name, price, ...otherProps }) => {
     // autoComplete: "off",
     ...(price
       ? {
+          type: 'tel',
           onFocus: (e) => e.target.select(),
           InputProps: {
             inputComponent: NumericFormatCustom,

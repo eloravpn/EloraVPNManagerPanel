@@ -1,31 +1,3 @@
-import { Fragment, memo, useEffect, useState } from 'react';
-import { Alert, AlertTitle, Box, DialogActions, Divider, Grid, Typography } from '@mui/material';
-import { Form, Formik } from 'formik';
-import TextField from 'components/formik/textfield';
-import * as yup from 'yup';
-import HttpService from 'components/httpService';
-import api from 'components/httpService/api';
-import Http from 'components/httpService/Http';
-import {
-  convertToByte,
-  getDayPersian,
-  getExpireTime,
-  stringAvatar,
-  convertByteToInt,
-  separateNum,
-  formValues
-} from 'utils';
-import Button from 'components/button';
-import UserSelect from 'pages/components/select/users';
-import useUsers from 'hooks/useUsers';
-import Avatar from 'components/avatar';
-import Select from 'components/formik/select';
-import useServices from 'hooks/useServices';
-import Durations from 'pages/components/durations';
-import DataLimit from 'pages/components/dataLimit';
-import UserInfo from 'pages/components/user_info';
-import GLOBAL from 'components/variables';
-import Autocomplete from 'components/formik/autocomplete';
 import {
   AttachEmail,
   AvTimer,
@@ -34,6 +6,34 @@ import {
   NotInterested,
   TaskAlt
 } from '@mui/icons-material';
+import { Alert, AlertTitle, Box, DialogActions, Divider, Grid, Typography } from '@mui/material';
+import Avatar from 'components/avatar';
+import Button from 'components/button';
+import Autocomplete from 'components/formik/autocomplete';
+import Select from 'components/formik/select';
+import TextField from 'components/formik/textfield';
+import HttpService from 'components/httpService';
+import Http from 'components/httpService/Http';
+import api from 'components/httpService/api';
+import GLOBAL from 'components/variables';
+import { Form, Formik } from 'formik';
+import useUsers from 'hooks/useUsers';
+import DataLimit from 'pages/components/dataLimit';
+import Durations from 'pages/components/durations';
+import ServicesSelect from 'pages/components/select/services';
+import UserSelect from 'pages/components/select/users';
+import UserInfo from 'pages/components/user_info';
+import { Fragment, memo, useEffect, useState } from 'react';
+import {
+  convertByteToInt,
+  convertToByte,
+  formValues,
+  getDayPersian,
+  getExpireTime,
+  separateNum,
+  stringAvatar
+} from 'utils';
+import * as yup from 'yup';
 
 const validationSchema = yup.object({
   user_id: yup.number().required(),
@@ -59,10 +59,7 @@ const AddEdit = (props) => {
   const [accounts, setAccounts] = useState([]);
   const { getUser, user, isLoading: isLoadingUser } = useUsers();
 
-  const { services, isLoading, getServices } = useServices();
-
   useEffect(() => {
-    getServices();
     if (initial.user_id) getUser(initial.user_id);
     return () => {};
   }, []);
@@ -271,12 +268,9 @@ const AddEdit = (props) => {
                 <Select label={'Status'} name="status" options={GLOBAL.statusOrder} />
               </Grid>
               <Grid item xs={12}>
-                <Autocomplete
-                  getOptionLabel={(option) => option.name}
+                <ServicesSelect
                   label={'Service'}
                   name="service_id"
-                  options={[{ id: 0, name: 'None' }, ...services]}
-                  isLoading={isLoading}
                   disabled={initial.id && condition.includes(values.status)}
                   onChange={(service) => {
                     if (service) {
@@ -286,38 +280,12 @@ const AddEdit = (props) => {
                       setFieldValue('total_discount_amount', service.discount || 0);
                     }
                   }}
-                  renderOption={(props, { id, price, discount, name }) => (
-                    <Fragment key={id}>
-                      <li {...props}>
-                        {id === 0 ? (
-                          `${name} `
-                        ) : (
-                          <>
-                            <Typography component={'span'}>
-                              {name} {` ${discount ? 'Price: ' : ''}`}:
-                            </Typography>
-                            <Typography
-                              component={'span'}
-                              sx={{
-                                ...(discount
-                                  ? {
-                                      WebkitTextDecorationLine: 'line-through',
-                                      WebkitTextDecorationColor: 'red',
-                                      textDecoration: 'line-through red 2px'
-                                    }
-                                  : '')
-                              }}
-                            >
-                              {` ${discount ? separateNum(price) : ''}`}
-                            </Typography>
-                            <Typography component={'span'}>
-                              {` Total: ${separateNum(price - discount)} `}
-                            </Typography>
-                          </>
-                        )}
-                      </li>
-                    </Fragment>
-                  )}
+                  onClear={() => {
+                    setFieldValue('duration', 0);
+                    setFieldValue('data_limit', 0);
+                    setFieldValue('total', 0);
+                    setFieldValue('total_discount_amount', 0);
+                  }}
                 />
               </Grid>
 
