@@ -1,7 +1,5 @@
 import { Box, Fade, Grid, Skeleton, Typography } from '@mui/material';
-import Button from 'components/button';
 import Card from 'components/card';
-import Bar from 'components/chart/Bar';
 import Mixed from 'components/chart/Mixed';
 import Sparks from 'components/chart/Sparks';
 import SelectBadge from 'components/formik/badge';
