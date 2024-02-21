@@ -19,11 +19,14 @@ import Grid from 'components/grid';
 import GLOBAL from 'components/variables';
 import Select from 'components/formik/select';
 import AddEditOrder from 'pages/orders/add_edit';
+import AddEditOrderV2 from 'pages/payments/add_edit_v2';
+
 const pageName = 'Payments';
 
 const Payments = () => {
   const createRef = useRef();
   const createOrderRef = useRef();
+  const createOrderRefv2 = useRef();
   const gridRef = useRef();
   const filterRef = useRef();
   const deleteRef = useRef();
@@ -123,6 +126,12 @@ const Payments = () => {
         initial={item}
         createRow={() => {}}
       />
+      <AddEditOrderV2
+        pageName={'Order V2'}
+        refrence={createOrderRefv2}
+        initial={item}
+        createRow={() => {}}
+      />
       <Box>
         <Typography variant="h4" gutterBottom>
           {pageName}
@@ -146,6 +155,16 @@ const Payments = () => {
           icon={<Add />}
         >
           Create Order
+        </Button>
+        <Button
+          sx={{ mb: 1, ml: 1 }}
+          onClick={() => {
+            createOrderRefv2.current.changeStatus();
+            setItem('');
+          }}
+          icon={<Add />}
+        >
+          Create OrderV2
         </Button>
         <CustomGrid
           tabsName="status"
