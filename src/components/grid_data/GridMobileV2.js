@@ -289,9 +289,9 @@ const GridMobile = forwardRef((props, ref) => {
   );
 
   const list = (item) => (
-    <Card sx={{ p: 1, my: 1 }} onClick={(e) => handleClick(e, item)}>
+    <Card sx={{ p: 0.5, my: 0.5 }} onClick={(e) => handleClick(e, item)}>
       {columns.map((col, idx) => (
-        <Grid container key={idx} spacing={2} sx={{ mb: 0.5 }} alignItems="center">
+        <Grid container key={idx} spacing={1} sx={{ mb: 0.5 }} alignItems="center">
           <Grid item xs={4}>
             <Typography variant="body1" component={'div'}>
               {col.headerName}:{'  '}
