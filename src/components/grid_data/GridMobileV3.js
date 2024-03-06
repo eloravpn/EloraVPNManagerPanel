@@ -310,14 +310,14 @@ const GridMobile = forwardRef((props, ref) => {
   );
 
   return (
-    <Box
-      display={'flex'}
-      flexDirection={'column'}
-      flexShrink={1}
-      overflow={'hidden'}
-      height={'75vh'}
-    >
-      <Box width={'100%'} justifyContent={'space-between'} alignItems={'center'} marginY={1}>
+    <Box display={'flex'} flexGrow={1} flexDirection={'column'} overflow={'hidden'} height={'100%'}>
+      <Box
+        width={'100%'}
+        overflow={'hidden'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        marginY={1}
+      >
         <SearchT
           showFilter={showFilter}
           search={search}
@@ -343,11 +343,10 @@ const GridMobile = forwardRef((props, ref) => {
           }))}
         />
       </Box>
-      <Box overflow="auto" maxHeight={'99vh'}>
+      <Box className="content">
         <List>
           {data?.map((item, idx) => (
             <div ref={lastElementRef} key={idx}>
-              {' '}
               {list(item)}
             </div>
           ))}

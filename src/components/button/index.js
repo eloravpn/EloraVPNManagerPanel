@@ -6,7 +6,8 @@ const Custom = styled(LoadingButton)({
   transition:
     'background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
   padding: '7px 10px',
-  borderRadius: '8px'
+  borderRadius: '8px',
+  margin: 1.5
 });
 
 const Button = ({ children, isLoading, onClick, color, type, variant, sx, icon, fullWidth }) => {

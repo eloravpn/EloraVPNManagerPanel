@@ -161,7 +161,7 @@ const Accounts = () => {
         editRow={editRow}
       />
       <UsageAccount pageName={pageName} refrence={usageRef} initial={item} />
-      <Box>
+      <>
         <Typography variant="h4" gutterBottom>
           {pageName}
         </Typography>
@@ -220,7 +220,7 @@ const Accounts = () => {
           showFilter={() => filterRef.current.onChange()}
           defaultSort={{ value: 'expire', ASC: true }}
         />
-      </Box>
+      </>
     </>
   );
 };

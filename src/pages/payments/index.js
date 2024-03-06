@@ -132,40 +132,40 @@ const Payments = () => {
         initial={item}
         createRow={() => {}}
       />
-      <Box>
+      <>
         <Typography variant="h4" gutterBottom>
           {pageName}
         </Typography>
-        <Button
-          sx={{ mb: 1 }}
-          onClick={() => {
-            createRef.current.changeStatus();
-            setItem('');
-          }}
-          icon={<Add />}
-        >
-          Create
-        </Button>
-        <Button
-          sx={{ mb: 1, ml: 1 }}
-          onClick={() => {
-            createOrderRef.current.changeStatus();
-            setItem('');
-          }}
-          icon={<Add />}
-        >
-          Create Order
-        </Button>
-        <Button
-          sx={{ mb: 1, ml: 1 }}
-          onClick={() => {
-            createOrderRefv2.current.changeStatus();
-            setItem('');
-          }}
-          icon={<Add />}
-        >
-          Create OrderV2
-        </Button>
+        <Box>
+          <Button
+            onClick={() => {
+              createRef.current.changeStatus();
+              setItem('');
+            }}
+            icon={<Add />}
+          >
+            Create
+          </Button>
+          <Button
+            onClick={() => {
+              createOrderRef.current.changeStatus();
+              setItem('');
+            }}
+            icon={<Add />}
+          >
+            Order
+          </Button>
+          <Button
+            onClick={() => {
+              createOrderRefv2.current.changeStatus();
+              setItem('');
+            }}
+            icon={<Add />}
+          >
+            Order-V2
+          </Button>
+        </Box>
+
         <CustomGrid
           tabsName="status"
           tabs={[{ name: 'All', id: null }, ...GLOBAL.statusPayment]}
@@ -200,7 +200,7 @@ const Payments = () => {
             { id: 'status', name: 'Status' }
           ]}
         />
-      </Box>
+      </>
     </>
   );
 };

@@ -236,7 +236,7 @@ const Sidebar = (props) => {
           }
         ]}
       />
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', height: '100%' }}>
         <CssBaseline />
         <AppBar
           position="fixed"
@@ -320,7 +320,8 @@ const Sidebar = (props) => {
         <Container
           component="main"
           sx={{
-            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
             p: { lg: 5, sm: 0 }
           }}
           maxWidth="fluid"
