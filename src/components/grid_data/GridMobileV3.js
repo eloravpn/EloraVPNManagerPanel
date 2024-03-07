@@ -361,7 +361,7 @@ const GridMobile = forwardRef((props, ref) => {
             </Typography>
           </Stack>
         )}
-        <ListLoading isLoading={isLoading} rows={data?.length > 0 && pageNum > 1 ? 1 : 15} />
+        <ListLoading isLoading={isLoading} rows={data?.length > 0 && pageNum > 1 ? 5 : 15} />
       </Box>
     </Box>
   );
