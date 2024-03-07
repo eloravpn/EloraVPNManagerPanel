@@ -111,20 +111,22 @@ const Transactions = () => {
         editRow={editRow}
       />
       <Info pageName={pageName} refrence={infoRef} initial={item} />
-      <Box>
-        <Typography variant="h4" gutterBottom>
-          {pageName}
-        </Typography>
-        <Button
-          sx={{ mb: 1 }}
-          onClick={() => {
-            createRef.current.changeStatus();
-            setItem('');
-          }}
-          icon={<Add />}
-        >
-          Create
-        </Button>
+      <>
+        <Box>
+          <Typography variant="h4" gutterBottom>
+            {pageName}
+          </Typography>
+          <Button
+            sx={{ mb: 1 }}
+            onClick={() => {
+              createRef.current.changeStatus();
+              setItem('');
+            }}
+            icon={<Add />}
+          >
+            Create
+          </Button>
+        </Box>
 
         <CustomGrid
           name="transactions"
@@ -164,7 +166,7 @@ const Transactions = () => {
             { id: 'modified', name: 'Modified' }
           ]}
         />
-      </Box>
+      </>
     </>
   );
 };
