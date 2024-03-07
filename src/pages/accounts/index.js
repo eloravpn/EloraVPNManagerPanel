@@ -162,19 +162,21 @@ const Accounts = () => {
       />
       <UsageAccount pageName={pageName} refrence={usageRef} initial={item} />
       <>
-        <Typography variant="h4" gutterBottom>
-          {pageName}
-        </Typography>
-        <Button
-          sx={{ mb: 1 }}
-          onClick={() => {
-            createRef.current.changeStatus();
-            setItem('');
-          }}
-          icon={<Add />}
-        >
-          Create
-        </Button>
+        <Box>
+          <Typography variant="h4" gutterBottom>
+            {pageName}
+          </Typography>
+          <Button
+            sx={{ mb: 1 }}
+            onClick={() => {
+              createRef.current.changeStatus();
+              setItem('');
+            }}
+            icon={<Add />}
+          >
+            Create
+          </Button>
+        </Box>
         <Box>
           <Chip variant="chip" color="success" label={`Active: ${report.active}`} />
           <Chip variant="chip" color="error" label={`Disable: ${report.total - report.active}`} />

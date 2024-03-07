@@ -115,20 +115,22 @@ const Orders = () => {
         createRow={createRow}
         editRow={editRow}
       />
-      <Box>
-        <Typography variant="h4" gutterBottom>
-          {pageName}
-        </Typography>
-        <Button
-          sx={{ mb: 1 }}
-          onClick={() => {
-            createRef.current.changeStatus();
-            setItem('');
-          }}
-          icon={<Add />}
-        >
-          Create
-        </Button>
+      <>
+        <Box>
+          <Typography variant="h4" gutterBottom>
+            {pageName}
+          </Typography>
+          <Button
+            sx={{ mb: 1 }}
+            onClick={() => {
+              createRef.current.changeStatus();
+              setItem('');
+            }}
+            icon={<Add />}
+          >
+            Create
+          </Button>
+        </Box>
 
         <CustomGrid
           tabsName="status"
@@ -165,7 +167,7 @@ const Orders = () => {
             { id: 'status', name: 'Status' }
           ]}
         />
-      </Box>
+      </>
     </>
   );
 };
