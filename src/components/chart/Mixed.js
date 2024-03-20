@@ -1,6 +1,6 @@
 import Chart from 'react-apexcharts';
 
-const Mixed = ({ data, height, type, max, width }) => {
+const Mixed = ({ data, height, type, max, width, count = false }) => {
   const state = {
     series: data.data,
     options: {
@@ -29,7 +29,8 @@ const Mixed = ({ data, height, type, max, width }) => {
       },
       yaxis: [
         {
-          max: max,
+          max: max + 0.5,
+          min: 0,
           axisTicks: {
             show: true
           },
@@ -53,7 +54,8 @@ const Mixed = ({ data, height, type, max, width }) => {
           }
         },
         {
-          max: max,
+          max: max + 0.5,
+          min: 0,
           seriesName: 'Income',
           opposite: true,
           axisTicks: {
@@ -66,28 +68,32 @@ const Mixed = ({ data, height, type, max, width }) => {
             show: false
           }
         },
-        {
-          seriesName: 'Revenue',
-          opposite: true,
-          axisTicks: {
-            show: true
-          },
-          axisBorder: {
-            show: true,
-            color: '#FEB019'
-          },
-          labels: {
-            style: {
-              colors: '#FEB019'
-            }
-          },
-          title: {
-            text: 'Count',
-            style: {
-              color: '#FEB019'
-            }
-          }
-        }
+        ...(count
+          ? [
+              {
+                seriesName: 'Revenue',
+                opposite: true,
+                axisTicks: {
+                  show: true
+                },
+                axisBorder: {
+                  show: true,
+                  color: '#FEB019'
+                },
+                labels: {
+                  style: {
+                    colors: '#FEB019'
+                  }
+                },
+                title: {
+                  text: 'Count',
+                  style: {
+                    color: '#FEB019'
+                  }
+                }
+              }
+            ]
+          : [])
       ],
       tooltip: {
         fixed: {

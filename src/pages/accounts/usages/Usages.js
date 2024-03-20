@@ -1,22 +1,25 @@
-import { memo, useEffect } from 'react';
-import { Box, CardHeader, Grid } from '@mui/material';
-import useAccount from 'hooks/useAccount';
-import Card from 'components/card';
-import ChartJs from 'components/chart';
-import { convertByteToInt, getBetweenDate } from 'utils';
+import { Box, Grid } from '@mui/material';
 import Mixed from 'components/chart/Mixed';
-import { Form, Formik } from 'formik';
 import SelectBadge from 'components/formik/badge';
+import FormObserver from 'components/formik/observer';
 import dayjs from 'dayjs';
+import { Form, Formik } from 'formik';
+import useAccount from 'hooks/useAccount';
+import { memo, useState } from 'react';
+import { getReportAccount } from 'services/reportService';
+import { convertByteToInt, getBetweenDate, getDayPersian } from 'utils';
+
+var utc = require('dayjs/plugin/utc');
+var timezone = require('dayjs/plugin/timezone');
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const Usages = (props) => {
   const { initial } = props;
   const { getUsageAccount, useages, isLoading } = useAccount();
-
-  useEffect(() => {
-    getUsageAccount(initial.id);
-    return () => {};
-  }, [getUsageAccount, initial.id]);
+  const [isLoadingGetReport, setIsLoadingGetReport] = useState(false);
+  const [reportHosts, setReportHosts] = useState([]);
+  const [labelReportHost, setLabelReportHost] = useState([]);
 
   const handleSubmit = async (values) => {
     setIsLoadingGetReport(true);
@@ -60,9 +63,9 @@ const Usages = (props) => {
     }
     try {
       const { data } = await getReportAccount({
+        account_id: initial.id,
         ...obj
       });
-      setZone(hostZones.find((i) => i.id === values.zone_id));
       setReportHosts(data);
       setLabelReportHost(
         data?.map((i) =>
@@ -72,22 +75,14 @@ const Usages = (props) => {
         ) ?? []
       );
 
-      setTotalUsage({
-        download: data.reduce((acc, curr) => acc + curr.download, 0),
-        upload: data.reduce((acc, curr) => acc + curr.upload, 0),
-        avg:
-          data.length > 0
-            ? (data.reduce((acc, curr) => acc + curr.count, 0) / data.length).toFixed(0)
-            : 0
-      });
       setIsLoadingGetReport(false);
     } catch (e) {
       setIsLoadingGetReport(false);
     }
   };
+
   return (
     <Grid container spacing={2}>
-      {/* {useages.map(({ download, upload, name }, idx) => ( */}
       <Grid
         item
         xs={12}
@@ -99,6 +94,7 @@ const Usages = (props) => {
         <Formik initialValues={{ date: 1 }}>
           {() => (
             <Form>
+              <FormObserver onChange={handleSubmit} />
               <Box
                 mx={0.5}
                 display={'flex'}
@@ -126,30 +122,30 @@ const Usages = (props) => {
             </Form>
           )}
         </Formik>
-        {useages.length > 0 && (
-          <Mixed
-            type={'area'}
-            data={{
-              labels: ['aaa'],
-              data: [
-                {
-                  type: 'column',
-                  data: [5, 7, 5, 6, 3, 2, 5],
-                  name: 'Download'
-                },
-                {
-                  type: 'column',
-                  data: [10, 20, 8, 6, 23, 21, 15, 17],
-                  name: 'Upload'
-                }
-              ]
-            }}
-            max={30}
-            height={350}
-          />
-        )}
+
+        <Mixed
+          type={'area'}
+          data={{
+            labels: labelReportHost,
+            data: [
+              {
+                type: 'column',
+                data: reportHosts.map(({ download }) => convertByteToInt(download).toFixed(2)),
+                name: 'Download'
+              },
+              {
+                type: 'column',
+                data: reportHosts.map(({ upload }) => convertByteToInt(upload).toFixed(2)),
+                name: 'Upload'
+              }
+            ]
+          }}
+          max={Math.max(
+            ...reportHosts.map(({ download }) => convertByteToInt(download).toFixed(2))
+          )}
+          height={350}
+        />
       </Grid>
-      {/* ))} */}
     </Grid>
   );
 };
