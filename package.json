@@ -14,7 +14,7 @@
     "@testing-library/jest-dom": "6.4.2",
     "@testing-library/react": "14.2.1",
     "@testing-library/user-event": "^14.1.1",
-    "apexcharts": "^3.35.0",
+    "apexcharts": "3.46.0",
     "axios": "1.6.7",
     "dayjs": "^1.11.10",
     "formik": "^2.2.9",
