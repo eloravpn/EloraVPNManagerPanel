@@ -1,4 +1,5 @@
 const api = {
+  notifications: 'notifications',
   reportAccount: 'accounts/report_used_traffic',
   transactions: 'transactions',
   payments: 'payments',

@@ -15,6 +15,7 @@ import Services from '../pages/services';
 import Payments from 'pages/payments';
 import Transactions from 'pages/transactions';
 import Zones from 'pages/zones';
+import Notifications from 'pages/notifications';
 
 const Routerr = () => {
   const PrivateRoute = ({ children }) => {
@@ -137,6 +138,14 @@ const Routerr = () => {
           element={
             <PrivateRoute>
               <Zones />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="notifications"
+          element={
+            <PrivateRoute>
+              <Notifications />
             </PrivateRoute>
           }
         />
