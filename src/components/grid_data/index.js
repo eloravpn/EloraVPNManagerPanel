@@ -1,5 +1,5 @@
 import CustomGrid from './GridDesktop';
-import GridMobile from './GridMobileV2';
+import GridMobile from './GridMobileV3';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 const Grid = ({ refrence, ...props }) => {

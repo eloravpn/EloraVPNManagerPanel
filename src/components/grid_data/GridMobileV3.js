@@ -1,11 +1,11 @@
-import { forwardRef, useCallback, useImperativeHandle, useState, useRef } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useState, useRef, useEffect } from 'react';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Menu from '../menu';
 import useFetch from '../useFetch';
 import ListLoading from '../list_loading';
-import { Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import {
   AddCard,
@@ -310,52 +310,60 @@ const GridMobile = forwardRef((props, ref) => {
   );
 
   return (
-    <>
-      <SearchT
-        showFilter={showFilter}
-        search={search}
-        sortItem={sortItem}
-        refresh={refresh}
-        tabsName={tabsName}
-        tabs={tabs}
-        setFilters={setFilters}
-        filters={filters}
-        setSearch={(v) => {
-          setData([]);
-          setSearch(v);
-          setPageNum(0);
-        }}
-      />
-      <Menu
-        ref={menuRef}
-        items={[...rowActions, ...(moreActions ? moreActions : [])].map((i) => ({
-          name: i?.name,
-          icon: i?.icon,
-          color: i?.color,
-          onClick: () => i?.onClick({ row })
-        }))}
-      />
-
-      <List>
-        {data?.map((item, idx) => (
-          <div ref={lastElementRef} key={idx}>
-            {' '}
-            {list(item)}
-          </div>
-        ))}
-      </List>
-      {data.length === 0 && !isLoading && (
-        <Stack direction={'column'} justifyContent="center" alignItems="center">
-          <IconButton color="primary" disableRipple>
-            <CampaignIcon sx={{ fontSize: 40 }} />
-          </IconButton>
-          <Typography component={'h3'} color={'primary'} sx={{ mt: 1 }}>
-            No Rows
-          </Typography>
-        </Stack>
-      )}
-      <ListLoading isLoading={isLoading} rows={data?.length > 0 && pageNum > 1 ? 1 : 15} />
-    </>
+    <Box display={'flex'} flexGrow={1} flexDirection={'column'} overflow={'hidden'} height={'100%'}>
+      <Box
+        width={'100%'}
+        overflow={'hidden'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        marginY={1}
+      >
+        <SearchT
+          showFilter={showFilter}
+          search={search}
+          sortItem={sortItem}
+          refresh={refresh}
+          tabsName={tabsName}
+          tabs={tabs}
+          setFilters={setFilters}
+          filters={filters}
+          setSearch={(v) => {
+            setData([]);
+            setSearch(v);
+            setPageNum(0);
+          }}
+        />
+        <Menu
+          ref={menuRef}
+          items={[...rowActions, ...(moreActions ? moreActions : [])].map((i) => ({
+            name: i?.name,
+            icon: i?.icon,
+            color: i?.color,
+            onClick: () => i?.onClick({ row })
+          }))}
+        />
+      </Box>
+      <Box className="content">
+        <List>
+          {data?.map((item, idx) => (
+            <div ref={lastElementRef} key={idx}>
+              {list(item)}
+            </div>
+          ))}
+        </List>
+        {data.length === 0 && !isLoading && (
+          <Stack direction={'column'} justifyContent="center" alignItems="center">
+            <IconButton color="primary" disableRipple>
+              <CampaignIcon sx={{ fontSize: 40 }} />
+            </IconButton>
+            <Typography component={'h3'} color={'primary'} sx={{ mt: 1 }}>
+              No Rows
+            </Typography>
+          </Stack>
+        )}
+        <ListLoading isLoading={isLoading} rows={data?.length > 0 && pageNum > 1 ? 5 : 15} />
+      </Box>
+    </Box>
   );
 });
 export default GridMobile;

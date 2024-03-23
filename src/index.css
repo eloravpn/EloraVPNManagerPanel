@@ -12,6 +12,24 @@
 html {
   /* fontsize 10px =62.5 */
   font-size: 62.5%;
+  height: 100%;
+}
+
+body,
+.App,
+#root,
+main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+
+
+.content {
+  height: 100%;
+  overflow-y: auto;
 }
 
 a {

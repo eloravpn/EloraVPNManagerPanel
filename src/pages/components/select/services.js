@@ -93,8 +93,8 @@ const ServicesSelect = ({ name, onChange, disabled, onClear }) => {
             )}
             <List>
               {isLoading ? (
-                [...Array(10)].map((e) => (
-                  <Box display={'flex'} alignItems={'center'} m={1} key={e}>
+                [...Array(10)].map((e, idx) => (
+                  <Box key={idx} display={'flex'} alignItems={'center'} m={1}>
                     <Box mr={2}>
                       <Skeleton animation="wave" variant="circular" width={40} height={40} />
                     </Box>

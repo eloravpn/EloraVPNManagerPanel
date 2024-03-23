@@ -19,11 +19,14 @@ import Grid from 'components/grid';
 import GLOBAL from 'components/variables';
 import Select from 'components/formik/select';
 import AddEditOrder from 'pages/orders/add_edit';
+import AddEditOrderV2 from 'pages/payments/add_edit_v2';
+
 const pageName = 'Payments';
 
 const Payments = () => {
   const createRef = useRef();
   const createOrderRef = useRef();
+  const createOrderRefv2 = useRef();
   const gridRef = useRef();
   const filterRef = useRef();
   const deleteRef = useRef();
@@ -123,30 +126,46 @@ const Payments = () => {
         initial={item}
         createRow={() => {}}
       />
-      <Box>
+      <AddEditOrderV2
+        pageName={'Order V2'}
+        refrence={createOrderRefv2}
+        initial={item}
+        createRow={() => {}}
+      />
+      <>
         <Typography variant="h4" gutterBottom>
           {pageName}
         </Typography>
-        <Button
-          sx={{ mb: 1 }}
-          onClick={() => {
-            createRef.current.changeStatus();
-            setItem('');
-          }}
-          icon={<Add />}
-        >
-          Create
-        </Button>
-        <Button
-          sx={{ mb: 1, ml: 1 }}
-          onClick={() => {
-            createOrderRef.current.changeStatus();
-            setItem('');
-          }}
-          icon={<Add />}
-        >
-          Create Order
-        </Button>
+        <Box>
+          <Button
+            onClick={() => {
+              createRef.current.changeStatus();
+              setItem('');
+            }}
+            icon={<Add />}
+          >
+            Create
+          </Button>
+          <Button
+            onClick={() => {
+              createOrderRef.current.changeStatus();
+              setItem('');
+            }}
+            icon={<Add />}
+          >
+            Order
+          </Button>
+          <Button
+            onClick={() => {
+              createOrderRefv2.current.changeStatus();
+              setItem('');
+            }}
+            icon={<Add />}
+          >
+            Order-V2
+          </Button>
+        </Box>
+
         <CustomGrid
           tabsName="status"
           tabs={[{ name: 'All', id: null }, ...GLOBAL.statusPayment]}
@@ -181,7 +200,7 @@ const Payments = () => {
             { id: 'status', name: 'Status' }
           ]}
         />
-      </Box>
+      </>
     </>
   );
 };

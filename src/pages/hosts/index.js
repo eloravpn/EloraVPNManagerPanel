@@ -1,13 +1,12 @@
 import { useRef, useState } from 'react';
 import CustomGrid from 'components/grid_data';
 import { Add } from '@mui/icons-material';
-import { Grid, Stack, Typography } from '@mui/material';
+import { Box, Grid, Stack, Typography } from '@mui/material';
 import columns from './columns';
 import HttpService from 'components/httpService';
 import AddEdit from './add_edit';
 import CustomDrawer from 'components/drawer';
 import { Form, Formik } from 'formik';
-import Radio from 'components/formik/radio';
 import api from 'components/httpService/api';
 import { Danger } from 'pages/components/alert';
 import Http from 'components/httpService/Http';
@@ -108,19 +107,21 @@ const Hosts = () => {
         editRow={editRow}
       />
       <>
-        <Typography variant="h4" gutterBottom>
-          {pageName}
-        </Typography>
-        <Button
-          sx={{ mb: 1 }}
-          onClick={() => {
-            createRef.current.changeStatus();
-            setItem('');
-          }}
-          icon={<Add />}
-        >
-          Create
-        </Button>
+        <Box>
+          <Typography variant="h4" gutterBottom>
+            {pageName}
+          </Typography>
+          <Button
+            sx={{ mb: 1 }}
+            onClick={() => {
+              createRef.current.changeStatus();
+              setItem('');
+            }}
+            icon={<Add />}
+          >
+            Create
+          </Button>
+        </Box>
         <CustomGrid
           name="hosts"
           url={api.hosts}
