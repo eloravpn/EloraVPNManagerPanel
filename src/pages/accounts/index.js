@@ -21,6 +21,7 @@ import { useSearchParams } from 'react-router-dom';
 import SelectBadge from 'components/formik/badge';
 import Grid from 'components/grid';
 import GLOBAL from 'components/variables';
+import Notification from 'components/toast';
 
 const pageName = 'Accounts';
 
@@ -64,6 +65,14 @@ const Accounts = () => {
   const handleEdit = ({ row }) => {
     createRef.current.changeStatus();
     setItem({ ...row, data_limit: convertByteToInt(row.data_limit) });
+  };
+  const handleCopyLink = async ({ row }) => {
+    try {
+      await navigator.clipboard.writeText(row?.subscription_url);
+      Notification.success('Text copied to clipboard');
+    } catch (err) {
+      Notification.error('Faild copy link');
+    }
   };
 
   const createRow = (data) => {
@@ -204,6 +213,12 @@ const Accounts = () => {
               icon: 'edit',
               color: 'primary',
               name: 'Edit'
+            },
+            {
+              onClick: handleCopyLink,
+              icon: 'content_copy',
+              color: 'primary',
+              name: 'Copy Link'
             },
             {
               onClick: (data) => handleAlert(data, resetRef),
