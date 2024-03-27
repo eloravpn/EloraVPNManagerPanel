@@ -131,7 +131,7 @@ const Notifications = () => {
           Create
         </Button>
         <CustomGrid
-          name="services"
+          name="notifications"
           url={api.notifications}
           refrence={gridRef}
           data={data}
