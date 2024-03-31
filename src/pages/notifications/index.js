@@ -1,4 +1,4 @@
-import { Add } from '@mui/icons-material';
+import { Add, Send } from '@mui/icons-material';
 import { Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import Button from 'components/button';
@@ -11,13 +11,13 @@ import Http from 'components/httpService/Http';
 import api from 'components/httpService/api';
 import GLOBAL from 'components/variables';
 import { Form, Formik } from 'formik';
-import AddEditAccount from 'pages/accounts/add_edit';
 import { memo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { convertByteToInt } from 'utils';
 import { Danger } from '../components/alert';
 import AddEdit from './add_edit';
 import columns from './columns';
+import BulkSend from './bulk_send';
 
 const pageName = 'Noifications';
 
@@ -28,7 +28,8 @@ const Notifications = () => {
   const gridRef = useRef();
   const filterRef = useRef();
   const deleteRef = useRef();
-  const createAccountRef = useRef();
+  const creteNotificationRef = useRef();
+  const createBulkSendRef = useRef();
 
   const [data] = useState([]);
   const [item, setItem] = useState([]);
@@ -115,7 +116,7 @@ const Notifications = () => {
         createRow={createRow}
         editRow={editRow}
       />
-      <AddEditAccount pageName={pageName} refrence={createAccountRef} initial={item} />
+      <BulkSend pageName={'Bulk Send'} refrence={createBulkSendRef} />
       <Box>
         <Typography variant="h4" gutterBottom>
           {pageName}
@@ -129,6 +130,16 @@ const Notifications = () => {
           icon={<Add />}
         >
           Create
+        </Button>
+        <Button
+          sx={{ mb: 1 }}
+          onClick={() => {
+            createBulkSendRef.current.changeStatus();
+            setItem('');
+          }}
+          icon={<Send />}
+        >
+          Send Bulk
         </Button>
         <CustomGrid
           name="notifications"

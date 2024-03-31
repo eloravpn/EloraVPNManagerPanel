@@ -6,7 +6,7 @@ const AddEditForm = ({ refrence, pageName, ...props }) => {
     <Modal
       ref={refrence}
       onBackClose={false}
-      maxWidth="lg"
+      maxWidth="sm"
       icon="notifications"
       title={`${props?.initial?.id ? 'Edit' : 'Create'} ${pageName}`}
     >
