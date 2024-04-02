@@ -16,10 +16,11 @@ import { useNavigate } from 'react-router-dom';
 import { convertByteToInt } from 'utils';
 import { Danger } from '../components/alert';
 import AddEdit from './add_edit';
-import columns from './columns';
 import BulkSend from './bulk_send';
+import columns from './columns';
 
 const pageName = 'Noifications';
+const url = api.notifications;
 
 const Notifications = () => {
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ const Notifications = () => {
   const handleDelete = () => {
     setIsLoadingDelete(true);
     HttpService()
-      .delete(`${api.services}/${item?.id}`)
+      .delete(`${url}/${item?.id}`)
       .then(() => {
         gridRef.current.deleteRow(item);
         deleteRef.current.close();
@@ -75,7 +76,8 @@ const Notifications = () => {
     <>
       <Formik
         initialValues={{
-          enable: null
+          enable: null,
+          status: null
         }}
         onSubmit={(values) => {
           gridRef.current.filters(values);
@@ -84,9 +86,7 @@ const Notifications = () => {
       >
         <CustomDrawer ref={filterRef}>
           <Form>
-            <Stack spacing={1} paddingLeft={1}>
-              <SelectBadge name="enable" options={GLOBAL.enableStatus} label={'Status'} />
-            </Stack>
+            <Stack spacing={1} paddingLeft={1}></Stack>
             <Grid container spacing={1}>
               <Grid item xs={9}>
                 <Button fullWidth type={'submit'}>
@@ -143,7 +143,9 @@ const Notifications = () => {
         </Button>
         <CustomGrid
           name="notifications"
-          url={api.notifications}
+          tabsName="status"
+          tabs={[{ name: 'All', id: null }, ...GLOBAL.statusNotifications]}
+          url={url}
           refrence={gridRef}
           data={data}
           columns={columns}
@@ -163,6 +165,7 @@ const Notifications = () => {
           ]}
           paginateServ={true}
           showFilter={() => filterRef.current.onChange()}
+          propsFilter={[{ status: '' }]}
           sortItem={[
             { id: 'created', name: 'Created' },
             { id: 'modified', name: 'Modified' },

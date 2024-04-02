@@ -31,6 +31,12 @@ const GLOBAL = {
     { name: 'ORDER', id: 'ORDER' },
     { name: 'BONUS', id: 'BONUS' }
   ],
+  statusNotifications: [
+    { id: 'PENDING', name: 'pending' },
+    { id: 'CANCELED', name: 'Canceled' },
+    { id: 'FAILD', name: 'Faild' },
+    { id: 'SENT', name: 'Sent' }
+  ],
   typeTransaction: [{ name: 'BONUS', id: 'BONUS' }]
 };
 

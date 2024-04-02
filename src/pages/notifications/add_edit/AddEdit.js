@@ -15,6 +15,7 @@ import TextField from 'components/formik/textfield';
 import HttpService from 'components/httpService';
 import Http from 'components/httpService/Http';
 import api from 'components/httpService/api';
+import GLOBAL from 'components/variables';
 import { Form, Formik } from 'formik';
 import useUsers from 'hooks/useUsers';
 import UserSelect from 'pages/components/select/users';
@@ -225,12 +226,7 @@ const AddEdit = (props) => {
                 id={'status'}
                 name={'status'}
                 label="Status"
-                options={[
-                  { id: 'PENDING', name: 'pending' },
-                  { id: 'CANCELED', name: 'Canceled' },
-                  { id: 'FAILD', name: 'Faild' },
-                  { id: 'SENT', name: 'Sent' }
-                ]}
+                options={GLOBAL.statusNotifications}
               />
             </Grid>
             <Grid item xs={12} md={6}>
