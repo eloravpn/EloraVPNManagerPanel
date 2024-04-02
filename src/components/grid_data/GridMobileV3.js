@@ -146,9 +146,9 @@ const GridMobile = forwardRef((props, ref) => {
 
     return (
       <Progress
-        secondaryLabel={`${convertByteToInt(row[value[2]]).toFixed(0)}/${convertByteToInt(
-          row[value[0]]
-        ).toFixed(2)} GB (${row[value[1]].toFixed(0)}%)`}
+        secondaryLabel={`${convertByteToInt(row[value[0]]).toFixed(
+          2
+        )}/${convertByteToInt(row[value[2]]).toFixed(0)} GB (${row[value[1]].toFixed(0)}%)`}
         value={row[value[1]]}
       />
     );
