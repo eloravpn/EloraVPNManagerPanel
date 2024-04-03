@@ -13,22 +13,36 @@ const columns = [
     field: 'domain'
   },
   {
-    headerName: 'SNI',
-    field: 'sni'
+    headerName: 'Key',
+    field: 'key',
+    width: 50
+  },
+  {
+    headerName: 'Host',
+    field: 'host.name',
+    renderCell: 'complexField'
+  },
+  {
+    headerName: 'Host Domain',
+    field: 'host.domain',
+    renderCell: 'complexField'
   },
   {
     headerName: 'Type',
-    field: 'type'
+    field: 'type',
+    width: 85
   },
   {
     headerName: 'Enable',
     field: 'enable',
-    renderCell: 'status'
+    renderCell: 'status',
+    width: 85
   },
   {
     headerName: 'Develop',
     field: 'develop',
-    renderCell: 'status'
+    renderCell: 'status',
+    width: 85
   },
   {
     headerName: 'Modified',
