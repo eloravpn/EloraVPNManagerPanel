@@ -10,6 +10,7 @@ import { DialogActions, Divider, Grid, Typography } from '@mui/material';
 import Avatar from 'components/avatar';
 import Button from 'components/button';
 import Autocomplete from 'components/formik/autocomplete';
+import CheckBox from 'components/formik/checkbox';
 import Select from 'components/formik/select';
 import TextField from 'components/formik/textfield';
 import HttpService from 'components/httpService';
@@ -25,8 +26,7 @@ import { convertByteToInt, getDayPersian, stringAvatar } from 'utils';
 import * as yup from 'yup';
 
 const validationSchema = yup.object({
-  message: yup.string().required(),
-  account_ids: yup.string().required()
+  message: yup.string().required()
 });
 const initialForm = {
   message: '',
@@ -35,7 +35,8 @@ const initialForm = {
   user_id: '',
   account_id: '',
   type: '',
-  engine: ''
+  engine: '',
+  approve: false
 };
 
 const AddEdit = (props) => {
@@ -254,6 +255,9 @@ const AddEdit = (props) => {
                 minRows={4}
                 multiline
               />
+            </Grid>
+            <Grid item xs={12}>
+              <CheckBox name="approve" label={'Approve'} />
             </Grid>
           </Grid>
           <DialogActions>

@@ -3,7 +3,6 @@ import { Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import Button from 'components/button';
 import CustomDrawer from 'components/drawer';
-import SelectBadge from 'components/formik/badge';
 import Grid from 'components/grid';
 import CustomGrid from 'components/grid_data';
 import HttpService from 'components/httpService';
@@ -18,6 +17,7 @@ import { Danger } from '../components/alert';
 import AddEdit from './add_edit';
 import BulkSend from './bulk_send';
 import columns from './columns';
+import Information from './info';
 
 const pageName = 'Noifications';
 const url = api.notifications;
@@ -29,7 +29,7 @@ const Notifications = () => {
   const gridRef = useRef();
   const filterRef = useRef();
   const deleteRef = useRef();
-  const creteNotificationRef = useRef();
+  const infoRef = useRef();
   const createBulkSendRef = useRef();
 
   const [data] = useState([]);
@@ -41,6 +41,10 @@ const Notifications = () => {
     nameRef.current.open();
   };
 
+  const HandleInfo = ({ row }) => {
+    infoRef.current.changeStatus();
+    setItem({ ...row, data_limit: convertByteToInt(row.data_limit) });
+  };
   const handleEdit = ({ row }) => {
     createRef.current.changeStatus();
     setItem({ ...row, data_limit: convertByteToInt(row.data_limit) });
@@ -109,6 +113,8 @@ const Notifications = () => {
         title={`Are you sure want Delete "${item?.name ?? 'No Name'}" ?`}
       />
 
+      <Information pageName={pageName} refrence={infoRef} initial={item} />
+
       <AddEdit
         pageName={pageName}
         refrence={createRef}
@@ -161,6 +167,12 @@ const Notifications = () => {
               icon: 'edit',
               color: 'primary',
               name: 'Edit'
+            },
+            {
+              onClick: HandleInfo,
+              icon: 'info',
+              color: 'primary',
+              name: 'Info'
             }
           ]}
           paginateServ={true}

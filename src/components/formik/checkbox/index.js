@@ -1,7 +1,8 @@
 import { Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel } from '@mui/material';
+import CheckboxMD from '@mui/material/Checkbox';
 import { useField, useFormikContext } from 'formik';
 
-const CheckBoxWrapper = ({ name, label, legend, ...otherProps }) => {
+const CheckBox = ({ name, label, legend, ...otherProps }) => {
   const [field, mata] = useField(name);
   const { setFieldValue } = useFormikContext();
 
@@ -27,11 +28,11 @@ const CheckBoxWrapper = ({ name, label, legend, ...otherProps }) => {
       <FormControl>
         <FormLabel component={'legend'}>{legend}</FormLabel>
         <FormGroup>
-          <FormControlLabel control={<Checkbox {...configCheckbox} />} label={label} />
+          <FormControlLabel control={<CheckboxMD {...configCheckbox} />} label={label} />
         </FormGroup>
       </FormControl>
     </>
   );
 };
 
-export default CheckBoxWrapper;
+export default CheckBox;
