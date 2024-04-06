@@ -246,20 +246,7 @@ const AddEdit = (props) => {
               />
             </Grid>
             <Grid item xs={12} md={3}>
-              <Select
-                id={'type'}
-                name={'type'}
-                label="Type"
-                options={[
-                  { id: 'payment', name: 'PAYMENT' },
-                  { id: 'order', name: 'ORDER' },
-                  { id: 'transaction', name: 'TRANSACTION' },
-                  { id: 'general', name: 'GENERAL' },
-                  { id: 'account', name: 'ACCOUNT' },
-                  { id: 'used_traffic', name: 'USED_TRAFFICE' },
-                  { id: 'expire_time', name: 'EXPIRE_TIME' }
-                ]}
-              />
+              <Select id={'type'} name={'type'} label="Type" options={GLOBAL.typeNotifications} />
             </Grid>
             <Grid item xs={12} md={3}>
               <Select

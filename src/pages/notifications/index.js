@@ -18,6 +18,8 @@ import AddEdit from './add_edit';
 import BulkSend from './bulk_send';
 import columns from './columns';
 import Information from './info';
+import Select from 'components/formik/select';
+import SelectBadge from 'components/formik/badge';
 
 const pageName = 'Noifications';
 const url = api.notifications;
@@ -80,8 +82,9 @@ const Notifications = () => {
     <>
       <Formik
         initialValues={{
-          enable: null,
-          status: null
+          type_: null,
+          status: null,
+          approve: -1
         }}
         onSubmit={(values) => {
           gridRef.current.filters(values);
@@ -90,8 +93,27 @@ const Notifications = () => {
       >
         <CustomDrawer ref={filterRef}>
           <Form>
-            <Stack spacing={1} paddingLeft={1}></Stack>
-            <Grid container spacing={1}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Select
+                  options={[{ name: 'All', id: null }, ...GLOBAL.statusNotifications]}
+                  name="status"
+                  label={'Status'}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Select options={GLOBAL.typeNotifications} name="_type" label={'Type'} />
+              </Grid>
+              <Grid item xs={12}>
+                <SelectBadge
+                  options={[
+                    { id: -1, name: 'All' },
+                    { id: 0, name: 'Not Approve' },
+                    { id: 1, name: 'Approve' }
+                  ]}
+                  name="approve"
+                />
+              </Grid>
               <Grid item xs={9}>
                 <Button fullWidth type={'submit'}>
                   Search
@@ -181,9 +203,10 @@ const Notifications = () => {
           sortItem={[
             { id: 'created', name: 'Created' },
             { id: 'modified', name: 'Modified' },
-            { id: 'price', name: 'Price' },
-            { id: 'duration', name: 'Duration' },
-            { id: 'data_limit', name: 'Data Limit' }
+            { id: 'type', name: 'Type' },
+            { id: 'engine', name: 'Level' },
+            { id: 'status', name: 'Status' },
+            { id: 'approve', name: 'Approve' }
           ]}
           defaultSort={{ value: 'created', ASC: false }}
         />
