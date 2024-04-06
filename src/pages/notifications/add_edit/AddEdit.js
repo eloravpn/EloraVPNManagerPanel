@@ -111,7 +111,7 @@ const AddEdit = (props) => {
                 : {})}
             ></UserInfo>
           )}
-          <Grid container spacing={12} rowSpacing={2} justifyContent={'center'}>
+          <Grid container spacing={3} rowSpacing={2} justifyContent={'center'}>
             {!user && (
               <>
                 <Grid item xs={12}>
@@ -223,7 +223,7 @@ const AddEdit = (props) => {
               </Grid>
             )}
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <Select
                 id={'status'}
                 name={'status'}
@@ -231,19 +231,7 @@ const AddEdit = (props) => {
                 options={GLOBAL.statusNotifications}
               />
             </Grid>
-            <Grid item xs={12}>
-              <Select
-                id={'engine'}
-                name={'engine'}
-                label="Engine"
-                options={[
-                  { id: 'TELEGRAM', name: 'Telegram' },
-                  { id: 'EMAIL', name: 'Email' },
-                  { id: 'SMS', name: 'SMS' }
-                ]}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <Select
                 id={'type'}
                 name={'type'}
@@ -256,6 +244,18 @@ const AddEdit = (props) => {
                   { id: 'ACCOUNT', name: 'ACCOUNT' },
                   { id: 'USED_TRAFFICE', name: 'USED_TRAFFICE' },
                   { id: 'EXPIRE_TIME', name: 'EXPIRE_TIME' }
+                ]}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Select
+                id={'engine'}
+                name={'engine'}
+                label="Engine"
+                options={[
+                  { id: 'TELEGRAM', name: 'Telegram' },
+                  { id: 'EMAIL', name: 'Email' },
+                  { id: 'SMS', name: 'SMS' }
                 ]}
               />
             </Grid>
