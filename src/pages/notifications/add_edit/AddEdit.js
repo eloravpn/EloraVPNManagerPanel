@@ -237,7 +237,7 @@ const AddEdit = (props) => {
               </Grid>
             )}
 
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={3}>
               <Select
                 id={'status'}
                 name={'status'}
@@ -245,7 +245,7 @@ const AddEdit = (props) => {
                 options={GLOBAL.statusNotifications}
               />
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={3}>
               <Select
                 id={'type'}
                 name={'type'}
@@ -261,7 +261,7 @@ const AddEdit = (props) => {
                 ]}
               />
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={3}>
               <Select
                 id={'engine'}
                 name={'engine'}
@@ -272,6 +272,9 @@ const AddEdit = (props) => {
                   { id: 'sms', name: 'SMS' }
                 ]}
               />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField id={'level'} name={'level'} label="Level" />
             </Grid>
             <Grid item xs={12}>
               <TextField
