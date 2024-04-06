@@ -32,7 +32,7 @@ const GLOBAL = {
     { name: 'BONUS', id: 'BONUS' }
   ],
   statusNotifications: [
-    { id: 'PENDING', name: 'pending' },
+    { id: 'PENDING', name: 'Pending' },
     { id: 'CANCELED', name: 'Canceled' },
     { id: 'FAILD', name: 'Faild' },
     { id: 'SENT', name: 'Sent' }
