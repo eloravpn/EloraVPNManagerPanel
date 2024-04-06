@@ -95,13 +95,6 @@ const Notifications = () => {
           <Form>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Select
-                  options={[{ name: 'All', id: null }, ...GLOBAL.statusNotifications]}
-                  name="status"
-                  label={'Status'}
-                />
-              </Grid>
-              <Grid item xs={12}>
                 <Select options={GLOBAL.typeNotifications} name="type_" label={'Type'} />
               </Grid>
               <Grid item xs={12}>
