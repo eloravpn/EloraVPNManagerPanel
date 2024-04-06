@@ -21,6 +21,11 @@ const columns = [
     width: 100
   },
   {
+    headerName: 'Detail',
+    field: 'details',
+    width: 100
+  },
+  {
     headerName: 'Modified',
     field: 'modified_at',
     renderCell: 'date',
