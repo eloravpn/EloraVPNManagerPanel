@@ -30,7 +30,7 @@ const validationSchema = yup.object({
 });
 const initialForm = {
   message: '',
-  status: '',
+  status: 'PENDING',
   approve: '',
   user_id: '',
   account_id: '',
