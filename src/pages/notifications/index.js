@@ -102,7 +102,7 @@ const Notifications = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Select options={GLOBAL.typeNotifications} name="_type" label={'Type'} />
+                <Select options={GLOBAL.typeNotifications} name="type_" label={'Type'} />
               </Grid>
               <Grid item xs={12}>
                 <SelectBadge
