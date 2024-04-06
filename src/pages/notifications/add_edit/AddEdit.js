@@ -32,7 +32,6 @@ const initialForm = {
   level: 0,
   message: '',
   status: 'pending',
-  approve: '',
   user_id: '',
   account_id: '',
   type: 'general',
@@ -52,7 +51,7 @@ const AddEdit = (props) => {
     return () => {};
   }, []);
 
-  const handleSubmit = (values) => {
+  const handleCreate = (values) => {
     setPostDataLoading(true);
     HttpService()
       .post(`${api.notifications}`, {
@@ -68,17 +67,32 @@ const AddEdit = (props) => {
         setPostDataLoading(false);
       });
   };
+  const handleEdit = (values) => {
+    setPostDataLoading(true);
+    HttpService()
+      .put(`${api.notifications}/${initial?.id}`, {
+        ...values
+      })
+      .then((res) => {
+        Http.success(res);
+        refrence.current.changeStatus();
+        editRow(res.data);
+      })
+      .catch((err) => Http.error(err))
+      .finally(() => {
+        setPostDataLoading(false);
+      });
+  };
 
   const handleBlurUserId = async (user) => {
     setAccounts(user?.accounts);
   };
-
   return (
     <Formik
       enableReinitialize
-      initialValues={initialForm}
+      initialValues={initial?.id ? initial : initialForm}
       validationSchema={validationSchema}
-      onSubmit={handleSubmit}
+      onSubmit={initial?.id ? handleEdit : handleCreate}
     >
       {({ values, setFieldValue }) => (
         <Form>
