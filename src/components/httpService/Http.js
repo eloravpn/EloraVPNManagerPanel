@@ -2,7 +2,7 @@ import Notification from '../toast';
 
 const Http = {
   success(res) {
-    Notification.success(res.data.message);
+    Notification.success('Sucessful');
   },
   error(error) {
     if (Array.isArray(error.response.data.detail)) {

@@ -104,8 +104,8 @@ const UserSelect = ({ name, onBlur, onChange }) => {
             )}
             <List>
               {isLoading ? (
-                [...Array(10)].map((e) => (
-                  <Box display={'flex'} alignItems={'center'} m={1} key={e}>
+                [...Array(10)].map((e, i) => (
+                  <Box display={'flex'} alignItems={'center'} m={1} key={i}>
                     <Box mr={2}>
                       <Skeleton animation="wave" variant="circular" width={40} height={40} />
                     </Box>

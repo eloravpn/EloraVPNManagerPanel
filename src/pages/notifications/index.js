@@ -1,4 +1,4 @@
-import { Add } from '@mui/icons-material';
+import { Add, Send } from '@mui/icons-material';
 import { Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import Button from 'components/button';
@@ -10,26 +10,31 @@ import Http from 'components/httpService/Http';
 import api from 'components/httpService/api';
 import GLOBAL from 'components/variables';
 import { Form, Formik } from 'formik';
-import useOrders from 'hooks/useOrders';
-import UserSelect from 'pages/components/select/users';
 import { memo, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { convertByteToInt } from 'utils';
 import { Danger } from '../components/alert';
 import AddEdit from './add_edit';
+import BulkSend from './bulk_send';
 import columns from './columns';
+import Information from './info';
+import Select from 'components/formik/select';
+import SelectBadge from 'components/formik/badge';
 
-const pageName = 'Orders';
+const pageName = 'Noifications';
+const url = api.notifications;
 
-const Orders = () => {
+const Notifications = () => {
+  const navigate = useNavigate();
+
   const createRef = useRef();
   const gridRef = useRef();
   const filterRef = useRef();
   const deleteRef = useRef();
+  const infoRef = useRef();
+  const createBulkSendRef = useRef();
 
-  const { orders } = useOrders();
-  let [searchParams] = useSearchParams();
-
+  const [data] = useState([]);
   const [item, setItem] = useState([]);
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
 
@@ -38,6 +43,10 @@ const Orders = () => {
     nameRef.current.open();
   };
 
+  const HandleInfo = ({ row }) => {
+    infoRef.current.changeStatus();
+    setItem({ ...row, data_limit: convertByteToInt(row.data_limit) });
+  };
   const handleEdit = ({ row }) => {
     createRef.current.changeStatus();
     setItem({ ...row, data_limit: convertByteToInt(row.data_limit) });
@@ -56,7 +65,7 @@ const Orders = () => {
   const handleDelete = () => {
     setIsLoadingDelete(true);
     HttpService()
-      .delete(`${api.orders}/${item?.id}`)
+      .delete(`${url}/${item?.id}`)
       .then(() => {
         gridRef.current.deleteRow(item);
         deleteRef.current.close();
@@ -73,8 +82,9 @@ const Orders = () => {
     <>
       <Formik
         initialValues={{
-          user_id: null,
-          enable: null
+          type_: null,
+          status: null,
+          approve: -1
         }}
         onSubmit={(values) => {
           gridRef.current.filters(values);
@@ -83,10 +93,20 @@ const Orders = () => {
       >
         <CustomDrawer ref={filterRef}>
           <Form>
-            <Stack spacing={1} paddingLeft={1} mb={2}>
-              <UserSelect name="user_id" label={'Users'} />
-            </Stack>
-            <Grid container spacing={1}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Select options={GLOBAL.typeNotifications} name="type_" label={'Type'} />
+              </Grid>
+              <Grid item xs={12}>
+                <SelectBadge
+                  options={[
+                    { id: -1, name: 'All' },
+                    { id: 0, name: 'Not Approve' },
+                    { id: 1, name: 'Approve' }
+                  ]}
+                  name="approve"
+                />
+              </Grid>
               <Grid item xs={9}>
                 <Button fullWidth type={'submit'}>
                   Search
@@ -105,8 +125,10 @@ const Orders = () => {
         refrence={deleteRef}
         onDelete={handleDelete}
         onDeleteLoading={isLoadingDelete}
-        title={`Are you sure want Delete "${item?.full_name ?? 'No Name'}" ?`}
+        title={`Are you sure want Delete "${item?.name ?? 'No Name'}" ?`}
       />
+
+      <Information pageName={pageName} refrence={infoRef} initial={item} />
 
       <AddEdit
         pageName={pageName}
@@ -115,34 +137,39 @@ const Orders = () => {
         createRow={createRow}
         editRow={editRow}
       />
-      <>
-        <Box>
-          <Typography variant="h4" gutterBottom>
-            {pageName}
-          </Typography>
-          <Button
-            sx={{ mb: 1 }}
-            onClick={() => {
-              createRef.current.changeStatus();
-              setItem('');
-            }}
-            icon={<Add />}
-          >
-            Create
-          </Button>
-        </Box>
-
-        <CustomGrid
-          tabsName="status"
-          tabs={[{ name: 'All', id: null }, ...GLOBAL.statusOrder]}
-          name="orders"
-          url={api.orders}
-          refrence={gridRef}
-          data={orders}
-          columns={columns}
-          propsFilter={{
-            user_id: searchParams.get('userId')
+      <BulkSend pageName={'Bulk Send'} refrence={createBulkSendRef} />
+      <Box>
+        <Typography variant="h4" gutterBottom>
+          {pageName}
+        </Typography>
+        <Button
+          sx={{ mb: 1 }}
+          onClick={() => {
+            createRef.current.changeStatus();
+            setItem('');
           }}
+          icon={<Add />}
+        >
+          Create
+        </Button>
+        <Button
+          sx={{ mb: 1 }}
+          onClick={() => {
+            createBulkSendRef.current.changeStatus();
+            setItem('');
+          }}
+          icon={<Send />}
+        >
+          Send Bulk
+        </Button>
+        <CustomGrid
+          name="notifications"
+          tabsName="status"
+          tabs={[{ name: 'All', id: null }, ...GLOBAL.statusNotifications]}
+          url={url}
+          refrence={gridRef}
+          data={data}
+          columns={columns}
           rowActions={[
             {
               onClick: (data) => handleAlert(data, deleteRef),
@@ -155,21 +182,30 @@ const Orders = () => {
               icon: 'edit',
               color: 'primary',
               name: 'Edit'
+            },
+            {
+              onClick: HandleInfo,
+              icon: 'info',
+              color: 'primary',
+              name: 'Info'
             }
           ]}
           paginateServ={true}
           showFilter={() => filterRef.current.onChange()}
-          defaultSort={{ value: 'modified', ASC: false }}
+          propsFilter={[{ status: '' }]}
           sortItem={[
             { id: 'created', name: 'Created' },
             { id: 'modified', name: 'Modified' },
-            { id: 'total', name: 'Total' },
-            { id: 'status', name: 'Status' }
+            { id: 'type', name: 'Type' },
+            { id: 'engine', name: 'Level' },
+            { id: 'status', name: 'Status' },
+            { id: 'approve', name: 'Approve' }
           ]}
+          defaultSort={{ value: 'created', ASC: false }}
         />
-      </>
+      </Box>
     </>
   );
 };
 
-export default memo(Orders);
+export default memo(Notifications);

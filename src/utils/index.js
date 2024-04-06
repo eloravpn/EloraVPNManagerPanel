@@ -16,7 +16,7 @@ const getDayPersian = (date) => {
   }
   Moment.loadPersian({ usePersianDigits: false });
 
-  return Moment(date, 'YYYY-MM-D').format('jYYYY/jM/jD');
+  return Moment(date, 'YYYY-MM-D HH:mm').format('jYYYY/jM/jD HH:mm');
 };
 
 const dataForm = (data) => {

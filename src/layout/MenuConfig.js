@@ -20,6 +20,12 @@ const menu = {
         page: 'accounts'
       },
       {
+        title: 'Notifications',
+        root: true,
+        icon: 'notifications',
+        page: 'notifications'
+      },
+      {
         title: 'Zones',
         root: true,
         icon: 'dashboard',

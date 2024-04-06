@@ -31,6 +31,21 @@ const GLOBAL = {
     { name: 'ORDER', id: 'ORDER' },
     { name: 'BONUS', id: 'BONUS' }
   ],
+  statusNotifications: [
+    { id: 'pending', name: 'Pending' },
+    { id: 'canceled', name: 'Canceled' },
+    { id: 'failed', name: 'Faild' },
+    { id: 'sent', name: 'Sent' }
+  ],
+  typeNotifications: [
+    { id: 'payment', name: 'PAYMENT' },
+    { id: 'order', name: 'ORDER' },
+    { id: 'transaction', name: 'TRANSACTION' },
+    { id: 'general', name: 'GENERAL' },
+    { id: 'account', name: 'ACCOUNT' },
+    { id: 'used_traffic', name: 'USED_TRAFFICE' },
+    { id: 'expire_time', name: 'EXPIRE_TIME' }
+  ],
   typeTransaction: [{ name: 'BONUS', id: 'BONUS' }]
 };
 
