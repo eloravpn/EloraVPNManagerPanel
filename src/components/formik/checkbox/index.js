@@ -7,14 +7,14 @@ const CheckBox = ({ name, label, legend, ...otherProps }) => {
   const { setFieldValue } = useFormikContext();
 
   const handleChange = (evt) => {
-    const { value } = evt.target;
-    setFieldValue(name, value);
+    setFieldValue(name, evt.target.checked);
   };
 
   const configCheckbox = {
     ...field,
     ...otherProps,
-    onChange: handleChange
+    onChange: handleChange,
+    checked: !!+field?.value
   };
 
   const configForm = {};
