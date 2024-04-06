@@ -31,12 +31,12 @@ const validationSchema = yup.object({
 const initialForm = {
   level: 0,
   message: '',
-  status: 'PENDING',
+  status: 'pending',
   approve: '',
   user_id: '',
   account_id: '',
-  type: '',
-  engine: 'TELEGRAM',
+  type: 'general',
+  engine: 'telegram',
   approve: false
 };
 
@@ -237,13 +237,13 @@ const AddEdit = (props) => {
                 name={'type'}
                 label="Type"
                 options={[
-                  { id: 'PAYMENY', name: 'PAYMENY' },
-                  { id: 'ORDER', name: 'ORDER' },
-                  { id: 'TRANSACTION', name: 'TRANSACTION' },
-                  { id: 'GENERAL', name: 'GENERAL' },
-                  { id: 'ACCOUNT', name: 'ACCOUNT' },
-                  { id: 'USED_TRAFFICE', name: 'USED_TRAFFICE' },
-                  { id: 'EXPIRE_TIME', name: 'EXPIRE_TIME' }
+                  { id: 'payment', name: 'PAYMENT' },
+                  { id: 'order', name: 'ORDER' },
+                  { id: 'transaction', name: 'TRANSACTION' },
+                  { id: 'general', name: 'GENERAL' },
+                  { id: 'account', name: 'ACCOUNT' },
+                  { id: 'used_traffic', name: 'USED_TRAFFICE' },
+                  { id: 'expire_time', name: 'EXPIRE_TIME' }
                 ]}
               />
             </Grid>
@@ -253,9 +253,9 @@ const AddEdit = (props) => {
                 name={'engine'}
                 label="Engine"
                 options={[
-                  { id: 'TELEGRAM', name: 'Telegram' },
-                  { id: 'EMAIL', name: 'Email' },
-                  { id: 'SMS', name: 'SMS' }
+                  { id: 'telegram', name: 'Telegram' },
+                  { id: 'email', name: 'Email' },
+                  { id: 'sms', name: 'SMS' }
                 ]}
               />
             </Grid>
