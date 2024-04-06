@@ -29,13 +29,14 @@ const validationSchema = yup.object({
   message: yup.string().required()
 });
 const initialForm = {
+  level: 0,
   message: '',
   status: 'PENDING',
   approve: '',
   user_id: '',
   account_id: '',
   type: '',
-  engine: '',
+  engine: 'TELEGRAM',
   approve: false
 };
 
@@ -228,6 +229,18 @@ const AddEdit = (props) => {
                 name={'status'}
                 label="Status"
                 options={GLOBAL.statusNotifications}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Select
+                id={'engine'}
+                name={'engine'}
+                label="Engine"
+                options={[
+                  { id: 'TELEGRAM', name: 'Telegram' },
+                  { id: 'EMAIL', name: 'Email' },
+                  { id: 'SMS', name: 'SMS' }
+                ]}
               />
             </Grid>
             <Grid item xs={12} md={6}>
