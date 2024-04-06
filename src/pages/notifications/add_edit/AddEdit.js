@@ -186,7 +186,7 @@ const AddEdit = (props) => {
                                   </Grid>
                                 </Grid>
                               </Grid>
-                              <Grid xs={6} md={4}>
+                              <Grid item xs={6} md={4}>
                                 <Grid container spacing={1} alignItems={'stretch'}>
                                   <Grid item>
                                     <AvTimer color="primary" />
@@ -194,7 +194,7 @@ const AddEdit = (props) => {
                                   <Grid item>{getDayPersian(expired_at)}</Grid>
                                 </Grid>
                               </Grid>
-                              <Grid xs={6} md={4}>
+                              <Grid item xs={6} md={4}>
                                 <Grid container spacing={1} alignItems={'stretch'}>
                                   <Grid item>
                                     <AttachEmail color="primary" />
@@ -202,7 +202,7 @@ const AddEdit = (props) => {
                                   <Grid item>{email}</Grid>
                                 </Grid>
                               </Grid>
-                              <Grid xs={12}>
+                              <Grid item xs={12}>
                                 <Grid container spacing={1} alignItems={'stretch'}>
                                   <Grid item>
                                     <AttachEmail color="primary" />
