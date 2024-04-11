@@ -8,7 +8,7 @@ import AddEdit from './add_edit';
 import CustomDrawer from 'components/drawer';
 import { Form, Formik } from 'formik';
 import api from 'components/httpService/api';
-import { Danger } from 'pages/components/alert';
+import { Alert, Danger } from 'pages/components/alert';
 import Http from 'components/httpService/Http';
 import Button from 'components/button';
 import SelectBadge from 'components/formik/badge';
@@ -21,13 +21,15 @@ const Hosts = () => {
   const gridRef = useRef();
   const filterRef = useRef();
   const deleteRef = useRef();
+  const copyRef = useRef();
 
   const [item, setItem] = useState([]);
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+  const [isLoadingCopy, setIsLoadingCopy] = useState(false);
 
-  const handleAlert = ({ row }) => {
+  const handleAlert = ({ row }, nameRef) => {
     setItem(row);
-    deleteRef.current.open();
+    nameRef.current.open();
   };
 
   const handleEdit = ({ row }) => {
@@ -58,6 +60,22 @@ const Hosts = () => {
       })
       .finally(() => {
         setIsLoadingDelete(false);
+      });
+  };
+
+  const handleCopy = () => {
+    setIsLoadingCopy(true);
+    HttpService()
+      .post(`${api.hosts}/${item?.id}/copy`)
+      .then(() => {
+        gridRef.current.createRow(item);
+        copyRef.current.close();
+      })
+      .catch((err) => {
+        Http.error(err);
+      })
+      .finally(() => {
+        setIsLoadingCopy(false);
       });
   };
 
@@ -93,6 +111,13 @@ const Hosts = () => {
           </Form>
         </CustomDrawer>
       </Formik>
+
+      <Alert
+        refrence={copyRef}
+        onSubmit={handleCopy}
+        onDeleteLoading={isLoadingCopy}
+        title={`Are you sure to copy this inbound config?`}
+      />
       <Danger
         refrence={deleteRef}
         onDelete={handleDelete}
@@ -129,7 +154,7 @@ const Hosts = () => {
           columns={columns}
           rowActions={[
             {
-              onClick: handleAlert,
+              onClick: (data) => handleAlert(data, deleteRef),
               icon: 'delete',
               color: 'red',
               name: 'Delete'
@@ -139,6 +164,12 @@ const Hosts = () => {
               icon: 'edit',
               color: 'primary',
               name: 'Edit'
+            },
+            {
+              onClick: (data) => handleAlert(data, copyRef),
+              icon: 'content_copy',
+              color: 'primary',
+              name: 'Copy'
             }
           ]}
           paginateServ={false}
