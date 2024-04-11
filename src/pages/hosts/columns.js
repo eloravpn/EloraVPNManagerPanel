@@ -1,5 +1,9 @@
 const columns = [
   {
+    headerName: 'ID',
+    field: 'id'
+  },
+  {
     headerName: 'Name',
     field: 'name'
   },
