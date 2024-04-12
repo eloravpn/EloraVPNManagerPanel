@@ -110,11 +110,11 @@ const Mui = (props) => {
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'en-gb'}>
       <ThemeProvider theme={theme}>
         <ToastContainer
-          position={fullScreen ? 'bottom-center' : 'bottom-left'}
+          position={fullScreen ? 'top-center' : 'bottom-left'}
           limit={2}
           hideProgressBar={true}
           newestOnTop
-          closeOnClick={false}
+          closeOnClick={true}
           pauseOnFocusLoss={false}
           draggable={false}
           pauseOnHover={true}
