@@ -33,7 +33,7 @@ const BulkSend = (props) => {
     HttpService()
       .post(`${api.notifications}/bulk_send`, {
         account_ids: values.account_ids.split('\n'),
-        notifications: {
+        notification: {
           ...values
         }
       })
