@@ -32,7 +32,8 @@ const BulkSend = (props) => {
     setPostDataLoading(true);
     HttpService()
       .post(`${api.notifications}/bulk_send`, {
-        ...values
+        ...values,
+        account_ids: values.account_ids.split('\n')
       })
       .then((res) => {
         Http.success(res);
