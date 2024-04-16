@@ -118,22 +118,23 @@ const Inbounds = () => {
         createRow={createRow}
         editRow={editRow}
       />
-      <Box>
-        <Typography variant="h4" gutterBottom>
-          {pageName}
-        </Typography>
+      <>
+        <Box>
+          <Typography variant="h4" gutterBottom>
+            {pageName}
+          </Typography>
 
-        <Button
-          sx={{ mb: 1 }}
-          onClick={() => {
-            createRef.current.changeStatus();
-            setItem('');
-          }}
-          icon={<Add />}
-        >
-          Create
-        </Button>
-
+          <Button
+            sx={{ mb: 1 }}
+            onClick={() => {
+              createRef.current.changeStatus();
+              setItem('');
+            }}
+            icon={<Add />}
+          >
+            Create
+          </Button>
+        </Box>
         <CustomGrid
           name="inbounds"
           url={api.inbounds}
@@ -166,7 +167,7 @@ const Inbounds = () => {
           ]}
           defaultSort={{ value: 'created', ASC: false }}
         />
-      </Box>
+      </>
     </>
   );
 };
