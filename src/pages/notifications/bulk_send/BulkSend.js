@@ -18,7 +18,7 @@ const initialForm = {
   level: 0,
   message: '',
   status: 'pending',
-  user_id: '',
+  user_id: 0,
   type: 'general',
   engine: 'telegram',
   approve: false
