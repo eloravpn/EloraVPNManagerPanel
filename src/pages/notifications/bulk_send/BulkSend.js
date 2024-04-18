@@ -11,10 +11,10 @@ import AddOneFrom from '../AddOne';
 
 const validationSchema = yup.object({
   message: yup.string().required(),
-  account_ids: yup.string().required()
+  user_ids: yup.string().required()
 });
 const initialForm = {
-  account_ids: '',
+  user_ids: '',
   level: 0,
   message: '',
   status: 'pending',
@@ -32,7 +32,7 @@ const BulkSend = (props) => {
     setPostDataLoading(true);
     HttpService()
       .post(`${api.notifications}/bulk_send`, {
-        account_ids: values.account_ids.split('\n'),
+        user_ids: values.user_ids.split('\n'),
         notification: {
           ...values
         }
@@ -59,8 +59,8 @@ const BulkSend = (props) => {
           <Grid container spacing={3} rowSpacing={2} justifyContent={'center'}>
             <Grid item xs={12}>
               <TextField
-                id={'account_ids'}
-                name={'account_ids'}
+                id={'user_ids'}
+                name={'user_ids'}
                 label="Account IDs"
                 type="text"
                 minRows={4}
