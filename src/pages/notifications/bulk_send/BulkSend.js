@@ -5,17 +5,23 @@ import HttpService from 'components/httpService';
 import Http from 'components/httpService/Http';
 import api from 'components/httpService/api';
 import { Form, Formik } from 'formik';
-import useHostZones from 'hooks/useHostZones';
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 import * as yup from 'yup';
+import AddOneFrom from '../AddOne';
 
 const validationSchema = yup.object({
   message: yup.string().required(),
-  account_ids: yup.string().required()
+  user_ids: yup.string().required()
 });
 const initialForm = {
+  user_ids: '',
+  level: 0,
   message: '',
-  account_ids: ''
+  status: 'pending',
+  user_id: 0,
+  type: 'general',
+  engine: 'telegram',
+  approve: false
 };
 
 const BulkSend = (props) => {
@@ -26,7 +32,10 @@ const BulkSend = (props) => {
     setPostDataLoading(true);
     HttpService()
       .post(`${api.notifications}/bulk_send`, {
-        ...values
+        user_ids: values.user_ids.split('\n'),
+        notification: {
+          ...values
+        }
       })
       .then((res) => {
         Http.success(res);
@@ -47,27 +56,18 @@ const BulkSend = (props) => {
     >
       {() => (
         <Form>
-          <Grid container spacing={12} rowSpacing={2}>
+          <Grid container spacing={3} rowSpacing={2} justifyContent={'center'}>
             <Grid item xs={12}>
               <TextField
-                id={'account_ids'}
-                name={'account_ids'}
+                id={'user_ids'}
+                name={'user_ids'}
                 label="Account IDs"
                 type="text"
                 minRows={4}
                 multiline
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id={'message'}
-                name={'message'}
-                label="Message"
-                type="text"
-                minRows={4}
-                multiline
-              />
-            </Grid>
+            <AddOneFrom />
           </Grid>
           <DialogActions>
             <Button

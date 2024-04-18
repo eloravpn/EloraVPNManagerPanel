@@ -10,9 +10,7 @@ import { DialogActions, Divider, Grid, Typography } from '@mui/material';
 import Avatar from 'components/avatar';
 import Button from 'components/button';
 import Autocomplete from 'components/formik/autocomplete';
-import CheckBox from 'components/formik/checkbox';
 import Select from 'components/formik/select';
-import TextField from 'components/formik/textfield';
 import HttpService from 'components/httpService';
 import Http from 'components/httpService/Http';
 import api from 'components/httpService/api';
@@ -24,6 +22,7 @@ import UserInfo from 'pages/components/user_info';
 import { Fragment, memo, useEffect, useState } from 'react';
 import { convertByteToInt, getDayPersian, stringAvatar } from 'utils';
 import * as yup from 'yup';
+import AddOneFrom from '../AddOne';
 
 const validationSchema = yup.object({
   message: yup.string().required()
@@ -237,45 +236,7 @@ const AddEdit = (props) => {
               </Grid>
             )}
 
-            <Grid item xs={12} md={3}>
-              <Select
-                id={'status'}
-                name={'status'}
-                label="Status"
-                options={GLOBAL.statusNotifications}
-              />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Select id={'type'} name={'type'} label="Type" options={GLOBAL.typeNotifications} />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Select
-                id={'engine'}
-                name={'engine'}
-                label="Engine"
-                options={[
-                  { id: 'telegram', name: 'Telegram' },
-                  { id: 'email', name: 'Email' },
-                  { id: 'sms', name: 'SMS' }
-                ]}
-              />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <TextField id={'level'} name={'level'} label="Level" />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id={'message'}
-                name={'message'}
-                label="Message"
-                type="text"
-                minRows={4}
-                multiline
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CheckBox name="approve" label={'Approve'} />
-            </Grid>
+            <AddOneFrom />
           </Grid>
           <DialogActions>
             <Button

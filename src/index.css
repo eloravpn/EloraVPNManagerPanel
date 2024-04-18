@@ -155,3 +155,8 @@ a {
   overflow-x: scroll;
   min-width: 600px;
 }
+
+.Toastify__toast {
+  border-radius: 10px !important;
+  margin: 10px;
+}
