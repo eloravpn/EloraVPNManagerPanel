@@ -1,6 +1,6 @@
 import Chart from 'react-apexcharts';
 
-const Mixed = ({ data, height, type, max, width, count = false }) => {
+const Mixed = ({ data, height, type, max, width, count = false, isLoading = true }) => {
   const state = {
     series: data.data,
     options: {
@@ -14,6 +14,18 @@ const Mixed = ({ data, height, type, max, width, count = false }) => {
         height: 350,
         type: 'line',
         stacked: false
+      },
+      noData: {
+        text: isLoading ? 'Loading...' : 'No Data present in the graph!',
+        align: 'center',
+        verticalAlign: 'middle',
+        offsetX: 0,
+        offsetY: 0,
+        style: {
+          color: '#000000',
+          fontSize: '14px',
+          fontFamily: 'Helvetica'
+        }
       },
       toolbar: {
         show: false
