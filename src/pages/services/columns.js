@@ -1,5 +1,10 @@
 const columns = [
   {
+    headerName: 'ID',
+    field: 'id',
+    width: 20
+  },
+  {
     headerName: 'Name',
     field: 'name',
     width: 200
