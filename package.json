@@ -18,7 +18,7 @@
     "axios": "1.6.7",
     "dayjs": "^1.11.10",
     "formik": "^2.2.9",
-    "html-to-image": "^1.11.11",
+    "html2canvas": "^1.4.1",
     "jss-rtl": "^0.3.0",
     "lodash": "^4.17.21",
     "moment-jalaali": "0.10.0",
