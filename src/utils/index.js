@@ -1,3 +1,4 @@
+import html2canvas from 'html2canvas';
 import { round, forEach } from 'lodash';
 import Moment from 'moment-jalaali';
 
@@ -139,6 +140,84 @@ const isPositive = (number) => {
   if (number > 0) return true;
   else return false;
 };
+
+export const exportAsImage = async (element, imageFileName) => {
+  const html = document.getElementsByTagName('html')[0];
+  const body = document.getElementsByTagName('body')[0];
+  let htmlWidth = html.clientWidth;
+  let bodyWidth = body.clientWidth;
+
+  const newWidth = element.scrollWidth - element.clientWidth;
+
+  if (newWidth > element.clientWidth) {
+    htmlWidth += newWidth;
+    bodyWidth += newWidth;
+  }
+
+  html.style.width = htmlWidth + 'px';
+  body.style.width = bodyWidth + 'px';
+  const canvas = await html2canvas(element, {
+    scale: 2,
+    allowTaint: false,
+    imageTimeout: 5000,
+    useCORS: true
+  });
+  const image = canvas.toDataURL('image/jpeg', 2.0);
+  getDevice() ? shareImage(image, imageFileName) : downloadImage(image, imageFileName);
+  html.style.width = null;
+  body.style.width = null;
+};
+
+const getDevice = () => {
+  const ua = navigator.userAgent;
+  if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+    return 'tablet';
+  }
+  if (
+    /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
+      ua
+    )
+  ) {
+    return true;
+  }
+  return false;
+};
+
+const shareImage = async (blobs, imageFileName) => {
+  const blob = await (await fetch(blobs)).blob();
+
+  const filesArray = [
+    new File([blob], `${imageFileName}.jpeg`, {
+      type: blob.type,
+      lastModified: new Date().getTime()
+    })
+  ];
+  const shareData = {
+    files: filesArray
+  };
+
+  navigator
+    .share(shareData)
+    .then(() => {
+      console.log('Shared successfully');
+    })
+    .catch((err) => console.log(err));
+};
+
+const downloadImage = (blob, fileName) => {
+  const fakeLink = window.document.createElement('a');
+  fakeLink.style = 'display:none;';
+  fakeLink.download = fileName;
+
+  fakeLink.href = blob;
+
+  document.body.appendChild(fakeLink);
+  fakeLink.click();
+  document.body.removeChild(fakeLink);
+
+  fakeLink.remove();
+};
+
 export {
   formValues,
   separateNum,

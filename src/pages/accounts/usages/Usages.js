@@ -1,13 +1,13 @@
-import { Box, Grid, List, ListItem, Skeleton, Typography } from '@mui/material';
+import { Download } from '@mui/icons-material';
+import { Box, Grid, IconButton, Skeleton, Typography } from '@mui/material';
 import Mixed from 'components/chart/Mixed';
 import SelectBadge from 'components/formik/badge';
 import FormObserver from 'components/formik/observer';
 import dayjs from 'dayjs';
 import { Form, Formik } from 'formik';
-import { toPng } from 'html-to-image';
 import { memo, useRef, useState } from 'react';
 import { getReportAccount } from 'services/reportService';
-import { convertByteToInt, getBetweenDate, getDayPersian } from 'utils';
+import { convertByteToInt, exportAsImage, getBetweenDate, getDayPersian } from 'utils';
 
 var utc = require('dayjs/plugin/utc');
 var timezone = require('dayjs/plugin/timezone');
@@ -80,26 +80,30 @@ const Usages = (props) => {
       setIsLoadingGetReport(false);
     }
   };
+  const [showTabel, setShowTabel] = useState(false);
+  const usageRef = useRef();
 
   const htmlToImageConvert = () => {
-    alert();
-    toPng(imageRef.current, {})
-      .then((dataUrl) => {
-        const link = document.createElement('a');
-        link.download = 'Usages.png';
-        link.href = dataUrl;
-        link.click();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setShowTabel(true);
+    setTimeout(() => {
+      exportAsImage(imageRef.current, 'usage');
+      setShowTabel(false);
+    }, 2000);
   };
 
   const imageRef = useRef();
-
+  const downloads = convertByteToInt(
+    reportHosts.reduce((init, curr) => init + curr.download, 0)
+  ).toFixed(2);
+  const avgDownload = (downloads / reportHosts.length).toFixed(2);
+  const totalDownload = convertByteToInt(
+    reportHosts.reduce((init, curr) => init + curr.download, 0)
+  ).toFixed(2);
+  const totalUpload = convertByteToInt(
+    reportHosts.reduce((init, curr) => init + curr.upload, 0)
+  ).toFixed(2);
   return (
     <>
-      <button onClick={htmlToImageConvert}>Download</button>
       <Grid container spacing={2}>
         <Grid item xs={12} md={12}>
           <Formik initialValues={{ date: 1 }}>
@@ -134,15 +138,18 @@ const Usages = (props) => {
             )}
           </Formik>
           <Box textAlign={'center'}>
-            <Typography variant="h6">Total Usage</Typography>
+            <Typography variant="h6">
+              Total Usage
+              <IconButton color="primary" onClick={htmlToImageConvert}>
+                <Download />
+              </IconButton>
+            </Typography>
             <Typography>
               Download:{' '}
               {isLoadingGetReport ? (
                 <Skeleton width={35} height={15} sx={{ ml: 1 }} />
               ) : (
-                convertByteToInt(
-                  reportHosts.reduce((init, curr) => init + curr.download, 0)
-                ).toFixed(2) + 'GB'
+                totalDownload + 'GB'
               )}
             </Typography>
             <Typography>
@@ -150,31 +157,55 @@ const Usages = (props) => {
               {isLoadingGetReport ? (
                 <Skeleton width={35} height={15} sx={{ ml: 1 }} />
               ) : (
-                convertByteToInt(reportHosts.reduce((init, curr) => init + curr.upload, 0)).toFixed(
-                  2
-                ) + 'GB'
+                totalUpload + 'GB'
+              )}
+            </Typography>
+            <Typography>
+              AVG:{' '}
+              {isLoadingGetReport ? (
+                <Skeleton width={35} height={15} sx={{ ml: 1 }} />
+              ) : (
+                avgDownload
               )}
             </Typography>
           </Box>
         </Grid>
         <Grid xs={12}></Grid>
       </Grid>
-      <table className="table-print" ref={imageRef}>
-        <tr>
-          <th>Download</th>
-          <th>Upload</th>
-          <th>Date</th>
+      <table
+        className="table-print"
+        id="my-node"
+        style={{ display: showTabel ? '' : 'none' }}
+        ref={imageRef}
+      >
+        <tr style={{ textAlign: 'center' }}>
+          <th>تاریخ</th>
+          <th>بارگیری</th>
+          <th>بارگذاری</th>
+          <th>مجموع مصرف</th>
         </tr>
 
         {reportHosts.map(({ download, upload, date }) => (
-          <tr>
+          <tr
+            className={
+              (avgDownload >= convertByteToInt(download).toFixed(2) && 'success') ||
+              (avgDownload <= convertByteToInt(download).toFixed(2) && 'danger')
+            }
+          >
+            <td>{getDayPersian(date)}</td>
             <td>{convertByteToInt(download).toFixed(2)}</td>
             <td> {convertByteToInt(upload).toFixed(2)}</td>
-            <td>{getDayPersian(date)}</td>
+            <td>{(convertByteToInt(download) + convertByteToInt(upload)).toFixed(2)}</td>
           </tr>
         ))}
+        <tr className="total">
+          <td>Total</td>
+          <td>{totalDownload + 'GB'}</td>
+          <td>{totalUpload + 'GB'}</td>
+          <td>{+totalDownload + +totalUpload} GB</td>
+        </tr>
       </table>
-      {/* <Mixed
+      <Mixed
         isLoading={isLoadingGetReport}
         type={'area'}
         data={{
@@ -194,7 +225,7 @@ const Usages = (props) => {
         }}
         max={Math.max(...reportHosts.map(({ download }) => convertByteToInt(download).toFixed(2)))}
         height={350}
-      /> */}
+      />
     </>
   );
 };
