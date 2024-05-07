@@ -3,7 +3,6 @@ import * as ReactDOMClient from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import './assets/css/material-icons.css';
-import 'react-toastify/dist/ReactToastify.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Mui from './Mui';

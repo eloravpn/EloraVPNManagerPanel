@@ -281,6 +281,7 @@ const Dashboard = () => {
                       }}
                     >
                       <Mixed
+                        isLoading={isLoadingGetReport}
                         count
                         type={'area'}
                         data={{

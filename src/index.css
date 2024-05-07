@@ -160,3 +160,41 @@ a {
   border-radius: 10px !important;
   margin: 10px;
 }
+
+.table-print {
+  background-color: #fff;
+  text-align: left;
+  padding: 5px;
+}
+
+.table-print tr > th {
+  padding: 5px;
+  border-bottom: 1px solid #000;
+}
+
+.table-print tr > td {
+  padding: 5px;
+  border-bottom: 1px solid #000;
+  border-right: 1px solid #000;
+}
+
+.table-print tr > td:first {
+  padding: 5px;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+}
+
+.success {
+  color: rgb(17, 141, 87);
+  background-color: rgba(34, 197, 94, 0.16);
+}
+
+.danger {
+  background: rgba(255, 86, 48, 0.16);
+  color: rgb(183, 29, 24);
+}
+
+.total {
+  background: rgba(0, 184, 217, 0.16);
+  color: rgb(0, 108, 156);
+}

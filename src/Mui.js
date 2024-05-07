@@ -1,10 +1,10 @@
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { cssTransition, ToastContainer } from 'react-toastify';
 import { useMediaQuery } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { memo } from 'react';
 import 'dayjs/locale/en-gb';
+import { memo } from 'react';
+import { Toaster } from 'react-hot-toast';
 /* If use RTL use button code */
 
 // const jss = create({
@@ -99,28 +99,16 @@ const theme = createTheme({
   }
 });
 
-const swirl = cssTransition({
-  enter: 'fade-in',
-  exit: 'fade-out'
-});
-
 const Mui = (props) => {
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'en-gb'}>
       <ThemeProvider theme={theme}>
-        <ToastContainer
-          position={fullScreen ? 'top-center' : 'bottom-left'}
-          limit={2}
-          hideProgressBar={true}
-          newestOnTop
-          closeOnClick={true}
-          pauseOnFocusLoss={false}
-          draggable={false}
-          pauseOnHover={true}
-          transition={swirl}
-          theme="light"
-          rtl={false}
+        <Toaster
+          toastOptions={{
+            // Define default options
+            className: '',
+            duration: 1500
+          }}
         />
         {/* RTL CODE HERE */}
         {/* <StylesProvider jss={jss}> */}
