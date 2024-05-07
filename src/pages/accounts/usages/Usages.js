@@ -61,6 +61,13 @@ const Usages = (props) => {
         trunc: 'day'
       };
     }
+    if (values.date === -1) {
+      obj = {
+        end_date: getBetweenDate(1),
+        start_date: '',
+        trunc: 'day'
+      };
+    }
     try {
       const { data } = await getReportAccount({
         account_id: initial.id,
@@ -129,7 +136,8 @@ const Usages = (props) => {
                       { name: '24 H', id: 24 },
                       { name: '1 Day', id: 1 },
                       { name: '1 Week', id: 7 },
-                      { name: '1 Month', id: 30 }
+                      { name: '1 Month', id: 30 },
+                      { name: 'All', id: -1 }
                     ]}
                     name="date"
                   />
