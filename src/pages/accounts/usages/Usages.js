@@ -64,7 +64,7 @@ const Usages = (props) => {
     if (values.date === -1) {
       obj = {
         end_date: getBetweenDate(1),
-        start_date: '',
+        start_date: null,
         trunc: 'day'
       };
     }
