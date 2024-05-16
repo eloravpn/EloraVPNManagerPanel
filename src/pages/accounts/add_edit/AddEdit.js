@@ -1,28 +1,25 @@
-import { memo, useEffect, useState } from 'react';
-import { Box, DialogActions, Grid, Skeleton, Typography } from '@mui/material';
+import { AllInclusiveOutlined } from '@mui/icons-material';
+import { Box, DialogActions, Grid, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Button from 'components/button';
+import Chip from 'components/chip';
+import SelectBadge from 'components/formik/badge';
+import Date from 'components/formik/date_picker';
 import Select from 'components/formik/select';
-
-import { Form, Formik } from 'formik';
+import Slider from 'components/formik/slider';
 import TextField from 'components/formik/textfield';
-import * as yup from 'yup';
 import HttpService from 'components/httpService';
 import api from 'components/httpService/api';
 import Http from 'components/httpService/Http';
-import Switch from 'components/formik/switch';
-import Slider from 'components/formik/slider';
-import { styled } from '@mui/material/styles';
-import Date from 'components/formik/date_picker';
-import Chip from 'components/chip';
-import { convertToByte, getExpireTime, uuidGenerator, emailGenerator, getDayPersian } from 'utils';
-import dayjs from 'dayjs';
-import Button from 'components/button';
-import UserSelect from 'pages/components/select/users';
 import config from 'config';
+import dayjs from 'dayjs';
+import { Form, Formik } from 'formik';
 import useUsers from 'hooks/useUsers';
-import SelectBadge from 'components/formik/badge';
-import Usages from '../usages/Usages';
+import UserSelect from 'pages/components/select/users';
 import UserInfo from 'pages/components/user_info';
-import { AllInclusiveOutlined } from '@mui/icons-material';
+import { memo, useEffect, useState } from 'react';
+import { convertToByte, emailGenerator, getDayPersian, getExpireTime, uuidGenerator } from 'utils';
+import * as yup from 'yup';
 import useHostZones from '../../../hooks/useHostZones';
 
 const Input = styled(TextField)`
@@ -273,7 +270,6 @@ const AddEdit = (props) => {
               </Grid>
             </Grid>
 
-            {initial.user_id && initial?.id ? <Usages initial={initial} fullChart /> : null}
             <DialogActions>
               <Button
                 autoFocus
