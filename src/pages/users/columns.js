@@ -29,8 +29,7 @@ const columns = [
   {
     headerName: 'Modified',
     field: 'modified_at',
-    renderCell: 'date',
-    width: 100
+    renderCell: 'date'
   }
 ];
 
