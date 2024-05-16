@@ -26,7 +26,7 @@ const initialForm = {
   order_id: 0,
   total: 0,
   method: 'MONEY_ORDER',
-  status: 'PENDING'
+  status: 'PAID'
 };
 
 const AddEdit = (props) => {
