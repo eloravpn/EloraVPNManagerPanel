@@ -161,27 +161,28 @@ a {
   margin: 10px;
 }
 
+#my-node {
+  margin: 1rem;
+}
 .table-print {
   background-color: #fff;
-  text-align: left;
+  text-align: right;
   padding: 5px;
+  width: 100%;
 }
 
 .table-print tr > th {
   padding: 5px;
-  border-bottom: 1px solid #000;
+  background-color: #f6f6f6;
+  font-size: 15px;
 }
 
 .table-print tr > td {
   padding: 5px;
-  border-bottom: 1px solid #000;
-  border-right: 1px solid #000;
 }
 
 .table-print tr > td:first {
   padding: 5px;
-  border-left: 1px solid #000;
-  border-right: 1px solid #000;
 }
 
 .success {
