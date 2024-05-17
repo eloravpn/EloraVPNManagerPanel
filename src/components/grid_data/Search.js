@@ -31,8 +31,17 @@ const sorts = [
 ];
 
 const Search = (props) => {
-  const { setSearch, refresh, showFilter, search, sortItem, tabs, tabsName, filters, setFilters } =
-    props;
+  const {
+    setSearch,
+    refresh,
+    showFilter,
+    search,
+    sortItem = sorts,
+    tabs,
+    tabsName,
+    filters,
+    setFilters
+  } = props;
 
   const handleChange = useCallback(
     (name, e) => {
@@ -130,7 +139,4 @@ const Search = (props) => {
   );
 };
 
-Search.defaultProps = {
-  sortItem: sorts
-};
 export default memo(Search);

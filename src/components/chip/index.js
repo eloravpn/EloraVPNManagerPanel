@@ -1,7 +1,15 @@
 import MuiChip from '@mui/material/Chip';
 import Loading from 'components/loading';
 
-const Chip = ({ label, onClick, variant, color, disabled, isLoading, ...props }) => {
+const Chip = ({
+  label,
+  onClick,
+  variant = 'chip',
+  color = 'primary',
+  disabled = false,
+  isLoading = false,
+  ...props
+}) => {
   const config = {
     ...(onClick && { onClick }),
     ...(isLoading && { deleteIcon: <Loading size={18} /> }),
@@ -17,13 +25,6 @@ const Chip = ({ label, onClick, variant, color, disabled, isLoading, ...props })
       disabled={disabled}
     />
   );
-};
-
-Chip.defaultProps = {
-  variant: 'chip',
-  color: 'primary',
-  isLoading: false,
-  disabled: false
 };
 
 export default Chip;
