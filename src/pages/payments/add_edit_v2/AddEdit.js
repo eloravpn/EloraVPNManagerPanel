@@ -1,22 +1,22 @@
-import { Fragment, memo, useEffect, useState } from 'react';
-import { Box, DialogActions, Divider, Grid, Slide } from '@mui/material';
+import { DialogActions, Grid } from '@mui/material';
 import Fade from '@mui/material/Fade';
-import { Form, Formik } from 'formik';
+import Button from 'components/button';
+import Select from 'components/formik/select';
 import TextField from 'components/formik/textfield';
-import * as yup from 'yup';
 import HttpService from 'components/httpService';
 import api from 'components/httpService/api';
 import Http from 'components/httpService/Http';
-import { getDayPersian, getExpireTime, convertByteToInt, formValues } from 'utils';
-import Button from 'components/button';
-import UserSelect from 'pages/components/select/users';
-import useUsers from 'hooks/useUsers';
-import Select from 'components/formik/select';
-import UserInfo from 'pages/components/user_info';
-import useOrders from 'hooks/useOrders';
 import GLOBAL from 'components/variables';
-import Autocomplete from 'components/formik/autocomplete';
+import { Form, Formik } from 'formik';
+import useOrders from 'hooks/useOrders';
+import useUsers from 'hooks/useUsers';
+import UserSelect from 'pages/components/select/users';
+import UserInfo from 'pages/components/user_info';
 import AddEditOrder from 'pages/orders/add_edit/AddEdit';
+import { memo, useEffect, useState } from 'react';
+import { formValues } from 'utils';
+import * as yup from 'yup';
+import ServicesSelect from 'pages/components/select/services';
 const validationSchema = yup.object({
   user_id: yup.number().required()
 });
@@ -24,6 +24,7 @@ const validationSchema = yup.object({
 const initialForm = {
   user_id: 0,
   order_id: 0,
+  service_id: '',
   total: 0,
   method: 'MONEY_ORDER',
   status: 'PAID'
@@ -51,16 +52,14 @@ const AddEdit = (props) => {
       .then((res) => {
         Http.success(res);
         setInitialOrder({
-          ...{
-            account_id: 0,
-            service_id: '',
-            duration: 1,
-            total: 0,
-            total_discount_amount: 0,
-            status: 'PAID',
-            data_limit: 0,
-            ip_limit: 0
-          },
+          account_id: 0,
+          duration: 1,
+          total: 0,
+          total_discount_amount: 0,
+          status: 'PAID',
+          data_limit: 0,
+          ip_limit: 0,
+          service_id: values?.service_id,
           user_id: res.data.user_id
         });
         setShowCreateOrder(true);
@@ -100,7 +99,7 @@ const AddEdit = (props) => {
             initial.id ? handleEdit(values) : handleCreate(values);
           }}
         >
-          {({ values }) => (
+          {({ values, setFieldValue }) => (
             <Form>
               {user && <UserInfo user={user} isLoading={isLoadingUser}></UserInfo>}
               <Grid container spacing={12} rowSpacing={2} justifyContent={'center'}>
@@ -117,6 +116,13 @@ const AddEdit = (props) => {
                     disabled={
                       !!values.order_id || (initial.id && condition.includes(values.status))
                     }
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <ServicesSelect
+                    label="Service"
+                    name="service_id"
+                    onChange={(service) => setFieldValue('total', service.price)}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -160,9 +166,9 @@ const AddEdit = (props) => {
           )}
         </Formik>
       )}
-      <Fade in={showCreateOrder}>
-        <div>{showCreateOrder && <AddEditOrder refrence={refrence} initial={initialOrder} />}</div>
-      </Fade>
+      <>
+        <>{showCreateOrder && <AddEditOrder refrence={refrence} initial={initialOrder} />}</>
+      </>
     </>
   );
 };
