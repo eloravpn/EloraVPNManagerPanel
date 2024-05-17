@@ -122,7 +122,9 @@ const AddEdit = (props) => {
                   <ServicesSelect
                     label="Service"
                     name="service_id"
-                    onChange={(service) => setFieldValue('total', service.price)}
+                    onChange={(service) =>
+                      setFieldValue('total', +service.price - +service?.discount)
+                    }
                   />
                 </Grid>
                 <Grid item xs={12}>
