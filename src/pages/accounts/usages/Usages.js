@@ -10,6 +10,7 @@ import UserInfo from 'pages/components/user_info';
 import { memo, useEffect, useRef, useState } from 'react';
 import { getReportAccount } from 'services/reportService';
 import { convertByteToInt, exportAsImage, getBetweenDate, getDayPersian } from 'utils';
+import TableUsage from './Table';
 
 var utc = require('dayjs/plugin/utc');
 var timezone = require('dayjs/plugin/timezone');
@@ -205,41 +206,12 @@ const Usages = (props) => {
               )}
             </Box>
           </UserInfo>
-          <table className="table-print">
-            <thead style={{ textAlign: 'center' }}>
-              <tr>
-                <th>مجموع مصرف</th>
-                <th>بارگذاری</th>
-                <th>بارگیری</th>
-                <th>تاریخ</th>
-              </tr>
-            </thead>
-
-            {reportHosts.map(({ download, upload, date }, idx) => (
-              <tbody
-                key={idx}
-                className={
-                  (avgDownload >= convertByteToInt(download).toFixed(2) && 'success') ||
-                  (avgDownload <= convertByteToInt(download).toFixed(2) && 'danger')
-                }
-              >
-                <tr>
-                  <td>{(convertByteToInt(download) + convertByteToInt(upload)).toFixed(2)}</td>
-                  <td> {convertByteToInt(upload).toFixed(2)}</td>
-                  <td>{convertByteToInt(download).toFixed(2)}</td>
-                  <td>{getDayPersian(date)}</td>
-                </tr>
-              </tbody>
-            ))}
-            <tfoot className="total">
-              <tr>
-                <th>Total</th>
-                <td>{totalDownload + 'GB'}</td>
-                <td>{totalUpload + 'GB'}</td>
-                <td>{+totalDownload + +totalUpload} GB</td>
-              </tr>
-            </tfoot>
-          </table>
+          <TableUsage
+            reportHosts={reportHosts}
+            totalDownload={totalDownload}
+            totalUpload={totalUpload}
+            avgDownload={avgDownload}
+          />
         </div>
       ) : (
         <Mixed
