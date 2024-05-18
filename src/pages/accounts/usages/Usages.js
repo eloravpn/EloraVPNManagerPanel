@@ -1,13 +1,16 @@
-import { Download } from '@mui/icons-material';
+import { Download, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Grid, IconButton, Skeleton, Typography } from '@mui/material';
 import Mixed from 'components/chart/Mixed';
 import SelectBadge from 'components/formik/badge';
 import FormObserver from 'components/formik/observer';
 import dayjs from 'dayjs';
 import { Form, Formik } from 'formik';
-import { memo, useRef, useState } from 'react';
+import useUsers from 'hooks/useUsers';
+import UserInfo from 'pages/components/user_info';
+import { memo, useEffect, useRef, useState } from 'react';
 import { getReportAccount } from 'services/reportService';
 import { convertByteToInt, exportAsImage, getBetweenDate, getDayPersian } from 'utils';
+import TableUsage from './Table';
 
 var utc = require('dayjs/plugin/utc');
 var timezone = require('dayjs/plugin/timezone');
@@ -20,6 +23,13 @@ const Usages = (props) => {
   const [isLoadingGetReport, setIsLoadingGetReport] = useState(false);
   const [reportHosts, setReportHosts] = useState([]);
   const [labelReportHost, setLabelReportHost] = useState([]);
+  const { getUser, user, isLoading } = useUsers();
+
+  useEffect(() => {
+    getUser(initial?.user_id);
+
+    return () => {};
+  }, []);
 
   const handleSubmit = async (values) => {
     setIsLoadingGetReport(true);
@@ -58,6 +68,13 @@ const Usages = (props) => {
       obj = {
         end_date: dayjs(values.end_date).format(`YYYY-MM-DD HH:mm`),
         start_date: dayjs(values.start_date).format(`YYYY-MM-DD HH:mm`),
+        trunc: 'day'
+      };
+    }
+    if (values.date === -1) {
+      obj = {
+        end_date: getBetweenDate(1),
+        start_date: null,
         trunc: 'day'
       };
     }
@@ -102,6 +119,7 @@ const Usages = (props) => {
   const totalUpload = convertByteToInt(
     reportHosts.reduce((init, curr) => init + curr.upload, 0)
   ).toFixed(2);
+
   return (
     <>
       <Grid container spacing={2}>
@@ -129,7 +147,8 @@ const Usages = (props) => {
                       { name: '24 H', id: 24 },
                       { name: '1 Day', id: 1 },
                       { name: '1 Week', id: 7 },
-                      { name: '1 Month', id: 30 }
+                      { name: '1 Month', id: 30 },
+                      { name: 'All', id: -1 }
                     ]}
                     name="date"
                   />
@@ -142,6 +161,9 @@ const Usages = (props) => {
               Total Usage
               <IconButton color="primary" onClick={htmlToImageConvert}>
                 <Download />
+              </IconButton>
+              <IconButton color="primary" onClick={() => setShowTabel((res) => !res)}>
+                {showTabel ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </Typography>
             <Typography>
@@ -170,62 +192,52 @@ const Usages = (props) => {
             </Typography>
           </Box>
         </Grid>
-        <Grid xs={12}></Grid>
       </Grid>
-      <table
-        className="table-print"
-        id="my-node"
-        style={{ display: showTabel ? '' : 'none' }}
-        ref={imageRef}
-      >
-        <tr style={{ textAlign: 'center' }}>
-          <th>تاریخ</th>
-          <th>بارگیری</th>
-          <th>بارگذاری</th>
-          <th>مجموع مصرف</th>
-        </tr>
-
-        {reportHosts.map(({ download, upload, date }) => (
-          <tr
-            className={
-              (avgDownload >= convertByteToInt(download).toFixed(2) && 'success') ||
-              (avgDownload <= convertByteToInt(download).toFixed(2) && 'danger')
-            }
-          >
-            <td>{getDayPersian(date)}</td>
-            <td>{convertByteToInt(download).toFixed(2)}</td>
-            <td> {convertByteToInt(upload).toFixed(2)}</td>
-            <td>{(convertByteToInt(download) + convertByteToInt(upload)).toFixed(2)}</td>
-          </tr>
-        ))}
-        <tr className="total">
-          <td>Total</td>
-          <td>{totalDownload + 'GB'}</td>
-          <td>{totalUpload + 'GB'}</td>
-          <td>{+totalDownload + +totalUpload} GB</td>
-        </tr>
-      </table>
-      <Mixed
-        isLoading={isLoadingGetReport}
-        type={'area'}
-        data={{
-          labels: labelReportHost,
-          data: [
-            {
-              type: 'column',
-              data: reportHosts.map(({ download }) => convertByteToInt(download).toFixed(2)),
-              name: 'Download'
-            },
-            {
-              type: 'column',
-              data: reportHosts.map(({ upload }) => convertByteToInt(upload).toFixed(2)),
-              name: 'Upload'
-            }
-          ]
-        }}
-        max={Math.max(...reportHosts.map(({ download }) => convertByteToInt(download).toFixed(2)))}
-        height={350}
-      />
+      {showTabel ? (
+        <div id="my-node" ref={imageRef}>
+          <UserInfo user={user} isLoading={isLoading}>
+            <Box display={'flex'} alignItems={'center'}>
+              <Typography variant="h6" component={'div'}>
+                Expire Date:
+                {getDayPersian(dayjs(user.expired_at).format('YYYY-MM-D')) || null}
+              </Typography>
+              {!getDayPersian(dayjs(user.expired_at).format('YYYY-MM-D')) && (
+                <AllInclusiveOutlined fontSize="large" />
+              )}
+            </Box>
+          </UserInfo>
+          <TableUsage
+            reportHosts={reportHosts}
+            totalDownload={totalDownload}
+            totalUpload={totalUpload}
+            avgDownload={avgDownload}
+          />
+        </div>
+      ) : (
+        <Mixed
+          isLoading={isLoadingGetReport}
+          type={'area'}
+          data={{
+            labels: labelReportHost,
+            data: [
+              {
+                type: 'column',
+                data: reportHosts.map(({ download }) => convertByteToInt(download).toFixed(2)),
+                name: 'Download'
+              },
+              {
+                type: 'column',
+                data: reportHosts.map(({ upload }) => convertByteToInt(upload).toFixed(2)),
+                name: 'Upload'
+              }
+            ]
+          }}
+          max={Math.max(
+            ...reportHosts.map(({ download }) => convertByteToInt(download).toFixed(2))
+          )}
+          height={350}
+        />
+      )}
     </>
   );
 };

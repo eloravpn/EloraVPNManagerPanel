@@ -10,7 +10,17 @@ const Custom = styled(LoadingButton)({
   margin: 1.5
 });
 
-const Button = ({ children, isLoading, onClick, color, type, variant, sx, icon, fullWidth }) => {
+const Button = ({
+  children,
+  isLoading,
+  onClick,
+  color,
+  type = 'button',
+  variant = 'contained',
+  sx,
+  icon,
+  fullWidth = false
+}) => {
   const handleClick = (e) => {
     e.preventDefault();
 
@@ -32,9 +42,5 @@ const Button = ({ children, isLoading, onClick, color, type, variant, sx, icon, 
     </Custom>
   );
 };
-Button.defaultProps = {
-  variant: 'contained',
-  type: 'button',
-  fullWidth: false
-};
+
 export default Button;

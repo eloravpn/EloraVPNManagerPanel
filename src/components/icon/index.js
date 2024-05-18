@@ -1,5 +1,5 @@
 import { MaterialIcon } from './styled';
-const Icon = ({ children, size, color = '', onClick }) => {
+const Icon = ({ children, size, color = 'primary', onClick }) => {
   const handleClick = (e) => {
     if (onClick) onClick(e);
   };
@@ -14,10 +14,6 @@ const Icon = ({ children, size, color = '', onClick }) => {
       {children || 'help_outline'}
     </MaterialIcon>
   );
-};
-
-Icon.defaultProps = {
-  color: 'primary'
 };
 
 export default Icon;

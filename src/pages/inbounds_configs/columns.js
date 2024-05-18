@@ -25,18 +25,19 @@ const columns = [
     headerName: 'Enable',
     field: 'enable',
     renderCell: 'status',
-    width: 10
+    width: 70
   },
   {
     headerName: 'Develop',
     field: 'develop',
     renderCell: 'status',
-    width: 100
+    width: 70
   },
   {
     headerName: 'Modified',
     field: 'modified_at',
-    renderCell: 'date'
+    renderCell: 'date',
+    width: 150
   }
 ];
 

@@ -1,9 +1,9 @@
 import { Box, Skeleton, Typography } from '@mui/material';
-import Grid from 'components/grid';
 import Avatar from 'components/avatar';
+import Grid from 'components/grid';
 import { stringAvatar } from 'utils';
 
-const UserInfo = ({ user, isLoading, children, secondaryCard }) => {
+const UserInfo = ({ user, isLoading, children, secondaryCard = false }) => {
   const {
     username,
     phone_number,
@@ -75,7 +75,4 @@ const UserInfo = ({ user, isLoading, children, secondaryCard }) => {
   );
 };
 
-UserInfo.defaultProps = {
-  secondaryCard: false
-};
 export default UserInfo;

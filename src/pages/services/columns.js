@@ -1,10 +1,5 @@
 const columns = [
   {
-    headerName: 'ID',
-    field: 'id',
-    width: 20
-  },
-  {
     headerName: 'Name',
     field: 'name',
     width: 200
@@ -18,8 +13,7 @@ const columns = [
   {
     headerName: 'Modified',
     field: 'modified_at',
-    renderCell: 'date',
-    width: 100
+    renderCell: 'date'
   }
 ];
 

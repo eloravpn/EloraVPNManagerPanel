@@ -81,7 +81,7 @@ const AddEdit = (props) => {
         setPostDataLoading(false);
       });
   };
-  console.log(user?.accounts);
+
   const handleEdit = (values) => {
     setPostDataLoading(true);
     HttpService()

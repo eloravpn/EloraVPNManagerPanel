@@ -412,11 +412,10 @@ const CustomGrid = forwardRef(
             sx={style}
             columns={[
               {
-                field: 'iid',
-                headerName: '#',
+                field: 'id',
+                headerName: 'ID',
                 headerClassName: 'super-app-theme--header',
-                width: 10,
-                align: 'center'
+                align: 'left'
               },
               ...columns.map((item) => ({
                 ...item,

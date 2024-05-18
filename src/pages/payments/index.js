@@ -130,7 +130,7 @@ const Payments = () => {
         pageName={'Order V2'}
         refrence={createOrderRefv2}
         initial={item}
-        createRow={() => {}}
+        createRow={createRow}
       />
       <>
         <Typography variant="h4" gutterBottom>

@@ -1,10 +1,5 @@
 const columns = [
   {
-    headerName: 'ID',
-    field: 'id',
-    width: 100
-  },
-  {
     headerName: 'User',
     field: 'user.full_name',
     renderCell: 'complexField',

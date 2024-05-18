@@ -185,11 +185,11 @@ const Accounts = () => {
           >
             Create
           </Button>
-        </Box>
-        <Box>
-          <Chip variant="chip" color="success" label={`Active: ${report.active}`} />
-          <Chip variant="chip" color="error" label={`Disable: ${report.total - report.active}`} />
-          <Chip variant="chip" color="info" label={`Total: ${report.total}`} />
+          <Box display={'flex'}>
+            <Chip variant="chip" color="success" label={`Active: ${report.active}`} />
+            <Chip variant="chip" color="error" label={`Disable: ${report.total - report.active}`} />
+            <Chip variant="chip" color="info" label={`Total: ${report.total}`} />
+          </Box>
         </Box>
 
         <CustomGrid
