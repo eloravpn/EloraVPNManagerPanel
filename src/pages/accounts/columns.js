@@ -5,6 +5,11 @@ const columns = [
     width: 200
   },
   {
+    headerName: 'Service Title',
+    field: 'service_title',
+    width: 200
+  },
+  {
     headerName: 'Usage',
     field: JSON.stringify(['used_traffic', 'used_traffic_percent', 'data_limit']),
     renderCell: 'progress',

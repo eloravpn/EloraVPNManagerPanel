@@ -43,6 +43,7 @@ const initialForm = {
   data_limit: 0,
   ip_limit: 0,
   host_zone_id: '',
+  user_id: '',
   expired_at: getExpireTime(config.defaultExpireAt)
 };
 
@@ -177,6 +178,9 @@ const AddEdit = (props) => {
               </Grid>
               <Grid item xs={12}>
                 <TextField name="uuid" label="UUID" />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField name="user_title" label="User Title" />
               </Grid>
               <Grid item xs={12}>
                 <TextField name="ip_limit" label="IP Limit" />
