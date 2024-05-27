@@ -44,7 +44,8 @@ const initialForm = {
   ip_limit: 0,
   host_zone_id: '',
   user_id: '',
-  expired_at: getExpireTime(config.defaultExpireAt)
+  expired_at: getExpireTime(config.defaultExpireAt),
+  user_title: ''
 };
 
 function valueLabelFormat(value) {
