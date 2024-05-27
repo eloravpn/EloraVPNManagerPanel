@@ -77,8 +77,8 @@ const InboundConfigs = () => {
     setIsLoadingCopy(true);
     HttpService()
       .post(`${api.inboundConfigs}/${item?.id}/copy`)
-      .then(() => {
-        gridRef.current.createRow(item);
+      .then((res) => {
+        gridRef.current.createRow(res.data);
         copyRef.current.close();
       })
       .catch((err) => {

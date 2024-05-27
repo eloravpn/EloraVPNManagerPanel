@@ -67,8 +67,8 @@ const Hosts = () => {
     setIsLoadingCopy(true);
     HttpService()
       .post(`${api.hosts}/${item?.id}/copy`)
-      .then(() => {
-        gridRef.current.createRow(item);
+      .then((res) => {
+        gridRef.current.createRow(res.data);
         copyRef.current.close();
       })
       .catch((err) => {
