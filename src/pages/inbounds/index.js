@@ -17,6 +17,7 @@ import useHosts from 'hooks/useHosts';
 import Select from 'components/formik/select';
 import Grid from 'components/grid';
 import GLOBAL from 'components/variables';
+import FormObserver from 'components/formik/observer';
 
 const pageName = 'Inbounds';
 
@@ -76,8 +77,7 @@ const Inbounds = () => {
     <>
       <Formik
         initialValues={{
-          enable: -1,
-          host_id: null
+          enable: -1
         }}
         onSubmit={(values) => {
           gridRef.current.filters(values);
@@ -87,7 +87,6 @@ const Inbounds = () => {
         <CustomDrawer ref={filterRef}>
           <Form>
             <Stack display={'block'} spacing={2}>
-              <Select name="host_id" label="Host" options={hosts} isLoading={isLoading} />
               <SelectBadge name="enable" options={GLOBAL.allEnableStatus} label={'Status'} />
             </Stack>
             <Grid container spacing={1}>
@@ -135,6 +134,26 @@ const Inbounds = () => {
         </Button>
 
         <CustomGrid
+          propsFilter={{ host_id: 0 }}
+          searchChildren={
+            <Formik initialValues={{ host_id: '0' }}>
+              {() => (
+                <Form>
+                  <FormObserver onChange={(values) => gridRef.current.filters(values)} />
+                  <Box mx={1} width={1}>
+                    <Select
+                      fullWidth={true}
+                      size="small"
+                      name="host_id"
+                      label="Host"
+                      options={[{ id: '0', name: 'All' }, ...hosts]}
+                      isLoading={isLoading}
+                    />
+                  </Box>
+                </Form>
+              )}
+            </Formik>
+          }
           name="inbounds"
           url={api.inbounds}
           refrence={gridRef}
@@ -164,7 +183,7 @@ const Inbounds = () => {
             { id: 'sni', name: 'SNI' },
             { id: 'request_host', name: 'Request Host' }
           ]}
-          defaultSort={{ value: 'created', ASC: false }}
+          defaultSort={{ value: 'created', ASC: false, host_id: 0 }}
         />
       </Box>
     </>
