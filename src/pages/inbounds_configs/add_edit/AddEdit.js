@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from 'react';
-import { DialogActions, Grid } from '@mui/material';
+import { DialogActions, Grid, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
 import TextField from 'components/formik/textfield';
 import Select from 'components/formik/select';
@@ -168,7 +168,12 @@ const AddEdit = (props) => {
               <Select
                 name="inbound_id"
                 label="Inbounds"
-                labelName={'remark'}
+                labelName2={(item) => (
+                  <Typography variant="body1" display={'flex'}>
+                    <Typography fontWeight={800}>{item.host?.name}</Typography>
+                    {'(' + item.remark + ')'}
+                  </Typography>
+                )}
                 options={inbounds}
                 isLoading={isLoading}
               />
