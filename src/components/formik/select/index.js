@@ -10,6 +10,7 @@ const Select = ({
   options,
   onChange,
   labelName,
+  labelName2,
   fullWidth,
   ...otherProps
 }) => {
@@ -42,7 +43,8 @@ const Select = ({
             {options.length > 0 &&
               Object?.keys(options)?.map((item, pos) => (
                 <MenuItem key={pos} value={options[item].id}>
-                  {options[item][labelName]}
+                  {labelName && options[item][labelName]}
+                  {labelName2 && labelName2(options[item])}
                 </MenuItem>
               ))}
           </SelectMD>
