@@ -163,6 +163,10 @@ const CustomGrid = forwardRef(
       );
     }, []);
 
+    const handleDataLimit = useCallback(({ row }, field) => {
+      return convertByteToInt(row[field]).toFixed(2);
+    }, []);
+
     const handleProgressDay = useCallback(({ row }, field) => {
       var now = dayjs();
       var start = dayjs(row.modified_at);
@@ -285,6 +289,8 @@ const CustomGrid = forwardRef(
             return renderHtml({ row }, filed);
           case 'total':
             return totalPrice({ row }, filed);
+          case 'datalimit':
+            return handleDataLimit({ row }, filed);
           default:
             return null;
         }
