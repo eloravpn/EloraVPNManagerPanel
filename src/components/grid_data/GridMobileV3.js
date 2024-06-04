@@ -154,6 +154,10 @@ const GridMobile = forwardRef((props, ref) => {
     );
   }, []);
 
+  const handleDataLimit = useCallback(({ row }, field) => {
+    return convertByteToInt(row[field]).toFixed(2);
+  }, []);
+
   const handleProgressDay = useCallback(({ row }) => {
     var now = dayjs();
     var start = dayjs(row.modified_at);
@@ -273,6 +277,8 @@ const GridMobile = forwardRef((props, ref) => {
           return renderHtml({ row }, filed);
         case 'total':
           return totalPrice({ row }, filed);
+        case 'datalimit':
+          return handleDataLimit({ row }, filed);
         default:
           return null;
       }
