@@ -68,7 +68,8 @@ const CustomGrid = forwardRef(
       propsFilter,
       defaultSort,
       tabsName,
-      tabs
+      tabs,
+      searchChildren
     },
     ref
   ) => {
@@ -412,7 +413,8 @@ const CustomGrid = forwardRef(
                 tabsName,
                 tabs,
                 filters,
-                setFilters
+                setFilters,
+                searchChildren
               }
             }}
             sx={style}

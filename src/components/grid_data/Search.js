@@ -40,6 +40,7 @@ const Search = (props) => {
     tabs,
     tabsName,
     filters,
+    searchChildren,
     setFilters
   } = props;
 
@@ -54,7 +55,7 @@ const Search = (props) => {
     setSearch((prev) => ({ ...prev, ASC: !prev?.ASC }));
   };
 
-  const debouncedResults = useMemo(() => debouce(handleChange, 300), [handleChange]);
+  const debouncedResults = useMemo(() => debouce(handleChange, 500), [handleChange]);
 
   useEffect(() => {
     return () => {
@@ -67,10 +68,10 @@ const Search = (props) => {
   };
 
   return (
-    <Grid container spacing={0}>
+    <Grid container spacing={1}>
       {tabs && (
-        <Grid item xs={12}>
-          <Box my={1} width={'100%'}>
+        <Grid item xs={9}>
+          <>
             <Tabs
               name={tabsName}
               tabs={tabs}
@@ -78,7 +79,7 @@ const Search = (props) => {
               value={filters[tabsName]}
             />
             <Divider />
-          </Box>
+          </>
         </Grid>
       )}
       <Grid item xs={12} md={9}>
@@ -118,6 +119,8 @@ const Search = (props) => {
               ))}
             </Select>
           </FormControl>
+          {searchChildren}
+
           <IconButton onClick={handleSort}>
             {search.ASC ? <ArrowUpward color="primary" /> : <ArrowDownward color="primary" />}
           </IconButton>
