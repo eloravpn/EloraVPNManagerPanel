@@ -11,6 +11,11 @@ const columns = [
   },
 
   {
+    headerName: 'Zones',
+    field: 'host_zones',
+    renderCell: 'array'
+  },
+  {
     headerName: 'Price',
     field: 'price',
     renderCell: 'price'
