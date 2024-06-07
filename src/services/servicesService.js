@@ -11,3 +11,13 @@ export const getAllServices = (params) => {
       .catch((err) => rej(err));
   });
 };
+export const getService = (serviceID) => {
+  return new Promise((res, rej) => {
+    HttpService()
+      .get(`${api.services}/${serviceID}`)
+      .then(({ data }) => {
+        res(data);
+      })
+      .catch((err) => rej(err));
+  });
+};
