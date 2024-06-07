@@ -18,6 +18,7 @@ import SelectBadge from 'components/formik/badge';
 import Select from 'components/formik/select';
 import Grid from 'components/grid';
 import GLOBAL from 'components/variables';
+import FormObserver from 'components/formik/observer';
 
 const pageName = 'Inbound Config';
 
@@ -103,16 +104,8 @@ const InboundConfigs = () => {
       >
         <CustomDrawer ref={filterRef}>
           <Form>
-            <Stack display={'block'} spacing={2}>
-              <Select
-                name="inbound_id"
-                labelName={'remark'}
-                label="Inbounds"
-                options={inbounds}
-                isLoading={isLoading}
-              />
-              <SelectBadge name="enable" options={GLOBAL.allEnableStatus} label={'Status'} />
-            </Stack>
+            <SelectBadge name="enable" options={GLOBAL.allEnableStatus} label={'Status'} />
+
             <Grid container spacing={1}>
               <Grid item xs={9}>
                 <Button fullWidth type={'submit'}>
@@ -168,6 +161,28 @@ const InboundConfigs = () => {
           refrence={gridRef}
           data={data}
           columns={columns}
+          searchChildren={
+            <Formik
+              initialValues={{
+                inbound_id: '0'
+              }}
+            >
+              <Form>
+                <FormObserver onChange={(values) => gridRef.current.filters(values)} />
+                <Box mx={1} width={1}>
+                  <Select
+                    fullWidth={true}
+                    size="small"
+                    name="inbound_id"
+                    labelName={'remark'}
+                    label="Inbounds"
+                    options={[{ id: '0', remark: 'All' }, ...inbounds]}
+                    isLoading={isLoading}
+                  />
+                </Box>
+              </Form>
+            </Formik>
+          }
           rowActions={[
             {
               onClick: (data) => handleAlert(data, deleteRef),
