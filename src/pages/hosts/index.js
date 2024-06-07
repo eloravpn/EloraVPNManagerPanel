@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CustomGrid from 'components/grid_data';
 import { Add } from '@mui/icons-material';
 import { Box, Grid, Stack, Typography } from '@mui/material';
@@ -13,6 +13,9 @@ import Http from 'components/httpService/Http';
 import Button from 'components/button';
 import SelectBadge from 'components/formik/badge';
 import GLOBAL from 'components/variables';
+import useHostZones from 'hooks/useHostZones';
+import Select from 'components/formik/select';
+import FormObserver from 'components/formik/observer';
 
 const pageName = 'Hosts';
 
@@ -26,6 +29,13 @@ const Hosts = () => {
   const [item, setItem] = useState([]);
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [isLoadingCopy, setIsLoadingCopy] = useState(false);
+
+  const { hostZones, isLoading: isLoadingZones, getHostZones } = useHostZones();
+  useEffect(() => {
+    getHostZones();
+
+    return () => {};
+  }, []);
 
   const handleAlert = ({ row }, nameRef) => {
     setItem(row);
@@ -152,6 +162,21 @@ const Hosts = () => {
           url={api.hosts}
           refrence={gridRef}
           columns={columns}
+          searchChildren={
+            <Formik initialValues={{ zone_id: '0' }}>
+              {() => (
+                <Form>
+                  <FormObserver onChange={(values) => gridRef.current.filters(values)} />
+                  <Select
+                    size="small"
+                    options={hostZones}
+                    isLoading={isLoadingZones}
+                    name={'zone_id'}
+                  />
+                </Form>
+              )}
+            </Formik>
+          }
           rowActions={[
             {
               onClick: (data) => handleAlert(data, deleteRef),
