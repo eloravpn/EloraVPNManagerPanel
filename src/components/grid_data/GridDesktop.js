@@ -203,6 +203,9 @@ const CustomGrid = forwardRef(
       const myArray = field.split('.');
       return row[myArray[0]] && row[myArray[0]][myArray[1]];
     }, []);
+    const getArrayField = useCallback(({ row }, field) => {
+      return row[field].map((i) => <Chip label={i.name} variant="sucess" />);
+    }, []);
 
     function getTransactionStatus({ row }, field) {
       return (
@@ -292,6 +295,8 @@ const CustomGrid = forwardRef(
             return totalPrice({ row }, filed);
           case 'datalimit':
             return handleDataLimit({ row }, filed);
+          case 'array':
+            return getArrayField({ row }, filed);
           default:
             return null;
         }
