@@ -41,7 +41,8 @@ const GridMobile = forwardRef((props, ref) => {
     defaultSort,
     propsFilter,
     tabsName,
-    tabs
+    tabs,
+    searchChildren
   } = props;
 
   const [filters, setFilters] = useState(propsFilter);
@@ -317,13 +318,7 @@ const GridMobile = forwardRef((props, ref) => {
 
   return (
     <Box display={'flex'} flexGrow={1} flexDirection={'column'} overflow={'hidden'} height={'100%'}>
-      <Box
-        width={'100%'}
-        overflow={'hidden'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        marginY={1}
-      >
+      <Box width={'100%'} justifyContent={'space-between'} alignItems={'center'} marginY={1}>
         <SearchT
           showFilter={showFilter}
           search={search}
@@ -338,6 +333,7 @@ const GridMobile = forwardRef((props, ref) => {
             setSearch(v);
             setPageNum(0);
           }}
+          searchChildren={searchChildren}
         />
         <Menu
           ref={menuRef}
