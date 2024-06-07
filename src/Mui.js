@@ -5,7 +5,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/en-gb';
 import { memo } from 'react';
 import { Toaster } from 'react-hot-toast';
-/* If use RTL use button code */
+/* If use RTL use bottom code */
 
 // const jss = create({
 //   plugins: [...jssPreset().plugins, rtl()],
@@ -95,6 +95,17 @@ const theme = createTheme({
           }
         }
       ]
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          '&.Mui-selected': {
+            borderRadius: 5,
+            color: '#000',
+            margin: 2
+          }
+        }
+      }
     }
   }
 });
