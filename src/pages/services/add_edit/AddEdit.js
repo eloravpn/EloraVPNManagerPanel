@@ -12,13 +12,14 @@ import DataLimit from 'pages/components/dataLimit';
 import { convertToByte } from 'utils';
 import useHostZones from 'hooks/useHostZones';
 import Select from 'components/formik/select';
+import MultipleSelect from 'components/formik/multiSelect';
 
 const validationSchema = yup.object({
   name: yup.string().required(),
   price: yup.string().required(),
   data_limit: yup.string().required(),
   enable: yup.boolean().required(),
-  host_zone_id: yup.number().required(),
+  host_zone_ids: yup.array().required(),
   ip_limit: yup.number().required()
 });
 const initialForm = {
@@ -28,7 +29,7 @@ const initialForm = {
   price: 0,
   discount: 0,
   enable: true,
-  host_zone_id: '',
+  host_zone_ids: [],
   ip_limit: 0
 };
 
@@ -99,28 +100,26 @@ const AddEdit = (props) => {
             <Grid item xs={12} md={6}>
               <TextField id={'price'} name={'price'} label="Price" type="text" price />
             </Grid>
-
             <Grid item xs={12} md={6}>
               <TextField name="ip_limit" label="IP Limit" />
             </Grid>
-
             <Grid item xs={12} md={6}>
               <TextField label="Discount" id={'discount'} name={'discount'} type="text" price />
             </Grid>
             <Grid item xs={12} md={6}>
               <DataLimit />
             </Grid>
-            <Grid item xs={6}>
-              <Switch name={'enable'} id="enable" label="Enable" />
-            </Grid>
-            <Grid item xs={6}>
-              <Select
-                name="host_zone_id"
+            <Grid item xs={12} md={6}>
+              <MultipleSelect
+                name="host_zone_ids"
                 label="Host Zone"
                 labelName={'name'}
                 options={hostZones}
                 // isLoading={isLoadingHostZones}
               />
+            </Grid>
+            <Grid item xs={6}>
+              <Switch name={'enable'} id="enable" label="Enable" />
             </Grid>
           </Grid>
           <DialogActions>
