@@ -70,7 +70,7 @@ const Search = (props) => {
   return (
     <Grid container spacing={1}>
       {tabs && (
-        <Grid item xs={9}>
+        <Grid item xs={12}>
           <>
             <Tabs
               name={tabsName}
@@ -82,14 +82,14 @@ const Search = (props) => {
           </>
         </Grid>
       )}
-      <Grid item xs={12} md={9}>
-        <Box display={'flex'} alignItems="center">
-          <FormControl variant="outlined" sx={{ m: 0.5 }}>
+      <Grid item xs={12} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+        <Box display={'flex'} alignItems="center" flexWrap={'wrap'} gap={1} my={1}>
+          <FormControl variant="outlined">
             <OutlinedInput
               type="text"
               name="q"
               size="small"
-              fullWidth
+              fullWidth={false}
               color="primary"
               placeholder="Search..."
               onChange={(e) => debouncedResults('q', e)}
@@ -104,7 +104,6 @@ const Search = (props) => {
           <FormControl>
             <InputLabel id="sort">Sort</InputLabel>
             <Select
-              fullWidth
               labelId="sort"
               id="sort"
               label="Sort"
@@ -119,14 +118,13 @@ const Search = (props) => {
               ))}
             </Select>
           </FormControl>
+
           {searchChildren}
 
           <IconButton onClick={handleSort}>
             {search.ASC ? <ArrowUpward color="primary" /> : <ArrowDownward color="primary" />}
           </IconButton>
         </Box>
-      </Grid>
-      <Grid item xs={12} md={3}>
         <Box display={'flex'} justifyContent={'flex-end'} alignItems={'center'}>
           <IconButton onClick={refresh}>
             <Refresh />
