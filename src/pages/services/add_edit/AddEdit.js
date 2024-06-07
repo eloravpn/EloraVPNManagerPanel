@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from 'react';
-import { DialogActions, Grid } from '@mui/material';
+import { DialogActions, Grid, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
 import TextField from 'components/formik/textfield';
 import * as yup from 'yup';
@@ -13,6 +13,8 @@ import { convertToByte } from 'utils';
 import useHostZones from 'hooks/useHostZones';
 import Select from 'components/formik/select';
 import MultipleSelect from 'components/formik/multiSelect';
+import { getAllServices, getService } from 'services/servicesService';
+import useServices from 'hooks/useServices';
 
 const validationSchema = yup.object({
   name: yup.string().required(),
@@ -22,7 +24,7 @@ const validationSchema = yup.object({
   host_zone_ids: yup.array().required(),
   ip_limit: yup.number().required()
 });
-const initialForm = {
+var initialForm = {
   name: '',
   duration: 1,
   data_limit: 0,
@@ -36,10 +38,12 @@ const initialForm = {
 const AddEdit = (props) => {
   const { refrence, initial, createRow, editRow } = props;
   const [postDataLoading, setPostDataLoading] = useState(false);
+  const { getService, service, isLoadingGetService } = useServices();
   const { getHostZones, hostZones } = useHostZones();
-
+  const {} = useServices();
   useEffect(() => {
     getHostZones();
+    if (initial?.id) getService(initial.id);
     return () => {};
   }, [getHostZones]);
 
@@ -78,11 +82,17 @@ const AddEdit = (props) => {
         setPostDataLoading(false);
       });
   };
+  if (isLoadingGetService)
+    return (
+      <Typography textAlign={'center'} variant="body2">
+        Please Wait...
+      </Typography>
+    );
 
   return (
     <Formik
       enableReinitialize
-      initialValues={initial || initialForm}
+      initialValues={service || initialForm}
       validationSchema={validationSchema}
       onSubmit={(values) => {
         initial.id ? handleEdit(values) : handleCreate(values);
