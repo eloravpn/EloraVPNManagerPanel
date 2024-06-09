@@ -204,7 +204,7 @@ const CustomGrid = forwardRef(
       return row[myArray[0]] && row[myArray[0]][myArray[1]];
     }, []);
     const getArrayField = useCallback(({ row }, field) => {
-      return row[field].map((i) => <Chip label={i.name} variant="sucess" />);
+      return row[field].map((i) => <Chip size="small" label={i.name} variant="sucess" />);
     }, []);
 
     function getTransactionStatus({ row }, field) {
