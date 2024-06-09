@@ -174,7 +174,12 @@ const InboundConfigs = () => {
                     fullWidth={true}
                     size="small"
                     name="inbound_id"
-                    labelName={'remark'}
+                    labelName2={(item) => (
+                      <Typography variant="body1" display={'flex'}>
+                        <Typography fontWeight={800}>{item.host?.name}</Typography>
+                        {'(' + item.remark + ')'}
+                      </Typography>
+                    )}
                     label="Inbounds"
                     options={[{ id: '0', remark: 'All' }, ...inbounds]}
                     isLoading={isLoading}
