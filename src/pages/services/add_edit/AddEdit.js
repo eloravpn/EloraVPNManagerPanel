@@ -1,20 +1,18 @@
-import { memo, useEffect, useState } from 'react';
 import { DialogActions, Grid, Typography } from '@mui/material';
-import { Form, Formik } from 'formik';
+import Button from 'components/button';
+import MultipleSelect from 'components/formik/multiSelect';
+import Switch from 'components/formik/switch';
 import TextField from 'components/formik/textfield';
-import * as yup from 'yup';
 import HttpService from 'components/httpService';
 import api from 'components/httpService/api';
 import Http from 'components/httpService/Http';
-import Switch from 'components/formik/switch';
-import Button from 'components/button';
-import DataLimit from 'pages/components/dataLimit';
-import { convertToByte } from 'utils';
+import { Form, Formik } from 'formik';
 import useHostZones from 'hooks/useHostZones';
-import Select from 'components/formik/select';
-import MultipleSelect from 'components/formik/multiSelect';
-import { getAllServices, getService } from 'services/servicesService';
 import useServices from 'hooks/useServices';
+import DataLimit from 'pages/components/dataLimit';
+import { memo, useEffect, useState } from 'react';
+import { convertToByte } from 'utils';
+import * as yup from 'yup';
 
 const validationSchema = yup.object({
   name: yup.string().required(),

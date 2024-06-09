@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { getAllServices, getService as getServiceHook } from 'services/servicesService';
+import { convertByteToInt } from 'utils';
 
 const useServices = () => {
   const [services, setServices] = useState([]);
@@ -16,7 +17,11 @@ const useServices = () => {
   const getService = useCallback(async (serviceID) => {
     setIsLoadingGetService(true);
     const service = await getServiceHook(serviceID);
-    setService({ ...service, host_zone_ids: service?.host_zones?.map((i) => i.id) });
+    setService({
+      ...service,
+      host_zone_ids: service?.host_zones?.map((i) => i.id),
+      data_limit: convertByteToInt(service.data_limit)
+    });
     setIsLoadingGetService(false);
   }, []);
 
