@@ -37,7 +37,7 @@ const AddEdit = (props) => {
   const { orders, isLoading: isLoadingOrders, getOrders } = useOrders();
 
   useEffect(() => {
-    getOrders({ user_id: initial.user_id || null });
+    if (initial?.user_id) getOrders({ user_id: initial.user_id || null });
     if (initial.user_id) getUser(initial.user_id);
     return () => {};
   }, []);
@@ -153,6 +153,7 @@ const AddEdit = (props) => {
                   }}
                 />
               </Grid>
+
               <Grid item xs={12}>
                 <Select
                   label={'Status'}
