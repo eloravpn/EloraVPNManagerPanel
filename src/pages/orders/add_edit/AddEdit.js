@@ -208,7 +208,14 @@ const AddEdit = (props) => {
                   }
                   sx={{ mb: 2 }}
                 >
-                  Count orders {orders?.length}
+                  <Typography component={'span'} fontWeight={700}>
+                    Count:{' '}
+                  </Typography>
+                  {orders?.length}
+                  <Typography component={'span'} fontWeight={700} ml={1}>
+                    Total Payment:{' '}
+                  </Typography>
+                  {separateNum(orders.reduce((acc, curr) => +acc + +curr.total, 0))}
                 </Alert>
                 {openInfoOrder && (
                   <Box maxHeight={150} overflow={'auto'}>
