@@ -36,7 +36,10 @@ const InboundConfigs = () => {
 
   const { getInbounds, inbounds, isLoading } = useInbounds();
 
-  useEffect(() => getInbounds, [getInbounds]);
+  useEffect(() => {
+    getInbounds();
+    return () => {};
+  }, [getInbounds]);
 
   const handleAlert = ({ row }, nameRef) => {
     setItem(row);
