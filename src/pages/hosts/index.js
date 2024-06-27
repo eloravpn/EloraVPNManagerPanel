@@ -169,7 +169,7 @@ const Hosts = () => {
                   <FormObserver onChange={(values) => gridRef.current.filters(values)} />
                   <Select
                     size="small"
-                    options={hostZones}
+                    options={[{ id: '0', name: 'All' }, ...hostZones]}
                     isLoading={isLoadingZones}
                     name={'zone_id'}
                   />

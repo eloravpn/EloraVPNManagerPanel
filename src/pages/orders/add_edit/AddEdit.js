@@ -1,12 +1,31 @@
 import {
+  ArrowDownward,
+  ArrowUpward,
   AttachEmail,
   AvTimer,
+  Close,
   DataUsage,
   Fingerprint,
+  Info,
+  InfoOutlined,
   NotInterested,
+  ShoppingBagOutlined,
   TaskAlt
 } from '@mui/icons-material';
-import { Alert, AlertTitle, Box, DialogActions, Divider, Grid, Typography } from '@mui/material';
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  DialogActions,
+  Divider,
+  Grid,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography
+} from '@mui/material';
 import Avatar from 'components/avatar';
 import Button from 'components/button';
 import Autocomplete from 'components/formik/autocomplete';
@@ -17,6 +36,7 @@ import Http from 'components/httpService/Http';
 import api from 'components/httpService/api';
 import GLOBAL from 'components/variables';
 import { Form, Formik } from 'formik';
+import useOrders from 'hooks/useOrders';
 import useUsers from 'hooks/useUsers';
 import DataLimit from 'pages/components/dataLimit';
 import Durations from 'pages/components/durations';
@@ -57,10 +77,13 @@ const AddEdit = (props) => {
   const { refrence, initial, createRow, editRow } = props;
   const [postDataLoading, setPostDataLoading] = useState(false);
   const [accounts, setAccounts] = useState([]);
+  const [openInfoOrder, setOpenInfoOrder] = useState(false);
   const { getUser, user, isLoading: isLoadingUser } = useUsers();
+  const { orders, isLoading: isLoadingOrders, getOrders } = useOrders();
 
   useEffect(() => {
     if (initial.user_id) getUser(initial.user_id);
+    if (initial.user_id) getOrders({ user_id: initial?.user_id, sort: '-modified' });
     return () => {};
   }, []);
 
@@ -105,6 +128,7 @@ const AddEdit = (props) => {
 
   const handleBlurUserId = async (user) => {
     setAccounts(user?.accounts);
+    getOrders({ user_id: user?.id, sort: '-modified' });
   };
   const condition = ['CANCELED', 'COMPLETED'];
   return (
@@ -163,6 +187,70 @@ const AddEdit = (props) => {
                   </Grid>
                 </>
               )}
+              <Grid item xs={12}>
+                <Alert
+                  severity="info"
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setOpenInfoOrder((res) => !res);
+                      }}
+                    >
+                      {openInfoOrder ? (
+                        <Close fontSize="inherit" />
+                      ) : (
+                        <InfoOutlined fontSize="inherit" />
+                      )}
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}
+                >
+                  <Typography component={'span'} fontWeight={700}>
+                    Count:{' '}
+                  </Typography>
+                  {orders?.length}
+                  <Typography component={'span'} fontWeight={700} ml={1}>
+                    Total Payment:{' '}
+                  </Typography>
+                  {separateNum(orders.reduce((acc, curr) => +acc + +curr.total, 0))}
+                </Alert>
+                {openInfoOrder && (
+                  <Box maxHeight={150} overflow={'auto'}>
+                    <List dense>
+                      {orders.map((order, idx) => (
+                        <Fragment key={idx}>
+                          <ListItem>
+                            <ListItemIcon sx={{ m: 0 }}>
+                              <ShoppingBagOutlined />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={order?.service?.name}
+                              secondary={
+                                <>
+                                  <Typography
+                                    sx={{ display: 'inline' }}
+                                    component="span"
+                                    variant="body2"
+                                    color="text.primary"
+                                  >
+                                    {separateNum(order?.total)}
+                                  </Typography>
+                                  -{getDayPersian(order?.modified_at)}
+                                </>
+                              }
+                            />
+                          </ListItem>
+                          <Divider />
+                        </Fragment>
+                      ))}
+                    </List>
+                  </Box>
+                )}
+              </Grid>
+
               {!initial?.id && (
                 <Grid item xs={12}>
                   <Autocomplete
