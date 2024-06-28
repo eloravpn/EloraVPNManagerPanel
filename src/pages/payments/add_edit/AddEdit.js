@@ -1,20 +1,21 @@
-import { Fragment, memo, useEffect, useState } from 'react';
 import { Box, DialogActions, Divider, Grid } from '@mui/material';
-import { Form, Formik } from 'formik';
+import Button from 'components/button';
+import Autocomplete from 'components/formik/autocomplete';
+import Select from 'components/formik/select';
 import TextField from 'components/formik/textfield';
-import * as yup from 'yup';
 import HttpService from 'components/httpService';
 import api from 'components/httpService/api';
 import Http from 'components/httpService/Http';
-import { getDayPersian, getExpireTime, convertByteToInt, formValues } from 'utils';
-import Button from 'components/button';
-import UserSelect from 'pages/components/select/users';
-import useUsers from 'hooks/useUsers';
-import Select from 'components/formik/select';
-import UserInfo from 'pages/components/user_info';
-import useOrders from 'hooks/useOrders';
 import GLOBAL from 'components/variables';
-import Autocomplete from 'components/formik/autocomplete';
+import { Form, Formik } from 'formik';
+import useOrders from 'hooks/useOrders';
+import useUsers from 'hooks/useUsers';
+import UserSelect from 'pages/components/select/users';
+import UserInfo from 'pages/components/user_info';
+import { OrderInfo } from 'pages/components/user_info/OrderInfo';
+import { Fragment, memo, useEffect, useState } from 'react';
+import { convertByteToInt, formValues, getDayPersian, getExpireTime } from 'utils';
+import * as yup from 'yup';
 
 const validationSchema = yup.object({
   user_id: yup.number().required()
@@ -32,7 +33,7 @@ const AddEdit = (props) => {
   const { refrence, initial, createRow, editRow } = props;
 
   const [postDataLoading, setPostDataLoading] = useState(false);
-
+  const [balance, setBalance] = useState(0);
   const { getUser, user, isLoading: isLoadingUser, setUser } = useUsers();
   const { orders, isLoading: isLoadingOrders, getOrders } = useOrders();
 
@@ -115,10 +116,14 @@ const AddEdit = (props) => {
                     label="Users"
                     onChange={(user) => {
                       if (user) getOrders({ user_id: user.id });
+                      setBalance(user.balance);
                     }}
                   />
                 </Grid>
               )}
+              <Grid item xs={12}>
+                <OrderInfo orders={orders} user={user} balance={balance} />
+              </Grid>
               <Grid item xs={12}>
                 <Autocomplete
                   getOptionLabel={(option) =>
