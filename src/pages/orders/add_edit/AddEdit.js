@@ -1,31 +1,12 @@
 import {
-  ArrowDownward,
-  ArrowUpward,
   AttachEmail,
   AvTimer,
-  Close,
   DataUsage,
   Fingerprint,
-  Info,
-  InfoOutlined,
   NotInterested,
-  ShoppingBagOutlined,
   TaskAlt
 } from '@mui/icons-material';
-import {
-  Alert,
-  AlertTitle,
-  Box,
-  DialogActions,
-  Divider,
-  Grid,
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Typography
-} from '@mui/material';
+import { Alert, AlertTitle, Box, DialogActions, Divider, Grid, Typography } from '@mui/material';
 import Avatar from 'components/avatar';
 import Button from 'components/button';
 import Autocomplete from 'components/formik/autocomplete';
@@ -35,7 +16,7 @@ import HttpService from 'components/httpService';
 import Http from 'components/httpService/Http';
 import api from 'components/httpService/api';
 import GLOBAL from 'components/variables';
-import { Form, Formik } from 'formik';
+import { Form, Formik, useFormikContext } from 'formik';
 import useOrders from 'hooks/useOrders';
 import useUsers from 'hooks/useUsers';
 import DataLimit from 'pages/components/dataLimit';
@@ -43,6 +24,7 @@ import Durations from 'pages/components/durations';
 import ServicesSelect from 'pages/components/select/services';
 import UserSelect from 'pages/components/select/users';
 import UserInfo from 'pages/components/user_info';
+import { OrderInfo } from 'pages/components/user_info/OrderInfo';
 import { Fragment, memo, useEffect, useState } from 'react';
 import {
   convertByteToInt,
@@ -70,14 +52,31 @@ const initialForm = {
   total_discount_amount: 0,
   status: 'PAID',
   data_limit: 0,
-  ip_limit: 0
+  ip_limit: 0,
+  extra_discount: 0,
+  dis: 0
+};
+
+const ExtraField = (props) => {
+  const {
+    values: { dis, total },
+    touched,
+    setFieldValue
+  } = useFormikContext();
+
+  useEffect(() => {
+    // set the value of textC, based on textA and textB
+    setFieldValue(props.name, (+total * +dis) / 100);
+  }, [dis]);
+
+  return <TextField {...props} />;
 };
 
 const AddEdit = (props) => {
   const { refrence, initial, createRow, editRow } = props;
   const [postDataLoading, setPostDataLoading] = useState(false);
   const [accounts, setAccounts] = useState([]);
-  const [openInfoOrder, setOpenInfoOrder] = useState(false);
+  const [balance, setBalance] = useState(0);
   const { getUser, user, isLoading: isLoadingUser } = useUsers();
   const { orders, isLoading: isLoadingOrders, getOrders } = useOrders();
 
@@ -127,6 +126,7 @@ const AddEdit = (props) => {
   };
 
   const handleBlurUserId = async (user) => {
+    setBalance(user?.balance);
     setAccounts(user?.accounts);
     getOrders({ user_id: user?.id, sort: '-modified' });
   };
@@ -172,7 +172,7 @@ const AddEdit = (props) => {
                   : {})}
               ></UserInfo>
             )}
-            <Grid container spacing={12} rowSpacing={2} justifyContent={'center'}>
+            <Grid container spacing={2} rowSpacing={2} justifyContent={'center'}>
               {!user && (
                 <>
                   <Grid item xs={12}>
@@ -188,67 +188,7 @@ const AddEdit = (props) => {
                 </>
               )}
               <Grid item xs={12}>
-                <Alert
-                  severity="info"
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setOpenInfoOrder((res) => !res);
-                      }}
-                    >
-                      {openInfoOrder ? (
-                        <Close fontSize="inherit" />
-                      ) : (
-                        <InfoOutlined fontSize="inherit" />
-                      )}
-                    </IconButton>
-                  }
-                  sx={{ mb: 2 }}
-                >
-                  <Typography component={'span'} fontWeight={700}>
-                    Count:{' '}
-                  </Typography>
-                  {orders?.length}
-                  <Typography component={'span'} fontWeight={700} ml={1}>
-                    Total Payment:{' '}
-                  </Typography>
-                  {separateNum(orders.reduce((acc, curr) => +acc + +curr.total, 0))}
-                </Alert>
-                {openInfoOrder && (
-                  <Box maxHeight={150} overflow={'auto'}>
-                    <List dense>
-                      {orders.map((order, idx) => (
-                        <Fragment key={idx}>
-                          <ListItem>
-                            <ListItemIcon sx={{ m: 0 }}>
-                              <ShoppingBagOutlined />
-                            </ListItemIcon>
-                            <ListItemText
-                              primary={order?.service?.name}
-                              secondary={
-                                <>
-                                  <Typography
-                                    sx={{ display: 'inline' }}
-                                    component="span"
-                                    variant="body2"
-                                    color="text.primary"
-                                  >
-                                    {separateNum(order?.total)}
-                                  </Typography>
-                                  -{getDayPersian(order?.modified_at)}
-                                </>
-                              }
-                            />
-                          </ListItem>
-                          <Divider />
-                        </Fragment>
-                      ))}
-                    </List>
-                  </Box>
-                )}
+                <OrderInfo orders={orders} user={user} balance={balance} />
               </Grid>
 
               {!initial?.id && (
@@ -450,6 +390,12 @@ const AddEdit = (props) => {
                   </Grid>
                 </>
               )}
+              <Grid item xs={3}>
+                <TextField label={'DIS'} type="tel" name="dis" />
+              </Grid>
+              <Grid item xs={9}>
+                <ExtraField label={'Extera Discount'} price name="extra_discount" />
+              </Grid>
             </Grid>
             <DialogActions>
               <Button
