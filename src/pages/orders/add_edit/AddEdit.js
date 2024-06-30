@@ -6,7 +6,16 @@ import {
   NotInterested,
   TaskAlt
 } from '@mui/icons-material';
-import { Alert, AlertTitle, Box, DialogActions, Divider, Grid, Typography } from '@mui/material';
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  DialogActions,
+  Divider,
+  Grid,
+  InputAdornment,
+  Typography
+} from '@mui/material';
 import Avatar from 'components/avatar';
 import Button from 'components/button';
 import Autocomplete from 'components/formik/autocomplete';
@@ -59,14 +68,14 @@ const initialForm = {
 
 const ExtraField = (props) => {
   const {
-    values: { dis, total },
+    values: { dis, total, total_discount_amount },
     touched,
     setFieldValue
   } = useFormikContext();
 
   useEffect(() => {
     // set the value of textC, based on textA and textB
-    setFieldValue(props.name, (+total * +dis) / 100);
+    setFieldValue(props.name, ((+total - +total_discount_amount) * +dis) / 100);
   }, [dis]);
 
   return <TextField {...props} />;
@@ -309,6 +318,8 @@ const AddEdit = (props) => {
                       setFieldValue('data_limit', service.data_limit || 0);
                       setFieldValue('total', service.price || 0);
                       setFieldValue('total_discount_amount', service.discount || 0);
+                      setFieldValue('extra_discount', 0);
+                      setFieldValue('dis', 0);
                     }
                   }}
                   onClear={() => {
@@ -316,13 +327,22 @@ const AddEdit = (props) => {
                     setFieldValue('data_limit', 0);
                     setFieldValue('total', 0);
                     setFieldValue('total_discount_amount', 0);
+                    setFieldValue('extra_discount', 0);
+                    setFieldValue('dis', 0);
                   }}
                 />
               </Grid>
-              <Grid item xs={3}>
-                <TextField label={'DIS'} type="tel" name="dis" />
+              <Grid item xs={2}>
+                <TextField
+                  label={'DIS'}
+                  type="tel"
+                  name="dis"
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">%</InputAdornment>
+                  }}
+                />
               </Grid>
-              <Grid item xs={9}>
+              <Grid item xs={10}>
                 <ExtraField label={'Extera Discount'} price name="extra_discount" />
               </Grid>
               {values.service_id ? (
@@ -342,6 +362,15 @@ const AddEdit = (props) => {
                       </Typography>{' '}
                       <Typography component={'span'}>
                         {separateNum(values.total - values.total_discount_amount)}
+                      </Typography>
+                      <br />
+                      <Typography fontWeight={800} component={'span'}>
+                        Total Price:
+                      </Typography>{' '}
+                      <Typography component={'span'}>
+                        {separateNum(
+                          values.total - values.extra_discount - values?.total_discount_amount
+                        )}
                       </Typography>
                       <br />
                       <Typography fontWeight={800} component={'span'}>
