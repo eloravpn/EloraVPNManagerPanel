@@ -332,19 +332,23 @@ const AddEdit = (props) => {
                   }}
                 />
               </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  label={'DIS'}
-                  type="number"
-                  name="dis"
-                  InputProps={{
-                    endAdornment: <InputAdornment position="end">%</InputAdornment>
-                  }}
-                />
-              </Grid>
-              <Grid item xs={9}>
-                <ExtraField label={'Extera Discount'} price name="extra_discount" />
-              </Grid>
+              {!initial?.id && (
+                <>
+                  <Grid item xs={3}>
+                    <TextField
+                      label={'DIS'}
+                      type="number"
+                      name="dis"
+                      InputProps={{
+                        endAdornment: <InputAdornment position="end">%</InputAdornment>
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={9}>
+                    <ExtraField label={'Extera Discount'} price name="extra_discount" />
+                  </Grid>
+                </>
+              )}
               {values.service_id ? (
                 <Grid item xs={12}>
                   <Box textAlign={'left'} m={1}>
