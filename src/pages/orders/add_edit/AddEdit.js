@@ -335,7 +335,7 @@ const AddEdit = (props) => {
               <Grid item xs={2}>
                 <TextField
                   label={'DIS'}
-                  type="tel"
+                  type="number"
                   name="dis"
                   InputProps={{
                     endAdornment: <InputAdornment position="end">%</InputAdornment>
