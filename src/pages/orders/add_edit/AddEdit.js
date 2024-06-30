@@ -332,7 +332,7 @@ const AddEdit = (props) => {
                   }}
                 />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={3}>
                 <TextField
                   label={'DIS'}
                   type="number"
@@ -342,7 +342,7 @@ const AddEdit = (props) => {
                   }}
                 />
               </Grid>
-              <Grid item xs={10}>
+              <Grid item xs={9}>
                 <ExtraField label={'Extera Discount'} price name="extra_discount" />
               </Grid>
               {values.service_id ? (
