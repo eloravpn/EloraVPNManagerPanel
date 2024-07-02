@@ -3,6 +3,7 @@ import {
   AvTimer,
   DataUsage,
   Fingerprint,
+  MoneyOff,
   NotInterested,
   TaskAlt
 } from '@mui/icons-material';
@@ -19,6 +20,7 @@ import {
 import Avatar from 'components/avatar';
 import Button from 'components/button';
 import Autocomplete from 'components/formik/autocomplete';
+import CheckBox from 'components/formik/checkbox';
 import Select from 'components/formik/select';
 import TextField from 'components/formik/textfield';
 import HttpService from 'components/httpService';
@@ -349,6 +351,37 @@ const AddEdit = (props) => {
                   </Grid>
                 </>
               )}
+              {balance - (values.total - values.extra_discount - values?.total_discount_amount) <
+                0 && (
+                <Grid item xs={12} display={'flex'} alignItems={'center'}>
+                  <CheckBox name="is_debt" label={`Do you want negative Account ?`} />
+                  <Typography component={'div'} color={'error'}>
+                    if True{' '}
+                    {separateNum(
+                      balance -
+                        (values.total - values.extra_discount - values?.total_discount_amount)
+                    )}
+                  </Typography>
+                  <Button
+                    sx={{ ml: 2 }}
+                    onClick={() =>
+                      setFieldValue(
+                        'extra_discount',
+                        Math.abs(
+                          balance -
+                            (values.total - values.extra_discount - values?.total_discount_amount)
+                        )
+                      )
+                    }
+                    size="small"
+                    color={'primary'}
+                    icon={<MoneyOff fontSize={'10px'} />}
+                  >
+                    Discount
+                  </Button>
+                </Grid>
+              )}
+
               {values.service_id ? (
                 <Grid item xs={12}>
                   <Box textAlign={'left'} m={1}>
@@ -393,7 +426,7 @@ const AddEdit = (props) => {
                 </Grid>
               ) : (
                 <>
-                  <Grid item xs={12}>
+                  <Grid item xs={9}>
                     <TextField
                       label={'Total'}
                       price
@@ -403,7 +436,7 @@ const AddEdit = (props) => {
                       }
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={3}>
                     <TextField
                       label={'Total Discount'}
                       name="total_discount_amount"
