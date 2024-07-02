@@ -1,4 +1,4 @@
-import { DialogActions, Grid } from '@mui/material';
+import { DialogActions, duration, Grid } from '@mui/material';
 import Fade from '@mui/material/Fade';
 import Button from 'components/button';
 import Select from 'components/formik/select';
@@ -35,7 +35,8 @@ const AddEdit = (props) => {
 
   const [postDataLoading, setPostDataLoading] = useState(false);
   const [showCreateOrder, setShowCreateOrder] = useState(false);
-  const [initialOrder, setInitialOrder] = useState({ user_id: 0 });
+  const [initialOrder, setInitialOrder] = useState({ user_id: 0, dis: 100 });
+  const [service, setService] = useState({});
   const { getUser, user, isLoading: isLoadingUser, setUser } = useUsers();
   const { orders, isLoading: isLoadingOrders, getOrders } = useOrders();
 
@@ -51,16 +52,22 @@ const AddEdit = (props) => {
       .post(api.payments, values)
       .then((res) => {
         Http.success(res);
+
+        const obj = {
+          duration: service.duration,
+          data_limit: service.data_limit,
+          total: service.price,
+          total_discount_amount: service.discount,
+          extra_discount: 0,
+          dis: 0
+        };
         setInitialOrder({
           account_id: 0,
-          duration: 1,
-          total: 0,
-          total_discount_amount: 0,
           status: 'PAID',
-          data_limit: 0,
           ip_limit: 0,
           service_id: values?.service_id,
-          user_id: res.data.user_id
+          user_id: res.data.user_id,
+          ...(service?.id ? { ...obj } : {})
         });
         setShowCreateOrder(true);
         // refrence.current.changeStatus();
@@ -122,9 +129,10 @@ const AddEdit = (props) => {
                   <ServicesSelect
                     label="Service"
                     name="service_id"
-                    onChange={(service) =>
-                      setFieldValue('total', +service.price - +service?.discount)
-                    }
+                    onChange={(service) => {
+                      setService(service);
+                      setFieldValue('total', +service.price - +service?.discount);
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -169,7 +177,11 @@ const AddEdit = (props) => {
         </Formik>
       )}
       <>
-        <>{showCreateOrder && <AddEditOrder refrence={refrence} initial={initialOrder} />}</>
+        <>
+          {showCreateOrder && (
+            <AddEditOrder refrence={refrence} initial={initialOrder} initialOrder={initialOrder} />
+          )}
+        </>
       </>
     </>
   );

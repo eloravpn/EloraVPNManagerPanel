@@ -46,12 +46,6 @@ import {
 } from 'utils';
 import * as yup from 'yup';
 
-const validationSchema = yup.object({
-  user_id: yup.number().required(),
-  ip_limit: yup.number(),
-  service_id: yup.number().nullable()
-});
-
 const initialForm = {
   account_id: 0,
   service_id: '',
@@ -66,10 +60,15 @@ const initialForm = {
   dis: 0
 };
 
+const validationSchema = yup.object({
+  user_id: yup.number().required(),
+  ip_limit: yup.number(),
+  service_id: yup.number().nullable()
+});
+
 const ExtraField = (props) => {
   const {
     values: { dis, total, total_discount_amount },
-    touched,
     setFieldValue
   } = useFormikContext();
 
@@ -82,7 +81,8 @@ const ExtraField = (props) => {
 };
 
 const AddEdit = (props) => {
-  const { refrence, initial, createRow, editRow } = props;
+  const { refrence, initial, createRow, editRow, initialOrder } = props;
+
   const [postDataLoading, setPostDataLoading] = useState(false);
   const [accounts, setAccounts] = useState([]);
   const [balance, setBalance] = useState(0);
