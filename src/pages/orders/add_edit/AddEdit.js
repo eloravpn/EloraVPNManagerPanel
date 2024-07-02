@@ -59,7 +59,8 @@ const initialForm = {
   data_limit: 0,
   ip_limit: 0,
   extra_discount: 0,
-  dis: 0
+  dis: 0,
+  is_debt: false
 };
 
 const validationSchema = yup.object({
