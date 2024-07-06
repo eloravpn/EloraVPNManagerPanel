@@ -19,6 +19,8 @@ import Grid from 'components/grid';
 import GLOBAL from 'components/variables';
 import AddEditAccount from 'pages/accounts/add_edit';
 import config from 'config';
+import CheckBox from 'components/formik/checkbox';
+import FormObserver from 'components/formik/observer';
 const pageName = 'Users';
 
 const Users = () => {
@@ -148,6 +150,16 @@ const Users = () => {
           refrence={gridRef}
           data={data}
           columns={columns}
+          searchChildren={
+            <Formik initialValues={{ is_debt: false }}>
+              {({ values }) => (
+                <Form>
+                  <FormObserver onChange={(values) => gridRef.current.filters(values)} />
+                  <CheckBox name="is_debt" label={'Is debt'} />
+                </Form>
+              )}
+            </Formik>
+          }
           rowActions={[
             {
               onClick: (data) => handleAlert(data, deleteRef),
