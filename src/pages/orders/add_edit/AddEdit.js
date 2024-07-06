@@ -1,6 +1,7 @@
 import {
   AttachEmail,
   AvTimer,
+  Close,
   DataUsage,
   Fingerprint,
   MoneyOff,
@@ -14,6 +15,7 @@ import {
   DialogActions,
   Divider,
   Grid,
+  IconButton,
   InputAdornment,
   Typography
 } from '@mui/material';
@@ -348,7 +350,20 @@ const AddEdit = (props) => {
                     />
                   </Grid>
                   <Grid item xs={9}>
-                    <ExtraField label={'Extera Discount'} price name="extra_discount" />
+                    <ExtraField
+                      label={'Extera Discount'}
+                      price
+                      name="extra_discount"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton onClick={() => setFieldValue('extra_discount', 0)}>
+                              <Close />
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
+                    />
                   </Grid>
                 </>
               )}
@@ -357,28 +372,30 @@ const AddEdit = (props) => {
                 <Grid item xs={12} display={'flex'} alignItems={'center'}>
                   <CheckBox name="is_debt" label={`Do you want negative Account ?`} />
                   <Typography component={'div'} color={'error'}>
-                    if True{' '}
+                    ({' '}
                     {separateNum(
                       balance -
                         (values.total - values.extra_discount - values?.total_discount_amount)
                     )}
+                    )
                   </Typography>
                   <Button
                     sx={{ ml: 2 }}
-                    onClick={() =>
+                    onClick={() => {
+                      setFieldValue('is_debt', false);
                       setFieldValue(
                         'extra_discount',
                         Math.abs(
                           balance -
                             (values.total - values.extra_discount - values?.total_discount_amount)
                         )
-                      )
-                    }
+                      );
+                    }}
                     size="small"
                     color={'primary'}
                     icon={<MoneyOff fontSize={'10px'} />}
                   >
-                    Discount
+                    Add to Discount
                   </Button>
                 </Grid>
               )}
