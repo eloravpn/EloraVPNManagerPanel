@@ -387,8 +387,12 @@ const AddEdit = (props) => {
                         setFieldValue(
                           'extra_discount',
                           Math.abs(
-                            balance -
-                              (values.total - values.extra_discount - values?.total_discount_amount)
+                            balance > 0
+                              ? balance
+                              : 0 -
+                                  (values.total -
+                                    values.extra_discount -
+                                    values?.total_discount_amount)
                           )
                         );
                       }}
