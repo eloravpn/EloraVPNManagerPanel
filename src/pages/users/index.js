@@ -21,12 +21,15 @@ import AddEditAccount from 'pages/accounts/add_edit';
 import config from 'config';
 import CheckBox from 'components/formik/checkbox';
 import FormObserver from 'components/formik/observer';
+import AddEditNotification from 'pages/notifications/add_edit';
+
 const pageName = 'Users';
 
 const Users = () => {
   const navigate = useNavigate();
 
   const createRef = useRef();
+  const addNotificationRef = useRef();
   const gridRef = useRef();
   const filterRef = useRef();
   const deleteRef = useRef();
@@ -83,6 +86,19 @@ const Users = () => {
     });
     createAccountRef.current.changeStatus();
   };
+  const handleSendNotification = (data) => {
+    setItem({
+      user_id: data.id,
+      level: 0,
+      message: '',
+      status: 'pending',
+      account_id: '',
+      type: 'general',
+      engine: 'telegram',
+      approve: false
+    });
+    addNotificationRef.current.changeStatus();
+  };
 
   return (
     <>
@@ -125,6 +141,13 @@ const Users = () => {
       <AddEdit
         pageName={pageName}
         refrence={createRef}
+        initial={item}
+        createRow={createRow}
+        editRow={editRow}
+      />
+      <AddEditNotification
+        pageName={pageName}
+        refrence={addNotificationRef}
         initial={item}
         createRow={createRow}
         editRow={editRow}
@@ -184,6 +207,12 @@ const Users = () => {
               icon: 'person_add',
               color: 'primary',
               name: 'Add Account'
+            },
+            {
+              onClick: handleSendNotification,
+              icon: 'campaign',
+              color: 'primary',
+              name: 'Send Notification'
             }
           ]}
           paginateServ={true}
