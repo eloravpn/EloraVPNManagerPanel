@@ -89,7 +89,7 @@ const AddEdit = (props) => {
   return (
     <Formik
       enableReinitialize
-      initialValues={initial?.id ? initial : initialForm}
+      initialValues={initial?.id || initial?.user_id ? initial : initialForm}
       validationSchema={validationSchema}
       onSubmit={initial?.id ? handleEdit : handleCreate}
     >
@@ -235,6 +235,7 @@ const AddEdit = (props) => {
                 />
               </Grid>
             )}
+            {console.log(values, !values.user_id)}
 
             <AddOneFrom />
           </Grid>

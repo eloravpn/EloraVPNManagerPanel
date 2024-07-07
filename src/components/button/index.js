@@ -19,6 +19,7 @@ const Button = ({
   variant = 'contained',
   sx,
   icon,
+  size = 'medium',
   fullWidth = false
 }) => {
   const handleClick = (e) => {
@@ -36,6 +37,7 @@ const Button = ({
       onClick={onClick && handleClick}
       sx={sx}
       endIcon={icon}
+      size={size}
       loadingPosition="center"
     >
       {children}

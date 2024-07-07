@@ -1,8 +1,10 @@
 import {
   AttachEmail,
   AvTimer,
+  Close,
   DataUsage,
   Fingerprint,
+  MoneyOff,
   NotInterested,
   TaskAlt
 } from '@mui/icons-material';
@@ -13,12 +15,14 @@ import {
   DialogActions,
   Divider,
   Grid,
+  IconButton,
   InputAdornment,
   Typography
 } from '@mui/material';
 import Avatar from 'components/avatar';
 import Button from 'components/button';
 import Autocomplete from 'components/formik/autocomplete';
+import CheckBox from 'components/formik/checkbox';
 import Select from 'components/formik/select';
 import TextField from 'components/formik/textfield';
 import HttpService from 'components/httpService';
@@ -46,12 +50,6 @@ import {
 } from 'utils';
 import * as yup from 'yup';
 
-const validationSchema = yup.object({
-  user_id: yup.number().required(),
-  ip_limit: yup.number(),
-  service_id: yup.number().nullable()
-});
-
 const initialForm = {
   account_id: 0,
   service_id: '',
@@ -63,13 +61,19 @@ const initialForm = {
   data_limit: 0,
   ip_limit: 0,
   extra_discount: 0,
-  dis: 0
+  dis: 0,
+  is_debt: false
 };
+
+const validationSchema = yup.object({
+  user_id: yup.number().required(),
+  ip_limit: yup.number(),
+  service_id: yup.number().nullable()
+});
 
 const ExtraField = (props) => {
   const {
     values: { dis, total, total_discount_amount },
-    touched,
     setFieldValue
   } = useFormikContext();
 
@@ -82,7 +86,8 @@ const ExtraField = (props) => {
 };
 
 const AddEdit = (props) => {
-  const { refrence, initial, createRow, editRow } = props;
+  const { refrence, initial, createRow, editRow, initialOrder } = props;
+
   const [postDataLoading, setPostDataLoading] = useState(false);
   const [accounts, setAccounts] = useState([]);
   const [balance, setBalance] = useState(0);
@@ -336,7 +341,7 @@ const AddEdit = (props) => {
                 <>
                   <Grid item xs={3}>
                     <TextField
-                      label={'DIS'}
+                      label={'Discoount percent'}
                       type="number"
                       name="dis"
                       InputProps={{
@@ -345,10 +350,67 @@ const AddEdit = (props) => {
                     />
                   </Grid>
                   <Grid item xs={9}>
-                    <ExtraField label={'Extera Discount'} price name="extra_discount" />
+                    <ExtraField
+                      label={'Extera discount amount'}
+                      price
+                      name="extra_discount"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton onClick={() => setFieldValue('extra_discount', 0)}>
+                              <Close />
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
+                    />
                   </Grid>
                 </>
               )}
+              {balance > 0
+                ? balance
+                : 0 - (values.total - values.extra_discount - values?.total_discount_amount) <
+                    0 && (
+                    <Grid item xs={12}>
+                      <Box display={'flex'} alignItems={'center'} justifyContent={'flex-start'}>
+                        <CheckBox name="is_debt" label={`Do you want negative User balance ?`} />
+                        <Typography component={'div'} variant="body2" color={'error'}>
+                          (
+                          {separateNum(
+                            balance > 0
+                              ? balance
+                              : 0 -
+                                  (values.total -
+                                    values.extra_discount -
+                                    values?.total_discount_amount)
+                          )}
+                          )
+                        </Typography>
+                        <Button
+                          sx={{ ml: 1 }}
+                          onClick={() => {
+                            setFieldValue('is_debt', false);
+                            setFieldValue(
+                              'extra_discount',
+                              Math.abs(
+                                balance > 0
+                                  ? balance
+                                  : 0 -
+                                      (values.total -
+                                        values.extra_discount -
+                                        values?.total_discount_amount)
+                              )
+                            );
+                          }}
+                          size="small"
+                          color={'primary'}
+                        >
+                          Add to Discount
+                        </Button>
+                      </Box>
+                    </Grid>
+                  )}
+
               {values.service_id ? (
                 <Grid item xs={12}>
                   <Box textAlign={'left'} m={1}>
@@ -393,7 +455,7 @@ const AddEdit = (props) => {
                 </Grid>
               ) : (
                 <>
-                  <Grid item xs={12}>
+                  <Grid item xs={9}>
                     <TextField
                       label={'Total'}
                       price
@@ -403,7 +465,7 @@ const AddEdit = (props) => {
                       }
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={3}>
                     <TextField
                       label={'Total Discount'}
                       name="total_discount_amount"

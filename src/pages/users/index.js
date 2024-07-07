@@ -19,12 +19,17 @@ import Grid from 'components/grid';
 import GLOBAL from 'components/variables';
 import AddEditAccount from 'pages/accounts/add_edit';
 import config from 'config';
+import CheckBox from 'components/formik/checkbox';
+import FormObserver from 'components/formik/observer';
+import AddEditNotification from 'pages/notifications/add_edit';
+
 const pageName = 'Users';
 
 const Users = () => {
   const navigate = useNavigate();
 
   const createRef = useRef();
+  const addNotificationRef = useRef();
   const gridRef = useRef();
   const filterRef = useRef();
   const deleteRef = useRef();
@@ -81,6 +86,19 @@ const Users = () => {
     });
     createAccountRef.current.changeStatus();
   };
+  const handleSendNotification = (data) => {
+    setItem({
+      user_id: data.id,
+      level: 0,
+      message: '',
+      status: 'pending',
+      account_id: '',
+      type: 'general',
+      engine: 'telegram',
+      approve: false
+    });
+    addNotificationRef.current.changeStatus();
+  };
 
   return (
     <>
@@ -127,6 +145,13 @@ const Users = () => {
         createRow={createRow}
         editRow={editRow}
       />
+      <AddEditNotification
+        pageName={pageName}
+        refrence={addNotificationRef}
+        initial={item}
+        createRow={createRow}
+        editRow={editRow}
+      />
       <AddEditAccount pageName={pageName} refrence={createAccountRef} initial={item} />
       <Box>
         <Typography variant="h4" gutterBottom>
@@ -148,6 +173,16 @@ const Users = () => {
           refrence={gridRef}
           data={data}
           columns={columns}
+          searchChildren={
+            <Formik initialValues={{ is_debt: false }}>
+              {({ values }) => (
+                <Form>
+                  <FormObserver onChange={(values) => gridRef.current.filters(values)} />
+                  <CheckBox name="is_debt" label={'Is debt'} />
+                </Form>
+              )}
+            </Formik>
+          }
           rowActions={[
             {
               onClick: (data) => handleAlert(data, deleteRef),
@@ -172,6 +207,12 @@ const Users = () => {
               icon: 'person_add',
               color: 'primary',
               name: 'Add Account'
+            },
+            {
+              onClick: handleSendNotification,
+              icon: 'campaign',
+              color: 'primary',
+              name: 'Send Notification'
             }
           ]}
           paginateServ={true}

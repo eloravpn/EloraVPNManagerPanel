@@ -48,7 +48,12 @@ const TextField = ({ name, price, ...otherProps }) => {
           onFocus: (e) => e.target.select(),
           InputProps: {
             inputComponent: NumericFormatCustom,
-            endAdornment: <InputAdornment position="end">Toman</InputAdornment>
+            endAdornment: (
+              <>
+                <InputAdornment position="end">Toman</InputAdornment>
+                {otherProps?.InputProps?.endAdornment}
+              </>
+            )
           }
         }
       : null)
