@@ -367,43 +367,49 @@ const AddEdit = (props) => {
                   </Grid>
                 </>
               )}
-              {balance - (values.total - values.extra_discount - values?.total_discount_amount) <
-                0 && (
-                <Grid item xs={12}>
-                  <Box display={'flex'} alignItems={'center'} justifyContent={'flex-start'}>
-                    <CheckBox name="is_debt" label={`Do you want negative User balance ?`} />
-                    <Typography component={'div'} variant="body2" color={'error'}>
-                      ({' '}
-                      {separateNum(
-                        balance -
-                          (values.total - values.extra_discount - values?.total_discount_amount)
-                      )}
-                      )
-                    </Typography>
-                    <Button
-                      sx={{ ml: 1 }}
-                      onClick={() => {
-                        setFieldValue('is_debt', false);
-                        setFieldValue(
-                          'extra_discount',
-                          Math.abs(
+              {balance > 0
+                ? balance
+                : 0 - (values.total - values.extra_discount - values?.total_discount_amount) <
+                    0 && (
+                    <Grid item xs={12}>
+                      <Box display={'flex'} alignItems={'center'} justifyContent={'flex-start'}>
+                        <CheckBox name="is_debt" label={`Do you want negative User balance ?`} />
+                        <Typography component={'div'} variant="body2" color={'error'}>
+                          (
+                          {separateNum(
                             balance > 0
                               ? balance
                               : 0 -
                                   (values.total -
                                     values.extra_discount -
                                     values?.total_discount_amount)
+                          )}
                           )
-                        );
-                      }}
-                      size="small"
-                      color={'primary'}
-                    >
-                      Add to Discount
-                    </Button>
-                  </Box>
-                </Grid>
-              )}
+                        </Typography>
+                        <Button
+                          sx={{ ml: 1 }}
+                          onClick={() => {
+                            setFieldValue('is_debt', false);
+                            setFieldValue(
+                              'extra_discount',
+                              Math.abs(
+                                balance > 0
+                                  ? balance
+                                  : 0 -
+                                      (values.total -
+                                        values.extra_discount -
+                                        values?.total_discount_amount)
+                              )
+                            );
+                          }}
+                          size="small"
+                          color={'primary'}
+                        >
+                          Add to Discount
+                        </Button>
+                      </Box>
+                    </Grid>
+                  )}
 
               {values.service_id ? (
                 <Grid item xs={12}>
