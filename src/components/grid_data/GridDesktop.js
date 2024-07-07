@@ -170,7 +170,7 @@ const CustomGrid = forwardRef(
 
     const handleProgressDay = useCallback(({ row }, field) => {
       var now = dayjs();
-      var start = dayjs(row.modified_at || row.modified_at);
+      var start = dayjs(row.start_at || row.modified_at);
       var end = dayjs(row.expired_at);
       const dayRemaining = Math.ceil(end.diff(now) / (1000 * 3600 * 24));
       const totalDays = Math.ceil(end.diff(start) / (1000 * 3600 * 24));
@@ -181,7 +181,7 @@ const CustomGrid = forwardRef(
         <Tooltip title={`${getDayPersian(row.expired_at)}`}>
           <Progress
             firstLabel={``}
-            secondaryLabel={`${dayRemaining || 'Infinity'} Day`}
+            secondaryLabel={`${dayRemaining < 0 ? 'Expired' : dayRemaining} ${dayRemaining > 0 ? 'Day' : ''}`}
             value={dayRemaining > 0 ? calcPercentUsage : 100}
           />
         </Tooltip>
