@@ -341,7 +341,7 @@ const AddEdit = (props) => {
                 <>
                   <Grid item xs={3}>
                     <TextField
-                      label={'DIS'}
+                      label={'Discoount percent'}
                       type="number"
                       name="dis"
                       InputProps={{
@@ -351,7 +351,7 @@ const AddEdit = (props) => {
                   </Grid>
                   <Grid item xs={9}>
                     <ExtraField
-                      label={'Extera Discount'}
+                      label={'Extera discount amount'}
                       price
                       name="extra_discount"
                       InputProps={{
@@ -370,7 +370,7 @@ const AddEdit = (props) => {
               {balance - (values.total - values.extra_discount - values?.total_discount_amount) <
                 0 && (
                 <Grid item xs={12} display={'flex'} alignItems={'center'}>
-                  <CheckBox name="is_debt" label={`Do you want negative Account ?`} />
+                  <CheckBox name="is_debt" label={`Do you want negative User balance ?`} />
                   <Typography component={'div'} color={'error'}>
                     ({' '}
                     {separateNum(
