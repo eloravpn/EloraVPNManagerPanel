@@ -369,34 +369,35 @@ const AddEdit = (props) => {
               )}
               {balance - (values.total - values.extra_discount - values?.total_discount_amount) <
                 0 && (
-                <Grid item xs={12} display={'flex'} alignItems={'center'}>
-                  <CheckBox name="is_debt" label={`Do you want negative User balance ?`} />
-                  <Typography component={'div'} color={'error'}>
-                    ({' '}
-                    {separateNum(
-                      balance -
-                        (values.total - values.extra_discount - values?.total_discount_amount)
-                    )}
-                    )
-                  </Typography>
-                  <Button
-                    sx={{ ml: 2 }}
-                    onClick={() => {
-                      setFieldValue('is_debt', false);
-                      setFieldValue(
-                        'extra_discount',
-                        Math.abs(
-                          balance -
-                            (values.total - values.extra_discount - values?.total_discount_amount)
-                        )
-                      );
-                    }}
-                    size="small"
-                    color={'primary'}
-                    icon={<MoneyOff fontSize={'10px'} />}
-                  >
-                    Add to Discount
-                  </Button>
+                <Grid item xs={12}>
+                  <Box display={'flex'} alignItems={'center'} justifyContent={'flex-start'}>
+                    <CheckBox name="is_debt" label={`Do you want negative User balance ?`} />
+                    <Typography component={'div'} variant="body2" color={'error'}>
+                      ({' '}
+                      {separateNum(
+                        balance -
+                          (values.total - values.extra_discount - values?.total_discount_amount)
+                      )}
+                      )
+                    </Typography>
+                    <Button
+                      sx={{ ml: 1 }}
+                      onClick={() => {
+                        setFieldValue('is_debt', false);
+                        setFieldValue(
+                          'extra_discount',
+                          Math.abs(
+                            balance -
+                              (values.total - values.extra_discount - values?.total_discount_amount)
+                          )
+                        );
+                      }}
+                      size="small"
+                      color={'primary'}
+                    >
+                      Add to Discount
+                    </Button>
+                  </Box>
                 </Grid>
               )}
 
