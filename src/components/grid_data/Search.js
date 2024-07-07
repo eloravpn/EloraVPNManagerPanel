@@ -119,11 +119,11 @@ const Search = (props) => {
             </Select>
           </FormControl>
 
-          {searchChildren}
-
           <IconButton onClick={handleSort}>
             {search.ASC ? <ArrowUpward color="primary" /> : <ArrowDownward color="primary" />}
           </IconButton>
+          {!!searchChildren && <Divider orientation="vertical" flexItem />}
+          {searchChildren}
         </Box>
         <Box display={'flex'} justifyContent={'flex-end'} alignItems={'center'}>
           <IconButton onClick={refresh}>
