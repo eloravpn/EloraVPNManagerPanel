@@ -35,7 +35,9 @@ const initialForm = {
   account_id: '',
   type: 'general',
   engine: 'telegram',
-  approve: false
+  approve: false,
+  keyboard: '',
+  photo_url: ''
 };
 
 const AddEdit = (props) => {
@@ -235,9 +237,8 @@ const AddEdit = (props) => {
                 />
               </Grid>
             )}
-            {console.log(values, !values.user_id)}
 
-            <AddOneFrom />
+            <AddOneFrom {...values} />
           </Grid>
           <DialogActions>
             <Button

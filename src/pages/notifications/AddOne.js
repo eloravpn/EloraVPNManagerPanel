@@ -4,7 +4,7 @@ import Select from 'components/formik/select';
 import TextField from 'components/formik/textfield';
 import GLOBAL from 'components/variables';
 
-const AddOneFrom = () => {
+const AddOneFrom = ({ keyboard }) => {
   return (
     <>
       <Grid item xs={12} md={3}>
@@ -27,6 +27,19 @@ const AddOneFrom = () => {
       </Grid>
       <Grid item xs={12} md={3}>
         <TextField id={'level'} name={'level'} label="Level" />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField id={'photo_url'} name={'photo_url'} label="Photo Url" type="text" />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          id={'keyboard'}
+          name={'keyboard'}
+          label="Keyboard"
+          type="text"
+          minRows={4}
+          multiline
+        />
       </Grid>
       <Grid item xs={12}>
         <TextField

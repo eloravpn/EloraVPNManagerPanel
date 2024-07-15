@@ -21,7 +21,9 @@ const initialForm = {
   user_id: 0,
   type: 'general',
   engine: 'telegram',
-  approve: false
+  approve: false,
+  keyboard: '',
+  photo_url: ''
 };
 
 const BulkSend = (props) => {
@@ -54,7 +56,7 @@ const BulkSend = (props) => {
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      {() => (
+      {({ values }) => (
         <Form>
           <Grid container spacing={3} rowSpacing={2} justifyContent={'center'}>
             <Grid item xs={12}>
@@ -67,7 +69,7 @@ const BulkSend = (props) => {
                 multiline
               />
             </Grid>
-            <AddOneFrom />
+            <AddOneFrom {...values} />
           </Grid>
           <DialogActions>
             <Button
