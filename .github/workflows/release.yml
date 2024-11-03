@@ -1,0 +1,66 @@
+name: Release React App
+
+on:
+  push:
+    tags:
+      - 'v*' # Trigger on version tags
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed for creating releases
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build project
+        run: yarn build
+        env:
+          CI: true
+
+      - name: Create build archive
+        run: |
+          cd build
+          zip -r ../elora-vpn-manager-panel.zip .
+          cd ..
+
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ steps.get_version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+          files: |
+            elora-vpn-manager-panel.zip
+          body: |
+            Release ${{ steps.get_version.outputs.VERSION }} of Elora VPN Manager Panel
+            
+            ### What's Changed
+            * Automated release from tag ${{ steps.get_version.outputs.VERSION }}
+            
+            ### Installation
+            1. Download the zip file
+            2. Extract to your web server
+            3. Configure your web server to serve the static files
+            
+            For detailed installation instructions, please refer to the documentation.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
