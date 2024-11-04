@@ -13,7 +13,7 @@ function ConfigProvider() {
       if (config.urlApi) setConfigLoaded(true);
       document.title = config.BASE_NAME;
     }
-    fetchConfig().then((r) => console.log(r));
+    fetchConfig();
   }, []);
 
   if (!isConfigLoaded) {
