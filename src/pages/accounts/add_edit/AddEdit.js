@@ -38,13 +38,12 @@ const validationSchema = yup.object({
 const initialForm = {
   email: emailGenerator(),
   uuid: uuidGenerator(),
-  user_id: '',
   enable: true,
   data_limit: 0,
   ip_limit: 0,
   host_zone_id: '',
   user_id: '',
-  expired_at: getExpireTime(config.defaultExpireAt),
+  expired_at: getExpireTime(30),
   user_title: ''
 };
 
