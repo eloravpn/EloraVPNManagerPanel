@@ -7,7 +7,7 @@ function ConfigProvider() {
 
   useEffect(() => {
     async function fetchConfig() {
-      const response = await fetch('/config.json');
+      const response = await fetch('/static/config.json');
       const conf = await response.json();
       window.appConfig = conf;
       if (config.urlApi) setConfigLoaded(true);
