@@ -166,19 +166,17 @@ const AddEdit = (props) => {
                       secondaryCard: (
                         <>
                           <Typography variant="h6" component={'div'}>
-                            Day:
-                            {user?.accounts?.find((i) => i.id === values.account_id)?.id}
+                            Day: {user?.accounts?.find((i) => i.id === values.account_id)?.id}
                           </Typography>
                           <Typography variant="h6" component={'div'}>
-                            Usage:
+                            Usage:{' '}
                             {convertByteToInt(
                               user?.accounts?.find((i) => i.id === values.account_id)?.used_traffic
-                            ).toFixed(1)}
+                            ).toFixed(1)}{' '}
                             GB
                           </Typography>
                           <Typography variant="h6" component={'div'}>
-                            Email:
-                            {user?.accounts?.find((i) => i.id === values.account_id)?.email}
+                            Email: {user?.accounts?.find((i) => i.id === values.account_id)?.email}
                           </Typography>
                         </>
                       )
@@ -208,7 +206,7 @@ const AddEdit = (props) => {
               {!initial?.id && (
                 <Grid item xs={12}>
                   <Autocomplete
-                    label={'Account'}
+                    label={'Select Account'}
                     name="account_id"
                     options={user?.accounts || accounts}
                     getOptionLabel={(option) =>
@@ -220,7 +218,17 @@ const AddEdit = (props) => {
                     }
                     renderOption={(
                       props,
-                      { id, full_name, data_limit, expired_at, used_traffic, email, uuid, enable }
+                      {
+                        id,
+                        full_name,
+                        data_limit,
+                        expired_at,
+                        used_traffic,
+                        email,
+                        uuid,
+                        enable,
+                        service_title
+                      }
                     ) => (
                       <Fragment key={id}>
                         <li {...props}>
@@ -279,6 +287,7 @@ const AddEdit = (props) => {
                                       <AttachEmail color="primary" />
                                     </Grid>
                                     <Grid item>{email}</Grid>
+                                    <Grid item>{`/ ${service_title}`}</Grid>
                                   </Grid>
                                 </Grid>
                                 <Grid xs={12}>

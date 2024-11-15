@@ -26,7 +26,7 @@ const initialForm = {
   order_id: 0,
   total: 0,
   method: 'MONEY_ORDER',
-  status: 'PENDING'
+  status: 'PAID'
 };
 
 const AddEdit = (props) => {
@@ -113,7 +113,7 @@ const AddEdit = (props) => {
                 <Grid item xs={12}>
                   <UserSelect
                     name="user_id"
-                    label="Users"
+                    label="Select User"
                     onChange={(user) => {
                       if (user) getOrders({ user_id: user.id });
                       setBalance(user.balance);

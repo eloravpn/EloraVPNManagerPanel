@@ -406,7 +406,7 @@ const CustomGrid = forwardRef(
           }
         />
 
-        <div style={{ height: 600, width: '100%' }}>
+        <div style={{ height: '100%', width: '100%' }}>
           <DataGrid
             {...(paginateServ ? paginationServ : localPaginate)}
             pageSizeOptions={rowPerPage}
@@ -435,6 +435,7 @@ const CustomGrid = forwardRef(
               {
                 field: 'id',
                 headerName: 'ID',
+                width: 20,
                 headerClassName: 'super-app-theme--header',
                 align: 'left'
               },

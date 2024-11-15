@@ -133,7 +133,7 @@ const UserSelect = ({ name, onBlur, onChange }) => {
                             {user?.first_name && (
                               <Typography variant="body1" component={'div'}>
                                 {user?.first_name}
-                                {user?.last_name && user?.last_name}
+                                {user?.last_name && ` ${user?.last_name}`}
                               </Typography>
                             )}
                             <Grid container spacing={1} alignItems={'stretch'}>

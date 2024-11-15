@@ -36,7 +36,7 @@ const UserInfo = ({ user, isLoading, children, secondaryCard = false }) => {
             {first_name && (
               <Typography variant="h6" component={'div'}>
                 {first_name}
-                {last_name && last_name}
+                {last_name && ` ${last_name}`}
               </Typography>
             )}
             {telegram_username && (
@@ -49,7 +49,7 @@ const UserInfo = ({ user, isLoading, children, secondaryCard = false }) => {
             )}
             {telegram_chat_id && <Typography variant="h6">ChatID: {telegram_chat_id} </Typography>}
             {phone_number && <Typography variant="h6">Phone Number: {phone_number} </Typography>}
-            {accounts && <Typography variant="h6">Count Account: {accounts?.length} </Typography>}
+            {accounts && <Typography variant="h6">Total Account: {accounts?.length} </Typography>}
             {children}
           </Grid>
         </Grid>

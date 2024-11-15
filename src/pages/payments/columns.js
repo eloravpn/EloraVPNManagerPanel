@@ -2,7 +2,7 @@ const columns = [
   {
     headerName: 'User',
     field: 'user.full_name',
-    width: 150,
+    width: 100,
     renderCell: 'complexField'
   },
   {
@@ -20,14 +20,14 @@ const columns = [
   {
     headerName: 'Status',
     field: 'status',
-    width: 200,
+    width: 100,
     renderCell: 'orderStatus'
   },
   {
-    headerName: 'Modified',
-    field: 'modified_at',
+    headerName: 'Created',
+    field: 'created_at',
     renderCell: 'date',
-    width: 150
+    width: 120
   }
 ];
 
