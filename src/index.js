@@ -6,12 +6,13 @@ import './assets/css/material-icons.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Mui from './Mui';
+import ConfigProvider from 'configProvider';
 
 ReactDOMClient.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <Mui>
-        <App />
+        <ConfigProvider />
       </Mui>
     </BrowserRouter>
   </React.StrictMode>

@@ -82,7 +82,7 @@ const Users = () => {
       uuid: uuidGenerator(),
       enable: true,
       data_limit: 0,
-      expired_at: getExpireTime(config.defaultExpireAt)
+      expired_at: getExpireTime(30)
     });
     createAccountRef.current.changeStatus();
   };

@@ -9,25 +9,31 @@ const columns = [
     headerName: 'Account Email',
     field: 'account.email',
     renderCell: 'complexField',
-    width: 150
+    width: 80
   },
   {
     headerName: 'Total',
     field: 'total',
     renderCell: 'total',
-    width: 150
+    width: 100
   },
   {
     headerName: 'Status',
     field: 'status',
     renderCell: 'orderStatus',
-    width: 150
+    width: 120
+  },
+  {
+    headerName: 'Created',
+    field: 'created_at',
+    renderCell: 'date',
+    width: 120
   },
   {
     headerName: 'Modified',
     field: 'modified_at',
     renderCell: 'date',
-    width: 150
+    width: 120
   }
 ];
 

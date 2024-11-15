@@ -1,0 +1,10 @@
+{
+  "GENERATE_SOURCEMAP": false,
+  "BASE_NAME": "Elora",
+  "BASE_DESCRIPTION": "Elora Panel",
+  "BASE_PREFIX": "elora",
+  "BASE_URL": "http://localhost:8000/api/",
+  "NAME_MANIFEST": "manifest.json",
+  "EXPIRE_AT": 30,
+  "PATH_TO_LOGIN": "/accounts"
+}

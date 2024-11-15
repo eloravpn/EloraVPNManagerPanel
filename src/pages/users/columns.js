@@ -2,12 +2,12 @@ const columns = [
   {
     headerName: 'Full Name',
     field: 'full_name',
-    width: 150
+    width: 120
   },
   {
     headerName: 'Balance',
     field: 'balance',
-    width: 150,
+    width: 120,
     renderCell: 'price'
   },
   {
@@ -18,7 +18,7 @@ const columns = [
       { name: 'telegram_username', headerName: 'Telegram Username', color: 'primary' }
     ]),
     renderCell: 'multiBadge',
-    width: 400
+    width: 250
   },
   {
     headerName: 'Enable',

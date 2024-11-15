@@ -1,6 +1,7 @@
 {
-  "name": "adminpanel",
+  "name": "elora-vpn-panel",
   "version": "0.1.0",
+  "homepage": "/static/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.0",

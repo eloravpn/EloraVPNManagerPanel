@@ -1,13 +1,33 @@
 /* eslint-disable no-undef */
+export const getConfig = () => {
+  return window.appConfig;
+};
+
 const config = {
-  title: process.env.REACT_APP_BASE_NAME,
-  urlApi: process.env.REACT_APP_BASE_URL,
-  appPrefix: process.env.REACT_APP_BASE_PREFIX,
-  description: process.env.REACT_APP_BASE_DESCRIPTION,
-  defaultExpireAt: process.env.REACT_APP_DEFAULT_EXPIRE_AT,
-  pathToLogin: process.env.REACT_APP_PATH_TO_LOGIN,
-  hideProgressBar: 5000,
-  appVersion: '1.0.0'
+  get BASE_NAME() {
+    return getConfig().BASE_NAME;
+  },
+  get description() {
+    return getConfig().BASE_DESCRIPTION;
+  },
+  get appPrefix() {
+    return getConfig().BASE_PREFIX;
+  },
+  get urlApi() {
+    return getConfig().BASE_URL;
+  },
+  get defaultExpireAt() {
+    return +getConfig().EXPIRE_AT;
+  },
+  get pathToLogin() {
+    return getConfig().PATH_TO_LOGIN;
+  },
+  get hideProgressBar() {
+    return getConfig().hideProgressBar;
+  },
+  get NAME_MANIFEST() {
+    return getConfig().NAME_MANIFEST;
+  }
 };
 
 export default config;
