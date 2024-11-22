@@ -13,9 +13,11 @@ const api = {
   inboundConfigs: 'inbound-configs',
   inbounds: 'inbounds',
   hosts: 'hosts',
+  settings: 'settings',
   hostZones: 'host-zones',
   login: 'login',
-  logout: 'logout'
+  logout: 'logout',
+  restart: 'restart'
 };
 
 export default api;
