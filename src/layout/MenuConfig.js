@@ -72,6 +72,12 @@ const menu = {
         root: true,
         icon: 'paid',
         page: 'transactions'
+      },
+      {
+        title: 'Settings',
+        root: true,
+        icon: 'settings',
+        page: 'settings'
       }
     ]
   }

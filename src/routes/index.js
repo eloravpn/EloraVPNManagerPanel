@@ -14,6 +14,7 @@ import Orders from 'pages/orders';
 import Services from '../pages/services';
 import Payments from 'pages/payments';
 import Transactions from 'pages/transactions';
+import Settings from 'pages/settings';
 import Zones from 'pages/zones';
 import Notifications from 'pages/notifications';
 
@@ -146,6 +147,14 @@ const Routerr = () => {
           element={
             <PrivateRoute>
               <Notifications />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="settings"
+          element={
+            <PrivateRoute>
+              <Settings />
             </PrivateRoute>
           }
         />
