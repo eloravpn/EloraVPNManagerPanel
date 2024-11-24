@@ -4,11 +4,13 @@ A pannel based on MUI for [Elora VPN Manager](https://github.com/eloravpn/EloraV
 
 ## Screen Shots
 
-![2023-10-06_15-49](https://github.com/eloravpn/EloraVPNManagerPanel/assets/125687916/f28fa7d9-d4d6-43d3-8f25-5a0c8a72153d)
+![photo_2024-11-24_12-12-41](https://github.com/user-attachments/assets/72b44475-5d0d-4b3f-93fb-4c8ee5217771)
 
-![2023-10-06_15-50_1](https://github.com/eloravpn/EloraVPNManagerPanel/assets/125687916/2272cbaf-0793-40c8-9c29-44f4bea55065)
+![photo_2024-11-24_12-12-33](https://github.com/user-attachments/assets/c70e2a73-3d3f-41bf-b6d6-d317d28cecdf)
 
-![2023-10-06_15-50](https://github.com/eloravpn/EloraVPNManagerPanel/assets/125687916/98caa4b5-f42c-46bf-b470-075eb2298f00)
+![photo_2024-11-24_12-12-36](https://github.com/user-attachments/assets/35ad564f-3f34-4e86-bba8-2e398f837752)
+
+
 
 # How to install
 
