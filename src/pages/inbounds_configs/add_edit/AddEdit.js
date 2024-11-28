@@ -10,12 +10,14 @@ import Http from 'components/httpService/Http';
 import Switch from 'components/formik/switch';
 import useInbounds from 'hooks/useInbound';
 import Button from 'components/button';
+import MultipleSelect from 'components/formik/multiSelect';
 
 const validationSchema = yup.object({
   remark: yup.string().required(),
   inbound_id: yup.number().required(),
   port: yup.number().required(),
   enable: yup.boolean().required(),
+  alpns: yup.array().required(),
   develop: yup.boolean().required(),
   domain: yup
     .string()
@@ -37,10 +39,20 @@ const securities = [
   { id: 'reality', name: 'REALITY' },
   { id: 'none', name: 'None' }
 ];
+
+const alpns = [
+  { id: 'h2', name: 'h2' },
+  { id: 'h3', name: 'h3' },
+  { id: 'http1', name: 'http/1.1' }
+];
 const networks = [
   { id: 'ws', name: 'Websocket' },
   { id: 'tcp', name: 'TCP' },
-  { id: 'grpc', name: 'gRPC' }
+  { id: 'grpc', name: 'gRPC' },
+  { id: 'kcp', name: 'kcp' },
+  { id: 'http', name: 'http' },
+  { id: 'httpupgrade', name: 'httpupgrade' },
+  { id: 'splithttp', name: 'splithttp' }
 ];
 const fingerPrints = [
   { id: 'none', name: 'None' },
@@ -61,6 +73,7 @@ const initialForm = {
   pbk: '',
   sid: '',
   spx: '',
+  alpns: [],
   security: 'tls',
   type: 'vless',
   enable: false,
@@ -151,6 +164,9 @@ const AddEdit = (props) => {
             </Grid>
             <Grid item xs={12} md={4}>
               <TextField name="spx" label="SPX" />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <MultipleSelect name="alpns" label="ALPN" labelName={'name'} options={alpns} />
             </Grid>
             <Grid item xs={12} md={4}>
               <Select name="security" label="Security" options={securities} />
