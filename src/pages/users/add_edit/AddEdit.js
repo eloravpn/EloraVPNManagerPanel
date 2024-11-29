@@ -11,7 +11,7 @@ import Button from 'components/button';
 
 const validationSchema = yup.object({
   username: yup.string().required(),
-  telegram_chat_id: yup.number().required(),
+  telegram_chat_id: yup.number(),
   enable: yup.boolean().required(),
   banned: yup.boolean().required()
 });
@@ -21,13 +21,13 @@ const initialForm = {
   first_name: '',
   last_name: null,
   description: null,
-  telegram_chat_id: null,
+  telegram_chat_id: 0,
   telegram_username: null,
-  phone_number: null,
+  phone_number: '',
   password: null,
-  enable: false,
+  enable: true,
   banned: false,
-  force_join_channel: true
+  force_join_channel: false
 };
 
 const AddEdit = (props) => {

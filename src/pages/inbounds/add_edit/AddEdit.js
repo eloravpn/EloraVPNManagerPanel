@@ -54,14 +54,14 @@ const initialForm = {
   key: '',
   host_id: '',
   port: '',
-  domain: '',
+  domain: 'test.elora',
   request_host: '',
   sni: '',
-  address: '',
+  address: 'test.elora',
   path: '',
-  enable: false,
+  enable: true,
   develop: false,
-  type: '',
+  type: 'vless',
   security: ''
 };
 
@@ -121,13 +121,17 @@ const AddEdit = (props) => {
               <TextField name="remark" label="Remark" />
             </Grid>
             <Grid item xs={12} md={4}>
-              <TextField name="key" label="Key" />
+              <TextField name="key" label="Key" helperText="Your inbounad id in X-UI panel" />
             </Grid>
             <Grid item xs={12} md={4}>
-              <TextField name="port" label="Port" />
+              <TextField name="port" label="Port" helperText="Your inbounad port in X-UI panel" />
             </Grid>
             <Grid item xs={12} md={4}>
-              <TextField name="domain" label="Domain" />
+              <TextField
+                name="domain"
+                label="Domain"
+                helperText="Your inbounad domain in X-UI panel"
+              />
             </Grid>
             <Grid item xs={12} md={4}>
               <TextField name="request_host" label="Request Host" />

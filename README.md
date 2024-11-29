@@ -10,8 +10,6 @@ A pannel based on MUI for [Elora VPN Manager](https://github.com/eloravpn/EloraV
 
 ![photo_2024-11-24_12-12-36](https://github.com/user-attachments/assets/35ad564f-3f34-4e86-bba8-2e398f837752)
 
-
-
 # How to install
 
 #### Requirements

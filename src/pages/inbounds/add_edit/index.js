@@ -8,7 +8,7 @@ const AddEditForm = ({ refrence, ...props }) => {
       onBackClose={false}
       maxWidth="lg"
       icon="signal_cellular_alt"
-      title={`${props?.initial?.id ? 'Edit' : 'Create'} Host`}
+      title={`${props?.initial?.id ? 'Edit' : 'Create'} Inbound`}
     >
       <AddEdit refrence={refrence} {...props} />
     </Modal>

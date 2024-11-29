@@ -32,6 +32,7 @@ export default function MultipleSelect({
     const {
       target: { value }
     } = event;
+
     setFieldValue(
       name,
       // On autofill we get a stringified value.
@@ -53,7 +54,7 @@ export default function MultipleSelect({
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value} label={options?.find((i) => +i.id === +value)?.name} />
+                <Chip key={value} label={options?.find((i) => i.id === value)?.name} />
               ))}
             </Box>
           )}
@@ -73,7 +74,7 @@ export default function MultipleSelect({
               >
                 <Checkbox
                   disableRipple
-                  checked={!!field.value?.find((i) => +i === +options[item].id)}
+                  checked={!!field.value?.find((i) => i === options[item].id)}
                 />
                 {labelName && options[item][labelName]}
                 {labelName2 && labelName2(options[item])}

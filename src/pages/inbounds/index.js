@@ -158,7 +158,7 @@ const Inbounds = () => {
           url={api.inbounds}
           refrence={gridRef}
           columns={columns}
-          rowActions={[
+          moreActions={[
             {
               onClick: handleAlert,
               icon: 'delete',

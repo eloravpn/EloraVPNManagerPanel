@@ -1,4 +1,4 @@
-import { Fade, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
+import { Fade, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import Icon from '../icon';
 

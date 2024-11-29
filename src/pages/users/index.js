@@ -183,7 +183,7 @@ const Users = () => {
               )}
             </Formik>
           }
-          rowActions={[
+          moreActions={[
             {
               onClick: (data) => handleAlert(data, deleteRef),
               icon: 'delete',
