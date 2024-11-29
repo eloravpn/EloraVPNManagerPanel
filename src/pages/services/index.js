@@ -136,7 +136,7 @@ const Services = () => {
           refrence={gridRef}
           data={data}
           columns={columns}
-          rowActions={[
+          moreActions={[
             {
               onClick: (data) => handleAlert(data, deleteRef),
               icon: 'delete',

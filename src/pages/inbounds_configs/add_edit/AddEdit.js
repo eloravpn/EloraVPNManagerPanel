@@ -43,7 +43,7 @@ const securities = [
 const alpns = [
   { id: 'h2', name: 'h2' },
   { id: 'h3', name: 'h3' },
-  { id: 'http1', name: 'http/1.1' }
+  { id: 'http/1.1', name: 'http/1.1' }
 ];
 const networks = [
   { id: 'ws', name: 'Websocket' },
@@ -76,7 +76,7 @@ const initialForm = {
   alpns: [],
   security: 'tls',
   type: 'vless',
-  enable: false,
+  enable: true,
   develop: false,
   finger_print: 'none',
   network: 'ws',
@@ -139,6 +139,20 @@ const AddEdit = (props) => {
               <TextField name="remark" label="Remark" />
             </Grid>
             <Grid item xs={12} md={4}>
+              <Select
+                name="inbound_id"
+                label="Inbounds"
+                labelName2={(item) => (
+                  <Typography variant="body1" display={'flex'}>
+                    <Typography fontWeight={800}>{item.host?.name}</Typography>
+                    {'(' + item.remark + ')'}
+                  </Typography>
+                )}
+                options={inbounds}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
               <TextField name="port" label="Port" />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -179,20 +193,6 @@ const AddEdit = (props) => {
             </Grid>{' '}
             <Grid item xs={12} md={4}>
               <Select name="network" label="Network" options={networks} />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Select
-                name="inbound_id"
-                label="Inbounds"
-                labelName2={(item) => (
-                  <Typography variant="body1" display={'flex'}>
-                    <Typography fontWeight={800}>{item.host?.name}</Typography>
-                    {'(' + item.remark + ')'}
-                  </Typography>
-                )}
-                options={inbounds}
-                isLoading={isLoading}
-              />
             </Grid>
             <Grid item xs={12} md={4}>
               <Switch name="enable" label="Enable" />

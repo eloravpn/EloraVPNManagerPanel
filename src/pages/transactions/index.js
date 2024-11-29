@@ -138,7 +138,7 @@ const Transactions = () => {
           propsFilter={{
             user_id: searchParams.get('userId')
           }}
-          rowActions={[
+          moreActions={[
             {
               onClick: (data) => handleAlert(data, infoRef),
               icon: 'info',

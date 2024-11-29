@@ -31,7 +31,7 @@ NumericFormatCustom.propTypes = {
   onChange: PropTypes.func.isRequired
 };
 
-const TextField = ({ name, price, ...otherProps }) => {
+const TextField = ({ name, price, helperText, ...otherProps }) => {
   const [field, mata] = useField(name);
   var persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
   if (typeof field.value === 'string') {
@@ -67,6 +67,7 @@ const TextField = ({ name, price, ...otherProps }) => {
     <MuiTextField
       autoComplete="new-password"
       variant="outlined"
+      helperText={helperText}
       {...field}
       {...otherProps}
       {...configInput}

@@ -58,7 +58,7 @@ const CustomGrid = forwardRef(
   (
     {
       columns,
-      rowActions,
+      rowActions = [],
       paginateServ,
       showFilter,
       url,

@@ -22,7 +22,8 @@ const validationSchema = yup.object({
   host_zone_ids: yup.array().required(),
   ip_limit: yup.number().required()
 });
-var initialForm = {
+
+const initialForm = {
   name: '',
   duration: 1,
   data_limit: 0,

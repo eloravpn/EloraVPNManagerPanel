@@ -5,18 +5,14 @@ const columns = [
   },
   {
     headerName: 'Domain',
-    field: 'domain'
+    field: 'domain',
+    width: 100
   },
-  // {
-  //   headerName: 'Domain',
-  //   field: 'inbound.remark'
-  // },
   {
     headerName: 'Type',
     field: JSON.stringify([
       { name: 'type', color: 'success' },
       { name: 'network', color: 'secondary' },
-      { name: 'finger_print', color: 'primary' },
       { name: 'path', color: 'error' }
     ]),
     renderCell: 'multiBadge'

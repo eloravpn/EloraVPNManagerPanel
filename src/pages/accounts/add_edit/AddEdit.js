@@ -44,7 +44,8 @@ const initialForm = {
   host_zone_id: '',
   user_id: '',
   expired_at: getExpireTime(30),
-  user_title: ''
+  user_title: '',
+  service_title: ''
 };
 
 function valueLabelFormat(value) {
@@ -181,6 +182,9 @@ const AddEdit = (props) => {
               </Grid>
               <Grid item xs={12}>
                 <TextField name="user_title" label="User Title" />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField name="service_title" label="Service Title" />
               </Grid>
               <Grid item xs={12}>
                 <TextField name="ip_limit" label="IP Limit" />

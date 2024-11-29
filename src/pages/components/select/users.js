@@ -25,6 +25,11 @@ const UserSelect = ({ name, onBlur, onChange }) => {
   const [user, setUser] = useState(null);
   const { setFieldValue } = useFormikContext();
 
+  // Add useEffect to load initial users
+  useEffect(() => {
+    getUsers('', { limit: 100 }); // Add initial load with limit parameter
+  }, []); // Empty dependency array means this runs once on mount
+
   const handleChange = useCallback((e) => {
     if (e.target.value !== '') getUsers(e.target.value.replace('@', ''));
     else setUsers([]);
@@ -99,7 +104,7 @@ const UserSelect = ({ name, onBlur, onChange }) => {
             {users.length === 0 && !isLoading && (
               <Box textAlign={'center'} m={10}>
                 {' '}
-                No Found User.
+                No User found.
               </Box>
             )}
             <List>

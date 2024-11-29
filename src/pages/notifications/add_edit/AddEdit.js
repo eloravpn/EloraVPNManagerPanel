@@ -35,8 +35,8 @@ const initialForm = {
   account_id: '',
   type: 'general',
   engine: 'telegram',
-  approve: false,
-  keyboard: '',
+  approve: true,
+  keyboard: '[]',
   photo_url: ''
 };
 
