@@ -9,13 +9,14 @@ import Http from 'components/httpService/Http';
 import Button from 'components/button';
 
 const validationSchema = yup.object({
-  UVICORN_SSL_CERTFILE: yup.string(),
-  UVICORN_SSL_KEYFILE: yup.string()
+  UVICORN_HOST: yup.string().required(),
+  SUBSCRIPTION_BASE_URL: yup.string().required(),
+  UVICORN_PORT: yup.number().required()
 });
 
 const initialForm = {};
 
-const SSL = (props) => {
+const Basic = (props) => {
   const { initial } = props;
   const [postDataLoading, setPostDataLoading] = useState(false);
 
@@ -49,19 +50,27 @@ const SSL = (props) => {
             <Grid item xs={12} md={12}>
               <Stack spacing={4}>
                 <TextField
-                  id={'UVICORN_SSL_CERTFILE'}
-                  name={'UVICORN_SSL_CERTFILE'}
-                  label="SSL Public Cert file path"
+                  id={'UVICORN_HOST'}
+                  name={'UVICORN_HOST'}
+                  label="Unicorn host"
                   type="text"
-                  helperText="Enter the actual path to enable ssl"
+                  helperText="Enter the address that unicorn listent on this server"
                 />
 
                 <TextField
-                  id={'UVICORN_SSL_KEYFILE'}
-                  name={'UVICORN_SSL_KEYFILE'}
-                  label="SSL Private Key file path"
+                  id={'UVICORN_PORT'}
+                  name={'UVICORN_PORT'}
+                  label="Unicorn port"
                   type="text"
-                  helperText="Enter the actual path to enable ssl"
+                  helperText="Enter the unicorn port"
+                />
+
+                <TextField
+                  id={'SUBSCRIPTION_BASE_URL'}
+                  name={'SUBSCRIPTION_BASE_URL'}
+                  label="Subscription Base URL"
+                  type="text"
+                  helperText="Enter the subscription Base URL"
                 />
               </Stack>
             </Grid>
@@ -83,4 +92,4 @@ const SSL = (props) => {
   );
 };
 
-export default memo(SSL);
+export default memo(Basic);

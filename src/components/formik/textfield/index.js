@@ -68,6 +68,7 @@ const TextField = ({ name, price, helperText, ...otherProps }) => {
       autoComplete="new-password"
       variant="outlined"
       helperText={helperText}
+      InputLabelProps={{ shrink: field.value }}
       {...field}
       {...otherProps}
       {...configInput}

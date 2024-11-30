@@ -9,13 +9,13 @@ import Http from 'components/httpService/Http';
 import Button from 'components/button';
 
 const validationSchema = yup.object({
-  UVICORN_SSL_CERTFILE: yup.string(),
-  UVICORN_SSL_KEYFILE: yup.string()
+  CARD_NUMBER: yup.string(),
+  CARD_OWNER: yup.string()
 });
 
 const initialForm = {};
 
-const SSL = (props) => {
+const Payment = (props) => {
   const { initial } = props;
   const [postDataLoading, setPostDataLoading] = useState(false);
 
@@ -49,19 +49,19 @@ const SSL = (props) => {
             <Grid item xs={12} md={12}>
               <Stack spacing={4}>
                 <TextField
-                  id={'UVICORN_SSL_CERTFILE'}
-                  name={'UVICORN_SSL_CERTFILE'}
-                  label="SSL Public Cert file path"
+                  id={'CARD_NUMBER'}
+                  name={'CARD_NUMBER'}
+                  label="Card number"
                   type="text"
-                  helperText="Enter the actual path to enable ssl"
+                  helperText="Enter the card number that show to new Users"
                 />
 
                 <TextField
-                  id={'UVICORN_SSL_KEYFILE'}
-                  name={'UVICORN_SSL_KEYFILE'}
-                  label="SSL Private Key file path"
+                  id={'CARD_OWNER'}
+                  name={'CARD_OWNER'}
+                  label="Card Owner"
                   type="text"
-                  helperText="Enter the actual path to enable ssl"
+                  helperText="Enter the caard owner"
                 />
               </Stack>
             </Grid>
@@ -83,4 +83,4 @@ const SSL = (props) => {
   );
 };
 
-export default memo(SSL);
+export default memo(Payment);

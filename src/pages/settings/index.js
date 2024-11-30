@@ -9,11 +9,15 @@ import { getAllSettings } from 'services/settingService';
 import TelgramSettings from './add_edit/Telegram';
 import { useCallback } from 'react';
 import SSL from './add_edit/SSL';
+import Basic from './add_edit/Basic';
+import Payment from './add_edit/Payment';
 
 const pageName = 'Settings';
 
 const tabs = [
-  { id: 'telegram', name: 'Teelgram Bot' },
+  { id: 'basic', name: 'Basic' },
+  { id: 'payment', name: 'Payment' },
+  { id: 'telegram', name: 'Telegram Bot' },
   { id: 'ssl', name: 'SSL' }
 ];
 
@@ -28,7 +32,7 @@ const Settings = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const [activeTab, setActiveTab] = useState('telegram');
+  const [activeTab, setActiveTab] = useState('basic');
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -99,6 +103,12 @@ const Settings = () => {
             )}
             {activeTab === 'ssl' && (
               <SSL initial={settings} pageName={pageName} refrence={createRef} />
+            )}
+            {activeTab === 'basic' && (
+              <Basic initial={settings} pageName={pageName} refrence={createRef} />
+            )}
+            {activeTab === 'payment' && (
+              <Payment initial={settings} pageName={pageName} refrence={createRef} />
             )}
           </Box>
         </Box>
