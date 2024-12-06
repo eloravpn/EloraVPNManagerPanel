@@ -17,7 +17,7 @@ import { Form, Formik } from 'formik';
 import useUsers from 'hooks/useUsers';
 import UserSelect from 'pages/components/select/users';
 import UserInfo from 'pages/components/user_info';
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { convertToByte, emailGenerator, getDayPersian, getExpireTime, uuidGenerator } from 'utils';
 import * as yup from 'yup';
 import useHostZones from '../../../hooks/useHostZones';
@@ -36,8 +36,6 @@ const validationSchema = yup.object({
 });
 
 const initialForm = {
-  email: emailGenerator(),
-  uuid: uuidGenerator(),
   enable: true,
   data_limit: 0,
   ip_limit: 0,
@@ -64,6 +62,15 @@ const AddEdit = (props) => {
   const [postDataLoading, setPostDataLoading] = useState(false);
   const { getUser, user, isLoading } = useUsers();
   const { getHostZones, hostZones } = useHostZones();
+  const formikRef = useRef();
+
+  useEffect(() => {
+    if (!initial.id && formikRef.current) {
+      // Only set new UUID and email if this is a new record
+      formikRef.current.setFieldValue('uuid', uuidGenerator());
+      formikRef.current.setFieldValue('email', emailGenerator());
+    }
+  }, []); // Empty dependency array means this runs once when component mounts
 
   useEffect(() => {
     getHostZones();
@@ -129,6 +136,7 @@ const AddEdit = (props) => {
   return (
     <>
       <Formik
+        innerRef={formikRef}
         enableReinitialize
         initialValues={initial || initialForm}
         validationSchema={validationSchema}
