@@ -5,7 +5,6 @@ import { NumericFormat } from 'react-number-format';
 import PropTypes from 'prop-types';
 import { IconButton, InputAdornment, Tooltip } from '@mui/material';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import { styled } from '@mui/material/styles';
 import { helpTexts } from '../../../pages/helps/helpTexts';
 
 const NumericFormatCustom = forwardRef(function NumericFormatCustom(props, ref) {

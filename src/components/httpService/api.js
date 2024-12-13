@@ -14,6 +14,7 @@ const api = {
   inbounds: 'inbounds',
   hosts: 'hosts',
   settings: 'settings',
+  version: 'version',
   hostZones: 'host-zones',
   login: 'login',
   logout: 'logout',

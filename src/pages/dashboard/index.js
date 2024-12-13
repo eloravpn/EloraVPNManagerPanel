@@ -13,6 +13,7 @@ import useHostZones from 'hooks/useHostZones';
 import { useCallback, useEffect, useState } from 'react';
 import { getReportAccount } from 'services/reportService';
 import { convertByteToInt, getBetweenDate, getDayPersian } from 'utils';
+import { VersionInfo } from '../../components/version';
 
 var utc = require('dayjs/plugin/utc');
 var timezone = require('dayjs/plugin/timezone'); // dependent on utc plugin
@@ -28,11 +29,7 @@ const Zone = (props) => {
     if (!field?.value) setFieldValue(props.name, props.options[0]?.id);
   }, [setFieldValue, props.name, props.options, field?.value]);
 
-  return (
-    <>
-      <Select {...props} {...field} />
-    </>
-  );
+  return <Select {...props} />;
 };
 
 const Dashboard = () => {
@@ -272,7 +269,10 @@ const Dashboard = () => {
                                 )}
                               </Typography>
                             </Grid>
-                            <Grid item></Grid>
+                            <Grid item xs={12} md={3}>
+                              <Typography variant="h6">Panel Information</Typography>
+                              <VersionInfo />
+                            </Grid>
                           </Grid>
                         </>
                       }
