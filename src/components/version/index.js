@@ -9,8 +9,10 @@ export const VersionInfo = () => {
 
   useEffect(() => {
     HttpService()
-      .get(api.settings)
-      .then((data) => setVersionInfo(data))
+      .get(api.version)
+      .then((response) => {
+        setVersionInfo(response.data);
+      })
       .catch((error) => console.error('Error fetching version:', error));
   }, []);
 
