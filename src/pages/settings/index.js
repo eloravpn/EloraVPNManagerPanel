@@ -1,7 +1,7 @@
 import { memo, useRef, useState, useEffect } from 'react';
 import Tabs from 'components/tabs';
 import { Box } from '@mui/system';
-import { Alert, Grid, Typography } from '@mui/material';
+import { Alert, Grid, Tooltip, Typography } from '@mui/material';
 import HttpService from 'components/httpService';
 import api from 'components/httpService/api';
 import Button from 'components/button';
@@ -58,22 +58,65 @@ const Settings = () => {
   }, []);
 
   const RestartButton = () => {
+    const [countdown, setCountdown] = useState(0);
+    const intervalRef = useRef(null);
+
     const handleRestart = async () => {
+      if (countdown > 0) {
+        window.alert('Please, wait to restart');
+        return;
+      }
+
+      if (!window.confirm('Are you sure you want to restart the server?')) {
+        return;
+      }
+
+      setCountdown(60);
+
+      intervalRef.current = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(intervalRef.current);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
       try {
         await HttpService().post(`${api.restart}`);
-        console.log('Server restart initiated');
       } catch (error) {
         console.error('Restart failed:', error);
       }
     };
 
+    useEffect(() => {
+      return () => {
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+        }
+      };
+    }, []);
+
     return (
-      <Button
-        onClick={handleRestart}
-        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+      <Tooltip
+        title={
+          countdown > 0 ? 'Please wait for the restart to complete' : 'Click to restart server'
+        }
+        arrow
       >
-        Restart Server
-      </Button>
+        <span>
+          {' '}
+          {/* Wrapper needed for disabled button tooltip */}
+          <Button
+            onClick={handleRestart}
+            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            disabled={countdown > 0}
+          >
+            {countdown > 0 ? `Restarting (${countdown}s)` : 'Restart Server'}
+          </Button>
+        </span>
+      </Tooltip>
     );
   };
 

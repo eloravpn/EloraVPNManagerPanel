@@ -1,5 +1,5 @@
 import { memo, useState } from 'react';
-import { DialogActions, Grid, Stack } from '@mui/material';
+import { DialogActions, Grid, IconButton, Stack, Tooltip } from '@mui/material';
 import { Form, Formik } from 'formik';
 import TextField from 'components/formik/textfield';
 import * as yup from 'yup';
@@ -8,10 +8,35 @@ import api from 'components/httpService/api';
 import Http from 'components/httpService/Http';
 import Button from 'components/button';
 
+const isValidIP = (value) => {
+  // IPv4
+  const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
+  // IPv6
+  const ipv6Regex = /^([0-9a-fA-F]{0,4}:){1,7}[0-9a-fA-F]{0,4}$/;
+  // Special cases
+  const specialCases = ['0.0.0.0', '::', '127.0.0.1', '::1'];
+
+  return specialCases.includes(value) || ipv4Regex.test(value) || ipv6Regex.test(value);
+};
+
 const validationSchema = yup.object({
-  UVICORN_HOST: yup.string().required(),
-  SUBSCRIPTION_BASE_URL: yup.string().required(),
-  UVICORN_PORT: yup.number().required()
+  UVICORN_HOST: yup
+    .string()
+    .required('Host is required')
+    .test('is-valid-host', 'Must be a valid IP address (IPv4 or IPv6)', isValidIP),
+  UVICORN_PORT: yup
+    .number()
+    .required('Port is required')
+    .min(1, 'Port must be greater than 0')
+    .max(65535, 'Port must be less than 65536')
+    .test('is-valid-port', 'Port 80 and 443 require root privileges', (value) => {
+      return !(value === 80 || value === 443);
+    }),
+  SUBSCRIPTION_BASE_URL: yup
+    .string()
+    .required('Subscription Base URL is required')
+    .url('Must be a valid URL')
+    .matches(/\/api\/sub$/, 'URL must end with /api/sub')
 });
 
 const initialForm = {};
@@ -52,26 +77,33 @@ const Basic = (props) => {
                 <TextField
                   id={'UVICORN_HOST'}
                   name={'UVICORN_HOST'}
-                  label="Unicorn host"
+                  label="Uvicorn host"
                   type="text"
-                  helperText="Enter the address that unicorn listent on this server"
+                  placeholder="0.0.0.0"
                 />
 
                 <TextField
                   id={'UVICORN_PORT'}
                   name={'UVICORN_PORT'}
-                  label="Unicorn port"
+                  label="Uvicorn port"
                   type="text"
-                  helperText="Enter the unicorn port"
                 />
 
                 <TextField
-                  id={'SUBSCRIPTION_BASE_URL'}
-                  name={'SUBSCRIPTION_BASE_URL'}
-                  label="Subscription Base URL"
+                  id={'CUSTOM_BASE_URL'}
+                  name={'CUSTOM_BASE_URL'}
+                  label="Custom Base URL"
                   type="text"
-                  helperText="Enter the subscription Base URL"
                 />
+
+                <div className="flex items-center gap-2">
+                  <TextField
+                    id={'SUBSCRIPTION_BASE_URL'}
+                    name={'SUBSCRIPTION_BASE_URL'}
+                    label="Subscription Base URL"
+                    type="text"
+                  />
+                </div>
               </Stack>
             </Grid>
           </Grid>
