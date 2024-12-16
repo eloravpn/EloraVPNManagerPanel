@@ -39,7 +39,10 @@ const validationSchema = yup.object({
     .matches(/\/api\/sub$/, 'URL must end with /api/sub')
 });
 
-const initialForm = {};
+const initialForm = {
+  UVICORN_HOST: '0.0.0.0',
+  UVICORN_PORT: 8080
+};
 
 const Basic = (props) => {
   const { initial } = props;

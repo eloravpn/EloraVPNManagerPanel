@@ -13,7 +13,10 @@ const validationSchema = yup.object({
   UVICORN_SSL_KEYFILE: yup.string()
 });
 
-const initialForm = {};
+const initialForm = {
+  UVICORN_SSL_CERTFILE: '',
+  UVICORN_SSL_KEYFILE: ''
+};
 
 const SSL = (props) => {
   const { initial } = props;

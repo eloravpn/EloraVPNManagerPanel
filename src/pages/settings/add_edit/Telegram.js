@@ -23,7 +23,20 @@ const validationSchema = yup.object({
   TEST_SERVICE_ID: yup.number()
 });
 
-const initialForm = {};
+const initialForm = {
+  TELEGRAM_API_TOKEN: '',
+  TELEGRAM_PAYMENT_API_TOKEN: '',
+  TELEGRAM_ADMIN_USER_NAME: '',
+  BOT_USER_NAME: '',
+  TELEGRAM_CHANNEL: '',
+  TELEGRAM_CHANNEL_URL: '',
+  IPHONE_HELP_POST_URL: '',
+  ANDROID_HELP_POST_URL: '',
+  WINDOWS_HELP_POST_URL: '',
+  MAC_HELP_POST_URL: '',
+  TELEGRAM_ADMIN_ID: 0,
+  TEST_SERVICE_ID: 0
+};
 
 const TelgramSettings = (props) => {
   const { initial } = props;
