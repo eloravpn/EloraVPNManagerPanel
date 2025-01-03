@@ -20,12 +20,24 @@ const columns = [
   {
     headerName: 'Status',
     field: 'status',
-    width: 100,
+    width: 80,
     renderCell: 'orderStatus'
   },
   {
-    headerName: 'Created',
-    field: 'created_at',
+    headerName: 'Verify',
+    field: 'verify',
+    width: 80,
+    renderCell: 'status'
+  },
+  {
+    headerName: 'Modified',
+    field: 'modified_at',
+    renderCell: 'date',
+    width: 120
+  },
+  {
+    headerName: 'Paid',
+    field: 'paid_at',
     renderCell: 'date',
     width: 120
   }

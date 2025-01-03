@@ -3,6 +3,7 @@ const api = {
   reportAccount: 'accounts/report_used_traffic',
   transactions: 'transactions',
   payments: 'payments',
+  paymentAccounts: '/payment-accounts',
   services: 'services',
   orders: 'orders',
   usedTraffic: 'used_traffic',

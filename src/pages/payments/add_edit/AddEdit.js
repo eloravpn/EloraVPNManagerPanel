@@ -16,6 +16,9 @@ import { OrderInfo } from 'pages/components/user_info/OrderInfo';
 import { Fragment, memo, useEffect, useState } from 'react';
 import { convertByteToInt, formValues, getDayPersian, getExpireTime } from 'utils';
 import * as yup from 'yup';
+import usePaymentAccounts from '../../../hooks/usePaymentAccounts';
+import DatePicker from '../../../components/formik/date_picker';
+import CheckBox from '../../../components/formik/checkbox';
 
 const validationSchema = yup.object({
   user_id: yup.number().required()
@@ -24,6 +27,9 @@ const validationSchema = yup.object({
 const initialForm = {
   user_id: 0,
   order_id: 0,
+  verify: true,
+  payment_account_id: 0,
+  paid_at: new Date().getTime(),
   total: 0,
   method: 'MONEY_ORDER',
   status: 'PAID'
@@ -36,10 +42,16 @@ const AddEdit = (props) => {
   const [balance, setBalance] = useState(0);
   const { getUser, user, isLoading: isLoadingUser, setUser } = useUsers();
   const { orders, isLoading: isLoadingOrders, getOrders } = useOrders();
+  const {
+    paymentAccounts,
+    isLoading: isLoadingPaymentAccounts,
+    getPaymentAccounts
+  } = usePaymentAccounts();
 
   useEffect(() => {
     if (initial?.user_id) getOrders({ user_id: initial.user_id || null });
     if (initial.user_id) getUser(initial.user_id);
+    getPaymentAccounts();
     return () => {};
   }, []);
 
@@ -108,7 +120,7 @@ const AddEdit = (props) => {
                 )} */}
               </UserInfo>
             )}
-            <Grid container spacing={12} rowSpacing={2} justifyContent={'center'}>
+            <Grid container spacing={2} rowSpacing={2} justifyContent={'center'}>
               {!user && (
                 <Grid item xs={12}>
                   <UserSelect
@@ -160,6 +172,37 @@ const AddEdit = (props) => {
               </Grid>
 
               <Grid item xs={12}>
+                <Autocomplete
+                  getOptionLabel={(option) => `${option.card_number}`}
+                  renderOption={(props, { id, card_number }) => (
+                    <Fragment key={id}>
+                      <li {...props}>
+                        <Box>{card_number}</Box>
+                      </li>
+                      <Divider />
+                    </Fragment>
+                  )}
+                  label={'Payment Account'}
+                  name="payment_account_id"
+                  options={paymentAccounts}
+                  isLoading={isLoadingPaymentAccounts}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <DatePicker name="paid_at" label="Date Picker" />
+              </Grid>
+
+              <Grid item xs={6}>
+                <TextField
+                  label={'Total'}
+                  price
+                  name="total"
+                  disabled={!!values.order_id || (initial.id && condition.includes(values.status))}
+                />
+              </Grid>
+
+              <Grid item xs={4}>
                 <Select
                   label={'Status'}
                   name="status"
@@ -167,7 +210,8 @@ const AddEdit = (props) => {
                   disabled={!!values.order_id || (initial.id && condition.includes(values.status))}
                 />
               </Grid>
-              <Grid item xs={12}>
+
+              <Grid item xs={4}>
                 <Select
                   label={'Methode'}
                   name="method"
@@ -175,13 +219,9 @@ const AddEdit = (props) => {
                   disabled={initial.id && condition.includes(values.status)}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label={'Total'}
-                  price
-                  name="total"
-                  disabled={!!values.order_id || (initial.id && condition.includes(values.status))}
-                />
+
+              <Grid item xs={4}>
+                <CheckBox name="verify" label="Verified?" />
               </Grid>
             </Grid>
             <DialogActions>

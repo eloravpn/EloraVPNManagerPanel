@@ -9,18 +9,18 @@ import Http from 'components/httpService/Http';
 import Button from 'components/button';
 
 const validationSchema = yup.object({
-  TELEGRAM_API_TOKEN: yup.string(),
-  TELEGRAM_PAYMENT_API_TOKEN: yup.string(),
-  TELEGRAM_ADMIN_USER_NAME: yup.string(),
-  BOT_USER_NAME: yup.string(),
-  TELEGRAM_CHANNEL: yup.string(),
-  TELEGRAM_CHANNEL_URL: yup.string(),
-  IPHONE_HELP_POST_URL: yup.string(),
-  ANDROID_HELP_POST_URL: yup.string(),
-  WINDOWS_HELP_POST_URL: yup.string(),
-  MAC_HELP_POST_URL: yup.string(),
-  TELEGRAM_ADMIN_ID: yup.number(),
-  TEST_SERVICE_ID: yup.number()
+  TELEGRAM_API_TOKEN: yup.string().nullable(),
+  TELEGRAM_PAYMENT_API_TOKEN: yup.string().nullable(),
+  TELEGRAM_ADMIN_USER_NAME: yup.string().nullable(),
+  BOT_USER_NAME: yup.string().nullable(),
+  TELEGRAM_CHANNEL: yup.string().nullable(),
+  TELEGRAM_CHANNEL_URL: yup.string().nullable(),
+  IPHONE_HELP_POST_URL: yup.string().nullable(),
+  ANDROID_HELP_POST_URL: yup.string().nullable(),
+  WINDOWS_HELP_POST_URL: yup.string().nullable(),
+  MAC_HELP_POST_URL: yup.string().nullable(),
+  TELEGRAM_ADMIN_ID: yup.number().nullable(),
+  TEST_SERVICE_ID: yup.number().nullable()
 });
 
 const initialForm = {

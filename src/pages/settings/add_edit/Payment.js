@@ -9,8 +9,8 @@ import Http from 'components/httpService/Http';
 import Button from 'components/button';
 
 const validationSchema = yup.object({
-  CARD_NUMBER: yup.string(),
-  CARD_OWNER: yup.string()
+  CARD_NUMBER: yup.string().nullable(),
+  CARD_OWNER: yup.string().nullable()
 });
 
 const initialForm = {};
