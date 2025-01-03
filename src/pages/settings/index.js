@@ -11,12 +11,14 @@ import { useCallback } from 'react';
 import SSL from './add_edit/SSL';
 import Basic from './add_edit/Basic';
 import Payment from './add_edit/Payment';
+import Commerce from './Commerce';
 
 const pageName = 'Settings';
 
 const tabs = [
   { id: 'basic', name: 'Basic' },
   { id: 'payment', name: 'Payment' },
+  { id: 'commerce', name: 'Commerce' },
   { id: 'telegram', name: 'Telegram Bot' },
   { id: 'ssl', name: 'SSL' }
 ];
@@ -136,11 +138,14 @@ const Settings = () => {
           </Grid>
         </Grid>
 
-        <RestartButton />
+        <Box sx={{ m: 1 }}>
+          <RestartButton />
+        </Box>
+
         <Box sx={{ width: '100%' }}>
           <Tabs name="form-tabs" value={activeTab} tabs={tabs} onChange={handleTabChange} />
 
-          <Box sx={{ mt: 2, p: 2 }}>
+          <Box sx={{ mt: 1, p: 2 }}>
             {activeTab === 'telegram' && (
               <TelgramSettings initial={settings} pageName={pageName} refrence={createRef} />
             )}
@@ -152,6 +157,9 @@ const Settings = () => {
             )}
             {activeTab === 'payment' && (
               <Payment initial={settings} pageName={pageName} refrence={createRef} />
+            )}
+            {activeTab === 'commerce' && (
+              <Commerce initial={settings} pageName={pageName} refrence={createRef} />
             )}
           </Box>
         </Box>

@@ -9,8 +9,8 @@ import Http from 'components/httpService/Http';
 import Button from 'components/button';
 
 const validationSchema = yup.object({
-  UVICORN_SSL_CERTFILE: yup.string(),
-  UVICORN_SSL_KEYFILE: yup.string()
+  UVICORN_SSL_CERTFILE: yup.string().nullable(),
+  UVICORN_SSL_KEYFILE: yup.string().nullable()
 });
 
 const initialForm = {
