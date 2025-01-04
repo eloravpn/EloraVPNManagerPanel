@@ -6,7 +6,7 @@ import Http from 'components/httpService/Http';
 import api from 'components/httpService/api';
 import { memo, useRef, useState } from 'react';
 import { Danger } from 'pages/components/alert';
-import AddEdit from './AddEdit';
+import AddEdit from './add_edit';
 import columns from './columns';
 import usePaymentAccounts from '../../../../hooks/usePaymentAccounts';
 

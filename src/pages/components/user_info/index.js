@@ -3,7 +3,7 @@ import Avatar from 'components/avatar';
 import Grid from 'components/grid';
 import { stringAvatar } from 'utils';
 
-const UserInfo = ({ user, isLoading, children, secondaryCard = false }) => {
+const UserInfo = ({ user, isLoading, children, secondaryCard = false, showAccount = true }) => {
   const {
     username,
     phone_number,
@@ -49,7 +49,9 @@ const UserInfo = ({ user, isLoading, children, secondaryCard = false }) => {
             )}
             {telegram_chat_id && <Typography variant="h6">ChatID: {telegram_chat_id} </Typography>}
             {phone_number && <Typography variant="h6">Phone Number: {phone_number} </Typography>}
-            {accounts && <Typography variant="h6">Total Account: {accounts?.length} </Typography>}
+            {accounts && showAccount && (
+              <Typography variant="h6">Total Account: {accounts?.length} </Typography>
+            )}
             {children}
           </Grid>
         </Grid>
