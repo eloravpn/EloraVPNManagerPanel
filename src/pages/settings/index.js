@@ -10,14 +10,12 @@ import TelgramSettings from './add_edit/Telegram';
 import { useCallback } from 'react';
 import SSL from './add_edit/SSL';
 import Basic from './add_edit/Basic';
-import Payment from './add_edit/Payment';
 import Commerce from './Commerce';
 
 const pageName = 'Settings';
 
 const tabs = [
   { id: 'basic', name: 'Basic' },
-  { id: 'payment', name: 'Payment' },
   { id: 'commerce', name: 'Commerce' },
   { id: 'telegram', name: 'Telegram Bot' },
   { id: 'ssl', name: 'SSL' }
@@ -154,9 +152,6 @@ const Settings = () => {
             )}
             {activeTab === 'basic' && (
               <Basic initial={settings} pageName={pageName} refrence={createRef} />
-            )}
-            {activeTab === 'payment' && (
-              <Payment initial={settings} pageName={pageName} refrence={createRef} />
             )}
             {activeTab === 'commerce' && (
               <Commerce initial={settings} pageName={pageName} refrence={createRef} />

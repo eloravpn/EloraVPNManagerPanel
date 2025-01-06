@@ -17,7 +17,7 @@ const validationSchema = yup.object({
   inbound_id: yup.number().required(),
   port: yup.number().required(),
   enable: yup.boolean().required(),
-  alpns: yup.array().required(),
+  alpns: yup.array().nullable(),
   develop: yup.boolean().required(),
   domain: yup
     .string()

@@ -27,7 +27,7 @@ import CustomAvatar from '../components/avatar';
 import { stringAvatar } from '../utils';
 import { Menu, MoreVert } from '@mui/icons-material';
 
-let drawerWidth = 240;
+let drawerWidth = 200;
 const color = '#7635dc';
 
 const DrawerHeader = styled('div')(({ theme }) => ({

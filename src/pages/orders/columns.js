@@ -3,13 +3,19 @@ const columns = [
     headerName: 'User',
     field: 'user.full_name',
     renderCell: 'complexField',
-    width: 150
+    width: 100
   },
   {
     headerName: 'Account Email',
     field: 'account.email',
     renderCell: 'complexField',
     width: 80
+  },
+  {
+    headerName: 'Service',
+    field: 'service.name',
+    renderCell: 'complexField',
+    width: 150
   },
   {
     headerName: 'Total',
@@ -21,7 +27,7 @@ const columns = [
     headerName: 'Status',
     field: 'status',
     renderCell: 'orderStatus',
-    width: 120
+    width: 80
   },
   {
     headerName: 'Created',
