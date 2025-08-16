@@ -3,7 +3,16 @@ import Button from 'components/button';
 import Modal from 'components/modal_v2';
 import { Message } from '@mui/icons-material';
 
-const Alert = ({ refrence, title, cancelBtn, onSubmit, isLoadingSubmit, onSubmitLabel }) => {
+const Alert = ({
+  refrence,
+  title,
+  cancelBtn,
+  onSubmit,
+  isLoadingSubmit,
+  onSubmitLabel,
+  children,
+  hideCancel
+}) => {
   const handleSubmit = (data) => {
     onSubmit(data);
   };
@@ -24,12 +33,14 @@ const Alert = ({ refrence, title, cancelBtn, onSubmit, isLoadingSubmit, onSubmit
               </Button>
             )}
 
-            <Button
-              variant={'standard'}
-              onClick={() => (cancelBtn ? cancelBtn() : refrence?.current?.close())}
-            >
-              Cancell
-            </Button>
+            {!hideCancel && (
+              <Button
+                variant={'standard'}
+                onClick={() => (cancelBtn ? cancelBtn() : refrence?.current?.close())}
+              >
+                Cancel
+              </Button>
+            )}
           </>
         }
         popup={true}
@@ -46,7 +57,7 @@ const Alert = ({ refrence, title, cancelBtn, onSubmit, isLoadingSubmit, onSubmit
           </Stack>
         }
       >
-        <DialogContentText>{title}</DialogContentText>
+        <DialogContentText>{children || title}</DialogContentText>
       </Modal>
     </>
   );
