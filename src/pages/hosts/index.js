@@ -25,10 +25,13 @@ const Hosts = () => {
   const filterRef = useRef();
   const deleteRef = useRef();
   const copyRef = useRef();
+  const testResultRef = useRef();
 
   const [item, setItem] = useState([]);
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [isLoadingCopy, setIsLoadingCopy] = useState(false);
+  const [isTestingConnection, setIsTestingConnection] = useState(false);
+  const [testResult, setTestResult] = useState(null);
 
   const { hostZones, isLoading: isLoadingZones, getHostZones } = useHostZones();
   useEffect(() => {
@@ -89,6 +92,81 @@ const Hosts = () => {
       });
   };
 
+  const handleTestConnection = ({ row }) => {
+    setIsTestingConnection(true);
+    setItem(row); // Set the current host being tested
+
+    HttpService()
+      .post(`${api.middleware}/hosts/${row?.id}/test-connection`)
+      .then((res) => {
+        console.log(res.data);
+        const { result, message, error_type } = res.data;
+
+        setTestResult({
+          success: result === 'OK',
+          message: message || 'Connection test completed',
+          error_type: error_type || null,
+          host_name: row?.name || 'Unknown Host',
+          host_id: row?.id
+        });
+
+        // Open the test result dialog
+        testResultRef.current.open();
+      })
+      .catch((err) => {
+        // Handle network/API errors
+        let errorMessage = 'Failed to test connection';
+
+        if (err?.response?.data?.message) {
+          errorMessage = err.response.data.message;
+        } else if (err?.response?.data?.detail) {
+          errorMessage = err.response.data.detail;
+        } else if (err?.message) {
+          errorMessage = err.message;
+        } else if (err?.response?.status) {
+          errorMessage = `HTTP ${err.response.status}: Connection test failed`;
+        }
+
+        setTestResult({
+          success: false,
+          message: errorMessage,
+          error_type: 'NetworkError',
+          host_name: row?.name || 'Unknown Host',
+          host_id: row?.id
+        });
+
+        // Open the test result dialog
+        testResultRef.current.open();
+      })
+      .finally(() => {
+        setIsTestingConnection(false);
+      });
+  };
+
+  const getTestResultTitle = () => {
+    if (!testResult) return 'Connection Test';
+
+    return testResult.success
+      ? `✅ Connection Successful - ${testResult.host_name}`
+      : `❌ Connection Failed - ${testResult.host_name}`;
+  };
+
+  const getTestResultContent = () => {
+    if (!testResult) return '';
+
+    let content = testResult.message;
+
+    if (!testResult.success && testResult.error_type) {
+      content += `\n\nError Type: ${testResult.error_type}`;
+    }
+
+    if (testResult.host_id) {
+      content += `\nHost ID: ${testResult.host_id}`;
+    }
+
+    return content;
+  };
+
   return (
     <>
       <Formik
@@ -128,6 +206,30 @@ const Hosts = () => {
         onDeleteLoading={isLoadingCopy}
         title={`Are you sure to copy this inbound config?`}
       />
+
+      <Alert
+        refrence={testResultRef}
+        onSubmit={() => testResultRef.current.close()}
+        onSubmitLabel="Close"
+      >
+        <Box>
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            {getTestResultTitle()}
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              whiteSpace: 'pre-line',
+              color: testResult?.success ? 'success.main' : 'error.main',
+              fontFamily: 'monospace',
+              fontSize: '0.9rem'
+            }}
+          >
+            {getTestResultContent()}
+          </Typography>
+        </Box>
+      </Alert>
+
       <Danger
         refrence={deleteRef}
         onDelete={handleDelete}
@@ -178,6 +280,13 @@ const Hosts = () => {
             </Formik>
           }
           moreActions={[
+            {
+              onClick: (data) => handleTestConnection(data),
+              icon: 'info',
+              color: 'green',
+              name: isTestingConnection ? 'Testing...' : 'Test',
+              disabled: isTestingConnection
+            },
             {
               onClick: (data) => handleAlert(data, deleteRef),
               icon: 'delete',

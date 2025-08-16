@@ -26,6 +26,7 @@ const Inbounds = () => {
   const gridRef = useRef();
   const filterRef = useRef();
   const deleteRef = useRef();
+  const deleteClientsRef = useRef();
 
   const { getHosts, hosts, isLoading } = useHosts();
 
@@ -40,6 +41,11 @@ const Inbounds = () => {
   const handleAlert = ({ row }) => {
     setItem(row);
     deleteRef.current.open();
+  };
+
+  const handleDeleteClientsAlert = ({ row }) => {
+    setItem(row);
+    deleteClientsRef.current.open();
   };
 
   const handleEdit = ({ row }) => {
@@ -64,6 +70,21 @@ const Inbounds = () => {
       .then(() => {
         gridRef.current.deleteRow(item);
         deleteRef.current.close();
+      })
+      .catch((err) => {
+        Http.error(err);
+      })
+      .finally(() => {
+        setIsLoadingDelete(false);
+      });
+  };
+
+  const handleDeleteClients = () => {
+    setIsLoadingDelete(true);
+    HttpService()
+      .post(`${api.middleware}/inbounds/${item?.id}/delete-all-clients`)
+      .then(() => {
+        deleteClientsRef.current.close();
       })
       .catch((err) => {
         Http.error(err);
@@ -109,6 +130,12 @@ const Inbounds = () => {
         onDelete={handleDelete}
         onDeleteLoading={isLoadingDelete}
         title={`Are you sure want Delete "${item?.remark ?? 'No Name'}" ?`}
+      />
+      <Danger
+        refrence={deleteClientsRef}
+        onDelete={handleDeleteClients}
+        onDeleteLoading={isLoadingDelete}
+        title={`Are you sure want Delete all clients in remote "${item?.remark ?? 'No Name'}" ?`}
       />
       <AddEdit
         pageName={pageName}
@@ -164,6 +191,12 @@ const Inbounds = () => {
               icon: 'delete',
               color: 'red',
               name: 'Delete'
+            },
+            {
+              onClick: handleDeleteClientsAlert,
+              icon: 'delete',
+              color: 'red',
+              name: 'Delete Clients'
             },
             {
               onClick: handleEdit,
